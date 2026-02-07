@@ -1,0 +1,6 @@
+
+{
+  "name": "VocabMaster: English Learning App",
+  "description": "A comprehensive English vocabulary learning application featuring interactive flashcards, AI-powered definitions, and adaptive quizzes to master English units.",
+  "requestFramePermissions": ["microphone"]
+}
