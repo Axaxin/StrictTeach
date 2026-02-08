@@ -186,6 +186,8 @@ const App: React.FC = () => {
             [QuizModeEnum.EN_TO_CN_MCQ]: '英对中单选',
             [QuizModeEnum.CN_TO_EN_MCQ]: '中对英单选',
             [QuizModeEnum.CN_TO_EN_SPELLING]: '中对英拼写',
+            [QuizModeEnum.FILL_IN_BLANK_MCQ]: '句子填空(选择)',
+            [QuizModeEnum.FILL_IN_BLANK_SPELLING]: '句子填空(拼写)',
             [QuizModeEnum.MIXED]: '混合题型'
           };
           return modeNames[selectedQuizMode];

@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-VocabMaster is an English vocabulary learning app built with React 19, TypeScript, and Vite. It uses **OpenAI-compatible APIs** (支持智谱 GLM) to enrich vocabulary words with phonetics, parts of speech, multiple Chinese definitions, and English example sentences with translations. The app features preloaded vocabulary data for 7 chapters (Starter through Unit 6) covering junior high school Year 7 curriculum.
+VocabMaster is an English vocabulary learning app built with React 19, TypeScript, and Vite. It features **pre-enriched vocabulary data** with phonetics, parts of speech, multiple Chinese definitions, and English example sentences with translations. The app includes vocabulary for 7 chapters (Starter through Unit 6) covering junior high school Year 7 curriculum.
+
+**Note**: The app uses **static cache files** (tracked in the repo) containing fully enriched word data. AI APIs are only used during prebuild to generate these caches, not at runtime.
 
 ## Development Commands
 
 ```bash
 npm install          # Install dependencies
-npm run prebuild     # Generate static word data cache (requires API key)
 npm run dev          # Start dev server on port 3000
 npm run build        # Build for production
 npm run preview      # Preview production build
@@ -28,45 +29,60 @@ npm run d1:schema:local    # Initialize local database schema (for testing)
 npm run d1:query           # Run custom D1 queries
 ```
 
-### Prebuild Workflow
+### Prebuild Workflow (Cache Regeneration)
 
 The app includes **pre-generated static word cache** for all 7 units (287 words) stored in `public/data/cache/`. These files are tracked in the repository, so the app works immediately without any API setup.
 
 **To regenerate the cache (optional):**
 
 ```bash
-# 1. Set up environment variables
+# 1. Install the openai package (needed for prebuild scripts only)
+npm install openai
+
+# 2. Set up environment variables
 OPENAI_API_KEY=your_key OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4 OPENAI_MODEL=glm-4-flash
 
-# 2. Run prebuild to regenerate static cache files
-npm run prebuild
+# 3. Run prebuild to regenerate static cache files
+npm run prebuild:real
 
-# 3. Commit the updated cache files
+# 4. Commit the updated cache files
 git add public/data/cache/
 ```
 
+**Note**: Running `npm run prebuild` will show a message indicating static cache already exists. Use `npm run prebuild:real` to actually regenerate the cache.
+
 **Available Scripts:**
+- `scripts/prebuild.ts` - Optimized AI prebuild (5 words/batch, 5s delay to avoid rate limits)
 - `scripts/generate-cache.ts` - Generate basic cache from JSON (no AI)
 - `scripts/add-phonetics.ts` - Add phonetics from free dictionary API
 - `scripts/enrich-cache.ts` - Enrich with AI (phonetics, definitions, examples)
-- `scripts/prebuild.ts` - Optimized prebuild (5 words/batch, 5s delay to avoid rate limits)
 
 **Cache Priority:**
-1. Static files in `public/data/cache/{unitId}.json` (tracked in repo)
+1. Static files in `public/data/cache/{unitId}.json` (tracked in repo, 287 words with full enrichment)
 2. Fallback to `year7_vocabulary_with_cn.json` (word + meaning only)
-3. Runtime AI enrichment (if cache missing)
+3. Basic structure fallback (should not happen)
 
 ### Key Dependencies
 
 - `react@19` + `react-dom@19` - UI framework
-- `openai` - OpenAI-compatible API client (supports 智谱 GLM)
 - `lucide-react` - Icon library for UI components
 - `vite` - Build tool and dev server
 - `typescript` - Type safety
+- `openai` - **Only for cache regeneration** (install with `npm install openai` if needed)
 
 ## Environment Setup
 
-Create a `.env.local` file with your API configuration:
+### For Cloud Sync (Optional)
+
+Create a `.env.local` file with your Cloudflare Workers API URL:
+
+```bash
+VITE_API_URL=https://vocabmaster-api.YOUR-SUBDOMAIN.workers.dev
+```
+
+### For Cache Regeneration (Optional)
+
+If you need to regenerate the static word cache (not required for normal operation), set AI API configuration:
 
 ```bash
 # 智谱 GLM（推荐）
@@ -98,7 +114,7 @@ vocabmaster_-english-learning-app/
 │   ├── WordList.tsx         # Word list with search, filter, expand details
 │   └── QuizMode.tsx         # Quiz with confirmation flow + timing tracking
 ├── services/
-│   ├── aiService.ts         # OpenAI-compatible API integration
+│   ├── aiService.ts         # Word data caching (LocalStorage + static cache files, no runtime AI)
 │   ├── api.ts               # Cloudflare Workers API client
 │   └── dataExport.ts        # Data export/import functionality
 ├── scripts/               # Utility scripts
@@ -128,6 +144,7 @@ vocabmaster_-english-learning-app/
 ├── utils/
 │   ├── highlight.tsx        # Word highlighting utility for examples
 │   ├── quizStrategy.ts      # Quiz word selection strategies (RANDOM/BALANCED/FOCUS)
+│   ├── sentenceSelector.ts  # Sentence selection for fill-in-blank questions
 │   └── settings.ts          # App settings management (quiz question count)
 ├── App.tsx                  # Main application with multi-level navigation
 ├── constants.ts             # Unit structure and word lists (BOOKS, UNITS)
@@ -143,7 +160,7 @@ vocabmaster_-english-learning-app/
 
 ### Cloudflare Workers API Integration
 
-The app includes a **Cloudflare Workers + D1** backend for cross-device sync and AI-judged word mastery:
+The app includes a **Cloudflare Workers + D1** backend for cross-device sync and algorithmic word mastery calculation:
 
 **Architecture:**
 ```
@@ -184,26 +201,26 @@ VITE_API_URL=https://vocabmaster-api.YOUR-SUBDOMAIN.workers.dev
 ```
 enrichWords() 调用流程：
 ┌─────────────────┐
-│ 1. LocalStorage │ ← vocab_cache_{unitId} (check if enrichment needed)
-└────────┬────────┘
-         │ 无或需要丰富
-         ▼
-┌─────────────────┐
-│ 2. 静态缓存文件  │ ← public/data/cache/{unitId}.json (generated by prebuild)
+│ 1. LocalStorage │ ← vocab_cache_{unitId} (cached for fast loading)
 └────────┬────────┘
          │ 无
          ▼
 ┌─────────────────┐
-│ 3. JSON基础数据  │ ← year7_vocabulary_with_cn.json (word + meaning only)
+│ 2. 静态缓存文件  │ ← public/data/cache/{unitId}.json (pre-generated with full enrichment)
 └────────┬────────┘
          │ 无
          ▼
 ┌─────────────────┐
-│ 4. AI API 调用   │ ← 智谱 GLM / OpenAI (enrich with phonetics, definitions, examples)
+│ 3. JSON基础数据  │ ← year7_vocabulary_with_cn.json (word + meaning only, fallback)
+└────────┬────────┘
+         │ 无
+         ▼
+┌─────────────────┐
+│ 4. 基础结构      │ ← Empty shell (should not happen)
 └─────────────────┘
 ```
 
-**Async Enrichment**: If cached data lacks rich content (phonetic, definitions, examples), it returns immediately and enriches in background without blocking UI.
+**No Runtime AI Calls**: The app uses pre-generated static cache files with full enrichment (phonetics, definitions, examples). AI API is only used during prebuild to generate these cache files, not at runtime.
 
 ### Navigation Hierarchy
 
@@ -215,7 +232,7 @@ BOOK_LIST (VocabMaster Pro)
                     ├─→ LEARNING (情景阅读 - ContextualMode)
                     ├─→ QUIZ_MODE_SELECT (Quiz模式)
                     └─→ SETTINGS (单元设置)
-                            └─→ LEARNING (Quiz: EN_TO_CN_MCQ/CN_TO_EN_MCQ/CN_TO_EN_SPELLING/MIXED)
+                            └─→ LEARNING (Quiz: EN_TO_CN_MCQ/CN_TO_EN_MCQ/CN_TO_EN_SPELLING/FILL_IN_BLANK_MCQ/FILL_IN_BLANK_SPELLING/MIXED)
 ```
 
 ### Application Modes
@@ -225,7 +242,7 @@ BOOK_LIST (VocabMaster Pro)
 | `BOOK_LIST` | Book/semester selection | Shows total units and mastered words per book |
 | `UNIT_LIST` | Chapter selection | Displays all units with progress indicators |
 | `ACTIVITY_SELECT` | Activity type selection | 单词总汇 / 情景阅读 / Quiz / 设置 |
-| `QUIZ_MODE_SELECT` | Quiz mode selection | 4 quiz modes to choose from |
+| `QUIZ_MODE_SELECT` | Quiz mode selection | 6 quiz modes to choose from |
 | `LEARNING` | Learning/Quiz mode | ContextualMode, WordList, or Quiz based on activity |
 | `SETTINGS` | Unit settings modal | Statistics display and reset functionality |
 
@@ -236,9 +253,18 @@ enum QuizMode {
   EN_TO_CN_MCQ = 'EN_TO_CN_MCQ',        // 英对中单选：12 questions (可配置 6-24)
   CN_TO_EN_MCQ = 'CN_TO_EN_MCQ',        // 中对英单选：12 questions (可配置 6-24)
   CN_TO_EN_SPELLING = 'CN_TO_EN_SPELLING', // 中对英拼写：12 questions (可配置 6-24)
-  MIXED = 'MIXED'                       // 混合题型：~4 EN_TO_CN, ~4 CN_TO_EN, ~4 SPELLING
+  FILL_IN_BLANK_MCQ = 'FILL_IN_BLANK_MCQ', // 句子填空(选择)：12 questions (可配置 6-24)
+  FILL_IN_BLANK_SPELLING = 'FILL_IN_BLANK_SPELLING', // 句子填空(拼写)：12 questions (可配置 6-24)
+  MIXED = 'MIXED'                       // 混合题型：包含以上各种题型
 }
 ```
+
+**句子填空题型** (2026):
+- 使用情景阅读文章中的句子生成填空题
+- **选择题形式** (FILL_IN_BLANK_MCQ)：显示完整句子（单词替换为___），提供4个选项
+- **拼写形式** (FILL_IN_BLANK_SPELLING)：仅显示"___"和中文释义提示，用户需要输入完整单词
+- 优先使用文章句子，如无则回退到单词例句
+- 与情景阅读模块结合，提供语境化的学习体验
 
 ### Quiz Strategies (2026)
 
@@ -259,9 +285,12 @@ enum QuizStrategy {
 
 ```typescript
 enum QuestionType {
-  EN_TO_CN = 'EN_TO_CN',     // 英译中：选择中文定义
-  CN_TO_EN = 'CN_TO_EN',     // 中译英：选择英文单词
-  SPELLING = 'SPELLING'      // 拼写：输入英文单词
+  EN_TO_CN = 'EN_TO_CN',                      // 英译中：选择中文定义
+  CN_TO_EN = 'CN_TO_EN',                      // 中译英：选择英文单词
+  SPELLING = 'SPELLING',                      // 拼写：输入英文单词
+  FILL_IN_BLANK = 'FILL_IN_BLANK',            // 句子填空（MIXED模式通用）
+  FILL_IN_BLANK_MCQ = 'FILL_IN_BLANK_MCQ',    // 句子填空(选择)
+  FILL_IN_BLANK_SPELLING = 'FILL_IN_BLANK_SPELLING',  // 句子填空(拼写)
 }
 ```
 
@@ -279,7 +308,7 @@ interface Word {
   id: string;
   term: string;
   unit: string;
-  // Rich content (AI-enriched)
+  // Rich content (pre-enriched via prebuild scripts)
   phonetic?: string;                  // 音标: "/ˈæpl/"
   definitions?: WordDefinition[];     // 多词性释义
   examples?: ExampleSentence[];       // 例句+翻译
@@ -297,6 +326,19 @@ interface ExampleSentence {
   sentence: string;      // 英文例句
   translation?: string;  // 中文翻译
 }
+
+interface PassageSentence {
+  english: string;       // 英文句子
+  chinese: string;       // 中文翻译
+  index?: number;        // 句子索引（可选）
+}
+
+interface Passage {
+  title: string;         // 文章标题
+  paragraphs: {
+    sentences: PassageSentence[];
+  }[];
+}
 ```
 
 ### Quiz Question Data Structure
@@ -304,10 +346,14 @@ interface ExampleSentence {
 ```typescript
 interface QuizQuestion {
   word: Word;             // Associated word
-  type: QuestionType;     // EN_TO_CN / CN_TO_EN / SPELLING
+  type: QuestionType;     // EN_TO_CN / CN_TO_EN / SPELLING / FILL_IN_BLANK_MCQ / FILL_IN_BLANK_SPELLING
   question: string;       // Question text
   options?: string[];     // Multiple choice options (for MCQ types)
   correctAnswer: string;  // Correct answer
+  sentenceContext?: {     // Fill-in-blank questions only
+    originalSentence: string;  // 原始完整句子
+    hint: string;              // 中文释义提示
+  };
 }
 ```
 
@@ -317,7 +363,7 @@ interface QuizQuestion {
 - **Navigation state**: `navLevel`, `selectedBook`, `selectedUnit`, `selectedActivity`, `selectedQuizMode`
 - **LocalStorage persistence**:
   - `vocab_progress` - User progress (masteredWords, learningWords)
-  - `vocab_cache_{unitId}` - AI-enriched word cache
+  - `vocab_cache_{unitId}` - Static cache (copies of public/data/cache files for faster loading)
 - Word ID format: `{unitId}-{index}` (e.g., "starter-0", "unit1-5")
 
 ### Settings Menu Functions (2026)
@@ -396,6 +442,39 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 - **云端架构**：数据已全部云端化，无需本地缓存管理
 - **保留功能**：云端服务状态、关于
 
+#### 26. 句子填空题型 (Fill-in-Blank Questions) (2026)
+- **新功能**：基于情景阅读文章的句子填空题型
+- **新增QuizMode枚举**：
+  - `FILL_IN_BLANK_MCQ` - 句子填空(选择)：显示完整句子（单词替换为___），4个选项
+  - `FILL_IN_BLANK_SPELLING` - 句子填空(拼写)：仅显示"___"和释义提示
+- **新增QuestionType枚举**：
+  - `FILL_IN_BLANK_MCQ` - 填空选择题
+  - `FILL_IN_BLANK_SPELLING` - 填空拼写题
+- **新增工具模块**：`utils/sentenceSelector.ts`
+  - `findSentencesWithWord()` - 从文章/例句中查找包含目标词的句子
+  - `createFillInBlankQuestion()` - 将句子中的单词替换为填空
+  - `getDefinitionHint()` - 获取单词释义（用于填空题提示）
+- **句子来源优先级**：
+  1. 文章句子 (`public/data/passages/{unitId}.json`)
+  2. 单词例句（备选方案）
+- **UI设计**：
+  - 填空选择题：靛青色(indigo)徽章，BookOpen图标，显示完整句子+提示+4选项
+  - 填空拼写题：紫色(violet)徽章，PenTool图标，仅显示"___"+提示
+- **与情景阅读结合**：学生刚读过文章，在Quiz中看到相同句子的填空题，增强记忆
+- **后端兼容**：无需修改，`question_type`字段支持任意字符串值
+
+**数据结构扩展**：
+```typescript
+// QuizQuestion 接口扩展
+interface QuizQuestion {
+  // ... 现有字段
+  sentenceContext?: {
+    originalSentence: string;  // 原始完整句子
+    hint: string;              // 中文释义提示
+  };
+}
+```
+
 ### 2025-2026 Major Updates
 
 #### 1. Navigation Hierarchy Redesign
@@ -406,8 +485,8 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 
 #### 2. Rich Word Data
 - Enhanced Word type with `phonetic`, `definitions[]`, `examples[]`
-- AI enrichment adds: phonetics, multiple definitions (with parts of speech), example sentences with translations
-- Async enrichment pipeline - returns data immediately, enriches in background
+- Pre-generated static cache files with phonetics, multiple definitions (with parts of speech), example sentences with translations
+- Cache files tracked in repo - no runtime AI calls needed
 - Backward compatible with legacy `definition` and `example` fields
 
 #### 3. WordList Component
@@ -423,11 +502,12 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 - 请使用 ContextualMode 进行阅读学习
 
 #### 5. QuizMode Overhaul
-- **4 Quiz Modes**: EN_TO_CN_MCQ, CN_TO_EN_MCQ, CN_TO_EN_SPELLING, MIXED
+- **6 Quiz Modes**: EN_TO_CN_MCQ, CN_TO_EN_MCQ, CN_TO_EN_SPELLING, FILL_IN_BLANK_MCQ, FILL_IN_BLANK_SPELLING, MIXED
 - **Confirmation Flow**: Select → Confirm → See Result → Next
-- Color-coded question type badges (blue/purple/emerald)
+- Color-coded question type badges (blue/purple/emerald/indigo/violet)
 - Spelling questions with real-time validation
-- Mix mode: ~1/3 each question type, randomly shuffled
+- Mix mode: includes all question types, randomly shuffled
+- Fill-in-blank questions use passage sentences from ContextualMode
 
 #### 6. Data Export/Import
 - JSON-based backup system (no SQLite needed)
@@ -652,8 +732,8 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 ### QuizModeSelector
 - **Props**: `onSelectMode`, `onBack`
 - **Purpose**: Select quiz mode before starting
-- **Modes**: 4 options with icons and gradients
-- **Icons**: Languages (EN→CN), RotateCcw (CN→EN), Keyboard (Spelling), Shuffle (Mixed)
+- **Modes**: 6 options with icons and gradients
+- **Icons**: Languages (EN→CN), RotateCcw (CN→EN), Keyboard (Spelling), BookOpen (Fill-in-blank MCQ), PenTool (Fill-in-blank Spelling), Shuffle (Mixed)
 
 ### WordList
 - **Props**: `words`, `progress`, `onComplete`, `onMastered`, `onReview`
@@ -682,10 +762,24 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Passage结构**：从 `public/data/passages/{unitId}.json` 加载
 - **Sentence解析**：按段落组织，每句独立存储english和chinese
 
+### sentenceSelector Utility (utils/sentenceSelector.ts)
+- **Purpose**: 句子选择和填空题生成工具
+- **Functions**:
+  - `findSentencesWithWord(targetWord, passage)` - 从文章或例句中查找包含目标单词的句子
+    - 使用单词边界匹配(`\b`)避免部分匹配
+    - 优先返回文章句子，如无则回退到单词例句
+  - `createFillInBlankQuestion(sentence, targetWord)` - 将句子中的目标单词替换为"___"填空
+    - 大小写不敏感替换
+    - 返回题目文本和正确答案
+  - `getDefinitionHint(word)` - 获取单词的中文释义（用于填空题提示）
+    - 支持新旧两种数据格式
+- **Used by**: QuizMode for generating fill-in-blank questions
+
 ### QuizMode
 - **Props**: `words`, `quizMode`, `onComplete`
 - **Purpose**: Test knowledge with various question types
 - **Features**: Confirmation flow, color-coded badges, score tracking
+- **Fill-in-blank questions**: Loads passage data, extracts sentences containing target words, generates contextual questions
 - **Pronunciation**: Auto-plays for EN_TO_CN/SPELLING questions + manual Volume2 button
 - **Real-time timer**: Shows elapsed time per question (Timer icon, amber color, 0.1s precision)
 - **Report**: Shows only wrong questions with detailed info, celebration when all correct
@@ -701,25 +795,30 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 ## Common Tasks
 
 ### Prepare for Production Build
-1. Ensure API key is set: `OPENAI_API_KEY=your_key` (in `.env.local` or environment)
-2. Run `npm run prebuild` to generate static cache files in `public/data/cache/`
-3. Run `npm run build` to create production bundle
-4. Deploy - the app will use static cache files, no runtime AI calls needed
+1. Install openai package if regenerating cache: `npm install openai`
+2. Set API key: `OPENAI_API_KEY=your_key` (in `.env.local` or environment)
+3. Run `npm run prebuild:real` to regenerate static cache files in `public/data/cache/`
+4. Run `npm run build` to create production bundle
+5. Deploy - the app will use static cache files, no runtime AI calls needed
+
+**Note**: Static cache files are already tracked in the repo, so steps 1-3 are only needed if you want to regenerate the enriched data.
 
 ### Add a New Unit
 1. Update `year7_vocabulary_with_cn.json` with new words
 2. Update `constants.ts` to add the unit to the UNITS array
-3. Run `npm run prebuild` to generate cache for the new unit
-4. Run `npm run dev` to test
+3. Install openai: `npm install openai`
+4. Run `npm run prebuild:real` to generate cache for the new unit
+5. Run `npm run dev` to test
 
 ### Change AI Provider
-1. Update `.env.local` with new API_KEY and BASE_URL
-2. Optionally update MODEL name
-3. Run `npm run prebuild` to regenerate cache with new provider
+1. Install openai: `npm install openai`
+2. Update `.env.local` with new API_KEY and BASE_URL
+3. Optionally update MODEL name
+4. Run `npm run prebuild:real` to regenerate cache with new provider
 
 ### Debug Word Data
 1. Open DevTools Console
-2. Look for `[Static Cache]`, `[Cache Hit]`, `[Cache Miss]`, `[Needs Enrichment]` logs
+2. Look for `[Cache Hit]`, `[Static Cache]`, `[Data Missing]` logs
 3. Check `localStorage` for `vocab_cache_*` entries
 4. Check `localStorage` for `vocab_progress`
 

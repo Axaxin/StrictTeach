@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Word, QuizQuestion, QuestionType, QuizMode as QuizModeEnum, QuizAttemptRecord, QuizStrategy } from '../types';
-import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, Volume2, Loader2, Timer, RotateCcw, Target, Scale } from 'lucide-react';
+import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, Volume2, Loader2, Timer, RotateCcw, Target, Scale, BookOpen, PenTool } from 'lucide-react';
 import { recordAttempts, getBatchMasteryPost, type WordMastery } from '../services/api';
 import { getQuizQuestionCount } from '../utils/settings';
 import { selectWordsByStrategy } from '../utils/quizStrategy';
 import { triggerMasteryRefresh } from '../hooks/useMasteryRefresh';
+import { findSentencesWithWord, createFillInBlankQuestion, type Passage } from '../utils/sentenceSelector';
 
 interface QuizModeProps {
   words: Word[];
@@ -101,6 +102,33 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
   const [currentQuizWords, setCurrentQuizWords] = useState<Word[]>([]);
   const [isRetryMode, setIsRetryMode] = useState(false); // 是否为"再来"模式（使用相同单词）
 
+  // 文章数据（用于填空题）
+  const [passage, setPassage] = useState<Passage | null>(null);
+
+  // 加载文章数据
+  useEffect(() => {
+    const loadPassage = async () => {
+      if (words.length > 0) {
+        const unitId = words[0]?.unit;
+        if (unitId) {
+          try {
+            const response = await fetch(`/data/passages/${unitId}.json`);
+            if (response.ok) {
+              const data: Passage = await response.json();
+              setPassage(data);
+              console.log(`[Passage] Loaded passage for unit: ${unitId}`);
+            } else {
+              console.log(`[Passage] No passage found for unit: ${unitId}`);
+            }
+          } catch (err) {
+            console.error('[Passage] Failed to load passage:', err);
+          }
+        }
+      }
+    };
+    loadPassage();
+  }, [words]);
+
   // Helper function to get definition from word (supports both new and old formats)
   // For quiz: only use the first meaning to keep options concise
   const getDefinition = (w: Word): string => {
@@ -175,13 +203,101 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         });
         break;
 
-      case QuizModeEnum.MIXED:
-        // 混合题型：以拼写题为主（约2/3），搭配少量选择题（约1/3）
-        const spellingCount = Math.ceil(selectedWords.length * 2 / 3);
-        const mcqCount = selectedWords.length - spellingCount;
+      case QuizModeEnum.FILL_IN_BLANK_MCQ:
+        // 句子填空(选择)：全部生成填空选择题
+        selectedWords.forEach(word => {
+          const sentences = findSentencesWithWord(word, passage);
+          if (sentences.length > 0) {
+            const sentence = sentences[0];
+            const hint = getDefinition(word);
+            const { question, answer } = createFillInBlankQuestion(sentence, word);
 
-        // 拼写题目
-        selectedWords.slice(0, spellingCount).forEach(word => {
+            // 生成干扰项
+            const distractors = words
+              .filter(w => w.id !== word.id)
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 3)
+              .map(w => w.term);
+
+            const options = [answer, ...distractors].sort(() => 0.5 - Math.random());
+
+            qs.push({
+              word,
+              type: QuestionType.FILL_IN_BLANK_MCQ,
+              question: `根据文章内容，填入正确的单词：\n${question}\n\n提示：${hint}`,
+              options,
+              correctAnswer: answer,
+              sentenceContext: {
+                originalSentence: sentence.english,
+                hint
+              }
+            });
+          }
+        });
+        break;
+
+      case QuizModeEnum.FILL_IN_BLANK_SPELLING:
+        // 句子填空(拼写)：全部生成填空拼写题
+        selectedWords.forEach(word => {
+          const sentences = findSentencesWithWord(word, passage);
+          if (sentences.length > 0) {
+            const sentence = sentences[0];
+            const hint = getDefinition(word);
+            const { question, answer } = createFillInBlankQuestion(sentence, word);
+
+            qs.push({
+              word,
+              type: QuestionType.FILL_IN_BLANK_SPELLING,
+              question: `"${question}"\n\n提示：${hint}`,
+              correctAnswer: answer,
+              sentenceContext: {
+                originalSentence: sentence.english,
+                hint
+              }
+            });
+          }
+        });
+        break;
+
+      case QuizModeEnum.MIXED:
+        // 混合题型：20% 填空 + 50% 拼写 + 30% 选择
+        const fillBlankCount = Math.max(1, Math.floor(selectedWords.length * 0.2));
+        const spellingCount = Math.floor(selectedWords.length * 0.5);
+        const mcqCount = selectedWords.length - fillBlankCount - spellingCount;
+
+        // 1. 填空题 (20%)
+        selectedWords.slice(0, fillBlankCount).forEach(word => {
+          const sentences = findSentencesWithWord(word, passage);
+          if (sentences.length > 0) {
+            const sentence = sentences[0];
+            const hint = getDefinition(word);
+            const { question, answer } = createFillInBlankQuestion(sentence, word);
+
+            // 生成干扰项
+            const distractors = words
+              .filter(w => w.id !== word.id)
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 3)
+              .map(w => w.term);
+
+            const options = [answer, ...distractors].sort(() => 0.5 - Math.random());
+
+            qs.push({
+              word,
+              type: QuestionType.FILL_IN_BLANK_MCQ,
+              question: `根据文章内容，填入正确的单词：\n${question}\n\n提示：${hint}`,
+              options,
+              correctAnswer: answer,
+              sentenceContext: {
+                originalSentence: sentence.english,
+                hint
+              }
+            });
+          }
+        });
+
+        // 2. 拼写题 (50%)
+        selectedWords.slice(fillBlankCount, fillBlankCount + spellingCount).forEach(word => {
           qs.push({
             word,
             type: QuestionType.SPELLING,
@@ -190,8 +306,8 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           });
         });
 
-        // 选择题（约1/3）- 随机分配为英对中或中对英
-        selectedWords.slice(spellingCount, spellingCount + mcqCount).forEach(word => {
+        // 3. 选择题（30%）- 随机分配为英对中或中对英
+        selectedWords.slice(fillBlankCount + spellingCount).forEach(word => {
           const isEnToCn = Math.random() > 0.5;
 
           if (isEnToCn) {
@@ -568,6 +684,9 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         case QuestionType.EN_TO_CN: return { label: '英→中', color: 'bg-blue-100 text-blue-600' };
         case QuestionType.CN_TO_EN: return { label: '中→英', color: 'bg-purple-100 text-purple-600' };
         case QuestionType.SPELLING: return { label: '拼写', color: 'bg-emerald-100 text-emerald-600' };
+        case QuestionType.FILL_IN_BLANK: return { label: '句子填空', color: 'bg-indigo-100 text-indigo-600' };
+        case QuestionType.FILL_IN_BLANK_MCQ: return { label: '填空(选择)', color: 'bg-indigo-100 text-indigo-600' };
+        case QuestionType.FILL_IN_BLANK_SPELLING: return { label: '填空(拼写)', color: 'bg-violet-100 text-violet-600' };
         default: return { label: '', color: 'bg-slate-100 text-slate-600' };
       }
     };
@@ -845,6 +964,12 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         return 'Which word means:';
       case QuestionType.SPELLING:
         return 'Spell the word for:';
+      case QuestionType.FILL_IN_BLANK:
+        return 'Fill in the blank:';
+      case QuestionType.FILL_IN_BLANK_MCQ:
+        return 'Fill in the blank:';
+      case QuestionType.FILL_IN_BLANK_SPELLING:
+        return 'Fill in the blank:';
       default:
         return 'Question:';
     }
@@ -858,6 +983,12 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         return '中 → 英';
       case QuestionType.SPELLING:
         return '拼写';
+      case QuestionType.FILL_IN_BLANK:
+        return '句子填空';
+      case QuestionType.FILL_IN_BLANK_MCQ:
+        return '填空(选择)';
+      case QuestionType.FILL_IN_BLANK_SPELLING:
+        return '填空(拼写)';
       default:
         return '';
     }
@@ -871,13 +1002,19 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         return 'bg-purple-100 text-purple-600';
       case QuestionType.SPELLING:
         return 'bg-emerald-100 text-emerald-600';
+      case QuestionType.FILL_IN_BLANK:
+        return 'bg-indigo-100 text-indigo-600';
+      case QuestionType.FILL_IN_BLANK_MCQ:
+        return 'bg-indigo-100 text-indigo-600';
+      case QuestionType.FILL_IN_BLANK_SPELLING:
+        return 'bg-violet-100 text-violet-600';
       default:
         return 'bg-slate-100 text-slate-600';
     }
   };
 
-  // 判断是否为选择题
-  const isMultipleChoice = currentQ.type === QuestionType.EN_TO_CN || currentQ.type === QuestionType.CN_TO_EN;
+  // 判断是否为选择题（填空选择题也是选择题形式）
+  const isMultipleChoice = currentQ.type === QuestionType.EN_TO_CN || currentQ.type === QuestionType.CN_TO_EN || currentQ.type === QuestionType.FILL_IN_BLANK_MCQ;
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 md:py-16">
@@ -886,7 +1023,12 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Question {currentIndex + 1}/{questions.length}</span>
           <div className="flex items-center gap-3">
             <span className={`text-xs font-bold px-3 py-1 rounded-full ${getTypeColor()} flex items-center gap-1`}>
-              {currentQ.type === QuestionType.SPELLING ? <Keyboard size={14} /> : <Languages size={14} />}
+              {(() => {
+                if (currentQ.type === QuestionType.SPELLING) return <Keyboard size={14} />;
+                if (currentQ.type === QuestionType.FILL_IN_BLANK_SPELLING) return <PenTool size={14} />;
+                if (currentQ.type === QuestionType.FILL_IN_BLANK_MCQ || currentQ.type === QuestionType.FILL_IN_BLANK) return <BookOpen size={14} />;
+                return <Languages size={14} />;
+              })()}
               {getTypeLabel()}
             </span>
             {/* 计时器显示 */}

@@ -59,6 +59,8 @@ export enum QuizMode {
   EN_TO_CN_MCQ = 'EN_TO_CN_MCQ',      // 英对中单选
   CN_TO_EN_MCQ = 'CN_TO_EN_MCQ',      // 中对英单选
   CN_TO_EN_SPELLING = 'CN_TO_EN_SPELLING',  // 中对英拼写
+  FILL_IN_BLANK_MCQ = 'FILL_IN_BLANK_MCQ',  // 句子填空(选择)
+  FILL_IN_BLANK_SPELLING = 'FILL_IN_BLANK_SPELLING',  // 句子填空(拼写)
   MIXED = 'MIXED',                    // 混合题型
 }
 
@@ -71,9 +73,12 @@ export enum QuizStrategy {
 
 // 题型枚举（用于内部生成题目）
 export enum QuestionType {
-  EN_TO_CN = 'EN_TO_CN',      // 英译中：选择中文定义
-  CN_TO_EN = 'CN_TO_EN',      // 中对英：选择英文单词
-  SPELLING = 'SPELLING',      // 拼写题
+  EN_TO_CN = 'EN_TO_CN',                      // 英译中：选择中文定义
+  CN_TO_EN = 'CN_TO_EN',                      // 中对英：选择英文单词
+  SPELLING = 'SPELLING',                      // 拼写题
+  FILL_IN_BLANK = 'FILL_IN_BLANK',            // 句子填空（通用，用于混合模式）
+  FILL_IN_BLANK_MCQ = 'FILL_IN_BLANK_MCQ',    // 句子填空(选择)
+  FILL_IN_BLANK_SPELLING = 'FILL_IN_BLANK_SPELLING',  // 句子填空(拼写)
 }
 
 export interface QuizQuestion {
@@ -82,6 +87,10 @@ export interface QuizQuestion {
   question: string;           // 题目文本
   options?: string[];         // 选项 (单选题)
   correctAnswer: string;      // 正确答案
+  sentenceContext?: {         // 填空题专用：句子上下文
+    originalSentence: string;  // 原始句子
+    hint: string;              // 释义提示
+  };
 }
 
 // ============================================
@@ -127,7 +136,7 @@ export interface QuizAttemptRecord {
   wordId: string;
   wordTerm: string;
   unitId: string;
-  questionType: 'EN_TO_CN' | 'CN_TO_EN' | 'SPELLING';
+  questionType: 'EN_TO_CN' | 'CN_TO_EN' | 'SPELLING' | 'FILL_IN_BLANK_MCQ' | 'FILL_IN_BLANK_SPELLING';
   isCorrect: boolean;
   timeSpent: number;         // 毫秒
   userAnswer?: string;

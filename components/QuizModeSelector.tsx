@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { QuizMode } from '../types';
-import { Languages, RotateCcw, Keyboard, Shuffle } from 'lucide-react';
+import { Languages, RotateCcw, Keyboard, Shuffle, BookOpen, PenTool } from 'lucide-react';
 import { getQuizQuestionCount } from '../utils/settings';
 
 interface QuizModeSelectorProps {
@@ -22,12 +22,28 @@ const QuizModeSelector: React.FC<QuizModeSelectorProps> = ({ onSelectMode, onBac
       gradient: 'from-emerald-500 to-teal-500'
     },
     {
+      mode: QuizMode.FILL_IN_BLANK_MCQ,
+      title: '句子填空(选择)',
+      description: `根据文章内容，从选项中选择正确的单词（${quizCount}题）`,
+      icon: BookOpen,
+      color: 'indigo',
+      gradient: 'from-indigo-500 to-blue-500'
+    },
+    {
+      mode: QuizMode.FILL_IN_BLANK_SPELLING,
+      title: '句子填空(拼写)',
+      description: `根据文章内容，拼写正确的英文单词（${quizCount}题）`,
+      icon: PenTool,
+      color: 'violet',
+      gradient: 'from-violet-500 to-purple-500'
+    },
+    {
       mode: QuizMode.MIXED,
       title: '混合题型',
-      description: `拼写题为主，搭配少量选择题（${quizCount}题）`,
+      description: `拼写题为主，搭配填空题和选择题（${quizCount}题）`,
       icon: Shuffle,
-      color: 'indigo',
-      gradient: 'from-indigo-500 to-purple-500'
+      color: 'pink',
+      gradient: 'from-pink-500 to-rose-500'
     }
   ];
 
