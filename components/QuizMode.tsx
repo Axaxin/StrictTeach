@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Word, QuizQuestion, QuestionType, QuizMode as QuizModeEnum } from '../types';
-import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, RotateCcw, Volume2 } from 'lucide-react';
+import { Word, QuizQuestion, QuestionType, QuizMode as QuizModeEnum, QuizAttemptRecord } from '../types';
+import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, RotateCcw, Volume2, Loader2 } from 'lucide-react';
+import { recordAttempts, getBatchMasteryPost, type WordMastery } from '../services/api';
 
 interface QuizModeProps {
   words: Word[];
@@ -14,6 +15,7 @@ interface AnswerRecord {
   question: QuizQuestion;
   userAnswer: string;
   isCorrect: boolean;
+  timeSpent: number;  // 答题用时（毫秒）
 }
 
 const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
@@ -29,6 +31,15 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
   const [answerRecords, setAnswerRecords] = useState<AnswerRecord[]>([]);
   const [quizKey, setQuizKey] = useState(0); // 用于强制重新生成题目
   const hasAutoPlayedRef = useRef(false);
+
+  // 答题计时相关状态
+  const [questionStartTime, setQuestionStartTime] = useState<number>(0);
+  const [timeSpent, setTimeSpent] = useState<number>(0);
+
+  // 熟练度相关状态
+  const [masteryData, setMasteryData] = useState<Map<string, WordMastery>>(new Map());
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordError, setRecordError] = useState<string | null>(null);
 
   useEffect(() => {
     const qs: QuizQuestion[] = [];
@@ -167,6 +178,13 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     };
   }, []);
 
+  // 追踪题目开始时间（用于计时）
+  useEffect(() => {
+    if (!quizFinished && questions.length > 0) {
+      setQuestionStartTime(Date.now());
+    }
+  }, [currentIndex, quizFinished, questions]);
+
   // 获取英文语音
   const getEnglishVoice = (): SpeechSynthesisVoice | null => {
     const englishVoices = voices.filter(v => v.lang.startsWith('en'));
@@ -248,6 +266,50 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     };
   }, [currentIndex, questions, quizFinished, voices]);
 
+  // Quiz 完成时记录答题数据到 Cloudflare D1
+  useEffect(() => {
+    if (quizFinished && answerRecords.length > 0) {
+      // 将答题记录转换为 API 格式
+      const attempts: QuizAttemptRecord[] = answerRecords.map((record) => ({
+        wordId: record.question.word.id,
+        wordTerm: record.question.word.term,
+        unitId: record.question.word.unit,
+        questionType: record.question.type,
+        isCorrect: record.isCorrect,
+        timeSpent: record.timeSpent,
+        userAnswer: record.userAnswer,
+      }));
+
+      // 发送到 Cloudflare Workers API
+      setIsRecording(true);
+      setRecordError(null);
+
+      recordAttempts(attempts)
+        .then((response) => {
+          console.log(`✅ Successfully recorded ${response.recorded} attempts`);
+          setIsRecording(false);
+
+          // 获取更新的熟练度数据
+          const wordIds = attempts.map(a => a.wordId);
+          getBatchMasteryPost(wordIds)
+            .then((masteryList) => {
+              // 将数组转换为 Map 以便快速查找
+              const map = new Map(masteryList.map(m => [m.word_id, m]));
+              setMasteryData(map);
+              console.log('✅ Mastery data updated');
+            })
+            .catch((err) => {
+              console.error('❌ Failed to fetch mastery data:', err);
+            });
+        })
+        .catch((err) => {
+          console.error('❌ Failed to record attempts:', err);
+          setIsRecording(false);
+          setRecordError(err.message || 'Failed to record attempts');
+        });
+    }
+  }, [quizFinished, answerRecords]);
+
   // 选择答案（单选题）
   const handleSelectAnswer = (answer: string) => {
     if (selectedAnswer !== null && isConfirmed) return;
@@ -266,11 +328,13 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     setIsConfirmed(true);
     if (correct) setScore(prev => prev + 1);
 
-    // 记录答题结果
+    // 记录答题结果（包含计时）
+    const timeSpent = Date.now() - questionStartTime;
     setAnswerRecords(prev => [...prev, {
       question: currentQ,
       userAnswer: selectedAnswer,
-      isCorrect: correct
+      isCorrect: correct,
+      timeSpent
     }]);
   };
 
@@ -292,11 +356,13 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     setIsConfirmed(true);
     if (correct) setScore(prev => prev + 1);
 
-    // 记录答题结果
+    // 记录答题结果（包含计时）
+    const timeSpent = Date.now() - questionStartTime;
     setAnswerRecords(prev => [...prev, {
       question: currentQ,
       userAnswer: userAnswer,
-      isCorrect: correct
+      isCorrect: correct,
+      timeSpent
     }]);
   };
 
@@ -355,6 +421,25 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
               <div className="text-xs font-bold text-indigo-500 uppercase">Accuracy</div>
             </div>
           </div>
+
+          {/* 云同步状态 */}
+          {isRecording && (
+            <div className="flex items-center justify-center gap-2 text-blue-600 mb-4">
+              <Loader2 size={16} className="animate-spin" />
+              <span className="text-sm font-medium">正在同步学习数据...</span>
+            </div>
+          )}
+          {recordError && (
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-2 rounded-xl mb-4 text-sm">
+              ⚠️ 数据同步失败: {recordError}
+            </div>
+          )}
+          {!isRecording && !recordError && masteryData.size > 0 && (
+            <div className="flex items-center justify-center gap-2 text-green-600 mb-4">
+              <CheckCircle2 size={16} />
+              <span className="text-sm font-medium">学习数据已同步到云端</span>
+            </div>
+          )}
         </div>
 
         {/* 详细答题记录 - 只显示错题 */}
@@ -397,9 +482,35 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
                         </div>
 
                         {/* 正确答案 */}
-                        <div className="text-sm text-green-700 font-medium">
+                        <div className="text-sm text-green-700 font-medium mb-1">
                           <span className="font-semibold">正确答案:</span> {record.question.correctAnswer}
                         </div>
+
+                        {/* 用时显示 */}
+                        {record.timeSpent > 0 && (
+                          <div className="text-xs text-slate-500">
+                            用时: {Math.round(record.timeSpent / 1000)}秒
+                          </div>
+                        )}
+
+                        {/* 熟练度显示 */}
+                        {masteryData.size > 0 && (() => {
+                          const mastery = masteryData.get(record.question.word.id);
+                          if (mastery) {
+                            const getMasteryColor = (level: number) => {
+                              if (level >= 80) return 'bg-green-100 text-green-700';
+                              if (level >= 60) return 'bg-yellow-100 text-yellow-700';
+                              if (level >= 40) return 'bg-orange-100 text-orange-700';
+                              return 'bg-red-100 text-red-700';
+                            };
+                            return (
+                              <div className={`mt-2 text-xs font-bold px-2 py-1 rounded-full inline-block ${getMasteryColor(mastery.mastery_level)}`}>
+                                熟练度: {mastery.mastery_level}%
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
                       </div>
                     </div>
                   </div>

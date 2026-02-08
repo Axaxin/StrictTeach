@@ -18,7 +18,6 @@ export interface Word {
   example?: string;            // 主例句（向后兼容）
   unit: string;
   phonetic?: string;           // 音标
-  level?: string;              // 难度级别
 }
 
 export interface Unit {
@@ -76,4 +75,80 @@ export interface QuizQuestion {
   question: string;           // 题目文本
   options?: string[];         // 选项 (单选题)
   correctAnswer: string;      // 正确答案
+}
+
+// ============================================
+// Cloudflare D1 熟练度系统相关类型
+// ============================================
+
+/**
+ * 答题记录（存储在 D1）
+ */
+export interface Attempt {
+  id: number;
+  user_id: string;
+  word_id: string;
+  word_term: string;
+  question_type: string;     // 'EN_TO_CN' | 'CN_TO_EN' | 'SPELLING'
+  is_correct: number;        // 0 or 1
+  time_spent: number;        // 答题用时（毫秒）
+  user_answer?: string;
+  created_at: string;
+}
+
+/**
+ * 单词熟练度（存储在 D1）
+ */
+export interface WordMastery {
+  word_id: string;
+  word_term: string;
+  unit_id: string;
+  mastery_level: number;     // 0-100 熟练度分数
+  attempt_count: number;     // 总答题次数
+  correct_count: number;     // 正确次数
+  total_time_spent: number;  // 总用时（毫秒）
+  last_attempt_at: string;
+  last_correct_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Quiz 答题记录（前端使用，用于批量上传）
+ */
+export interface QuizAttemptRecord {
+  wordId: string;
+  wordTerm: string;
+  unitId: string;
+  questionType: 'EN_TO_CN' | 'CN_TO_EN' | 'SPELLING';
+  isCorrect: boolean;
+  timeSpent: number;         // 毫秒
+  userAnswer?: string;
+}
+
+/**
+ * 学习统计
+ */
+export interface LearningStats {
+  total: {
+    total_attempts: number;
+    total_correct: number;
+    total_time_spent: number;
+    unique_words: number;
+  };
+  byQuestionType: Array<{
+    question_type: string;
+    count: number;
+    correct: number;
+    avg_time: number;
+  }>;
+  recentTrend: Array<{
+    date: string;
+    attempts: number;
+    correct: number;
+  }>;
+  masteryDistribution: Array<{
+    level: string;  // 'mastered' | 'learning' | 'started' | 'new'
+    count: number;
+  }>;
 }

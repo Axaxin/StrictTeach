@@ -68,8 +68,8 @@ export const enrichWords = async (terms: string[], unitId: string): Promise<Word
     return cached;
   }
 
-  // 2. 检查预存数据
-  const preloaded = getPreloadedWords(unitId);
+  // 2. 检查预存数据（可能是静态缓存或JSON基础数据）
+  const preloaded = await getPreloadedWords(unitId);
   if (preloaded && preloaded.length > 0) {
     console.log(`[Preloaded Data] Unit ${unitId} loaded from static data`);
 

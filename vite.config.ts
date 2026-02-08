@@ -18,8 +18,8 @@ export default defineConfig(({ mode }) => {
         'process.env.VITE_OPENAI_BASE_URL': JSON.stringify(env.OPENAI_BASE_URL || env.VITE_OPENAI_BASE_URL || 'https://api.openai.com/v1'),
         'process.env.OPENAI_MODEL': JSON.stringify(env.OPENAI_MODEL || env.VITE_OPENAI_MODEL || 'gpt-4o-mini'),
         'process.env.VITE_OPENAI_MODEL': JSON.stringify(env.OPENAI_MODEL || env.VITE_OPENAI_MODEL || 'gpt-4o-mini'),
-        // 兼容旧的 GEMINI 配置（可选）
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        // Cloudflare Workers API 配置
+        'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'https://vocabmaster-api.YOUR-SUBDOMAIN.workers.dev'),
       },
       resolve: {
         alias: {
