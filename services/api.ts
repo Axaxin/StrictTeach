@@ -193,3 +193,19 @@ export async function getWordAttempts(wordId: string, limit: number = 50): Promi
 export async function healthCheck(): Promise<{ status: string }> {
   return fetchAPI<{ status: string }>('/api/health');
 }
+
+/**
+ * 删除单元的所有学习数据
+ */
+export interface DeleteUnitResponse {
+  success: boolean;
+  deleted: number;
+  unitId: string;
+  message?: string;
+}
+
+export async function deleteUnitData(unitId: string): Promise<DeleteUnitResponse> {
+  return fetchAPI<DeleteUnitResponse>(`/api/units/${unitId}`, {
+    method: 'DELETE',
+  });
+}

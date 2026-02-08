@@ -378,6 +378,56 @@ router.post('/api/mastery/batch', async (request, env) => {
 });
 
 /**
+ * 删除单元的所有学习数据
+ */
+router.delete('/api/units/:unitId', async (request, env) => {
+  const { unitId } = request.params;
+
+  try {
+    // 首先获取该单元的所有word_id
+    const words = await env.DB.prepare(`
+      SELECT DISTINCT word_id FROM mastery WHERE unit_id = ?
+    `).bind(unitId).all();
+
+    const wordIds = words.results?.map(w => w.word_id) || [];
+
+    if (wordIds.length === 0) {
+      return new Response(JSON.stringify({
+        success: true,
+        deleted: 0,
+        message: 'No data found for this unit'
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // 删除attempts记录
+    const placeholders = wordIds.map(() => '?').join(',');
+    await env.DB.prepare(`
+      DELETE FROM attempts WHERE word_id IN (${placeholders})
+    `).bind(...wordIds).run();
+
+    // 删除mastery记录
+    await env.DB.prepare(`
+      DELETE FROM mastery WHERE unit_id = ?
+    `).bind(unitId).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      deleted: wordIds.length,
+      unitId
+    }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Database error', details: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
+});
+
+/**
  * AI 分析单词熟练度（可选功能）
  */
 router.post('/api/analyze-mastery', async (request, env) => {
@@ -433,7 +483,7 @@ router.post('/api/analyze-mastery', async (request, env) => {
 // 导出 Workers 使用的 fetch handler
 export default {
   fetch: (request: Request, env: any, ctx: any) => {
-    return router.handle(request).catch((error: Error) => {
+    return router.handle(request, env).catch((error: Error) => {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: corsHeaders

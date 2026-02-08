@@ -102,23 +102,36 @@ export const enrichWords = async (terms: string[], unitId: string): Promise<Word
       messages: [
         {
           role: 'system',
-          content: '你是一个专业的英语词汇教学助手。为每个初中水平的英语单词提供：音标、词性、中文释义（多个词性的不同释义）、英文例句及其中文翻译。返回JSON格式。',
+          content: `你是初一英语词汇教学专家。为中国初一学生提供简单、准确的英语单词信息。
+
+重要规则：
+1. 只提供1-2个最常用、最核心的释义（不要列举过多释义）
+2. 释义要简洁明了，适合初一学生理解水平
+3. 例句要简单实用，使用初一学生能看懂的词汇
+4. 例句长度控制在10个单词以内
+5. 只返回JSON，不要其他文字`,
         },
         {
           role: 'user',
-          content: `为以下初中英语单词提供详细信息：${terms.join(', ')}\n\n返回格式示例：
+          content: `为以下初一英语单词生成数据：${terms.join(', ')}
+
+要求：
+- 音标：使用标准国际音标
+- 词性：n.(名词) v.(动词) adj.(形容词) adv.(副词) prep.(介词)
+- 释义：只提供1-2个最常用的中文释义，简洁准确
+- 例句：每个词1个简单例句，用词量不超过10个单词，适合初一水平
+
+返回JSON格式：
 {
   "words": [
     {
       "term": "apple",
       "phonetic": "/ˈæpl/",
       "definitions": [
-        {"partOfSpeech": "n.", "meaning": "苹果"},
-        {"partOfSpeech": "n.", "meaning": "苹果公司"}
+        {"partOfSpeech": "n.", "meaning": "苹果"}
       ],
       "examples": [
-        {"sentence": "I eat an apple every day.", "translation": "我每天吃一个苹果。"},
-        {"sentence": "The apple is red.", "translation": "这个苹果是红色的。"}
+        {"sentence": "I eat an apple.", "translation": "我吃一个苹果。"}
       ]
     }
   ]
@@ -243,11 +256,26 @@ const enrichPreloadedWords = async (preloadedWords: Word[]): Promise<Word[]> => 
       messages: [
         {
           role: 'system',
-          content: '你是一个专业的英语词汇教学助手。为每个初中水平的英语单词提供：音标、词性、中文释义（多个词性）、英文例句及其中文翻译。返回JSON格式。',
+          content: `你是初一英语词汇教学专家。为中国初一学生提供简单、准确的英语单词信息。
+
+重要规则：
+1. 只提供1-2个最常用、最核心的释义（不要列举过多释义）
+2. 释义要简洁明了，适合初一学生理解水平
+3. 例句要简单实用，使用初一学生能看懂的词汇
+4. 例句长度控制在10个单词以内
+5. 只返回JSON，不要其他文字`,
         },
         {
           role: 'user',
-          content: `为以下初中英语单词提供详细信息：${terms.join(', ')}\n\n返回格式示例：
+          content: `为以下初一英语单词生成数据：${terms.join(', ')}
+
+要求：
+- 音标：使用标准国际音标
+- 词性：n.(名词) v.(动词) adj.(形容词) adv.(副词) prep.(介词)
+- 释义：只提供1-2个最常用的中文释义，简洁准确
+- 例句：每个词1个简单例句，用词量不超过10个单词，适合初一水平
+
+返回JSON格式：
 {
   "words": [
     {
@@ -257,7 +285,7 @@ const enrichPreloadedWords = async (preloadedWords: Word[]): Promise<Word[]> => 
         {"partOfSpeech": "n.", "meaning": "苹果"}
       ],
       "examples": [
-        {"sentence": "I eat an apple every day.", "translation": "我每天吃一个苹果。"}
+        {"sentence": "I eat an apple.", "translation": "我吃一个苹果。"}
       ]
     }
   ]
@@ -328,11 +356,21 @@ export const generateExamples = async (words: Word[]): Promise<Word[]> => {
       messages: [
         {
           role: 'system',
-          content: '你是一个英语词汇助手。为每个单词提供一个简单、实用的英文例句。返回 JSON 格式。',
+          content: `你是初一英语教学专家。为中国初一学生提供简单实用的英文例句。
+
+重要规则：
+1. 例句使用初一学生能看懂的简单词汇
+2. 例句长度控制在10个单词以内
+3. 提供中文翻译
+4. 只返回JSON，不要其他文字`,
         },
         {
           role: 'user',
-          content: `为以下单词提供英文例句：${terms.join(', ')}\n\n返回格式：{"words": [{"term": "apple", "example": "I eat an apple every day."}]}`,
+          content: `为以下初一英语单词提供简单例句：${terms.join(', ')}
+
+要求：每个词1个简单例句（不超过10个单词），附带中文翻译。
+
+返回格式：{"words": [{"term": "apple", "example": "I eat an apple.", "translation": "我吃一个苹果。"}]}`,
         },
       ],
       response_format: { type: 'json_object' },

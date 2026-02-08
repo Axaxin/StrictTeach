@@ -4,47 +4,57 @@
 
 # VocabMaster - English Learning App
 
-An interactive English vocabulary learning application with AI-powered definitions, flashcards, and quizzes.
+An interactive English vocabulary learning application with AI-powered definitions, flashcards, quizzes, and cloud-synced progress tracking.
 
 ## Features
 
-- **7 Vocabulary Chapters** - Starter through Unit 6 with ~200 words
-- **Flashcard Learning** - Interactive flip cards with pronunciation
-- **Mixed Quiz Mode** - English-to-Chinese and Chinese-to-English questions
-- **Progress Tracking** - Track mastered and learning words
-- **Offline Ready** - Preloaded vocabulary data, no API required for learning
+- **7 Vocabulary Chapters** - Starter through Unit 6 with **287 enriched words**
+- **Rich Word Data** - Phonetics, multiple definitions with parts of speech, example sentences
+- **Flashcard Learning** - Interactive flip cards with shuffle and pronunciation
+- **4 Quiz Modes** - EN→CN, CN→EN, Spelling, and Mixed
+- **Real-Time Timer** - Track time spent on each question
+- **Cloud Sync** - Progress and mastery synchronized across devices via Cloudflare Workers
+- **Offline Ready** - Preloaded vocabulary data with static cache files
+- **Smart Mastery System** - Automatic proficiency calculation based on accuracy and timing
 
-## Run Locally
+## Quick Start
 
-**Prerequisites:** Node.js
+**Prerequisites:** Node.js 18+
 
-1. Install dependencies:
+1. Clone and install:
    ```bash
    npm install
    ```
 
-2. Configure API key (optional, for AI-generated examples):
-   Create a `.env.local` file with:
-   ```bash
-   # 智谱 GLM（推荐）
-   OPENAI_API_KEY=your_api_key
-   OPENAI_BASE_URL=https://open.bigmodel.cn/api/paas/v4
-   OPENAI_MODEL=glm-4-flash
-
-   # Or use OpenAI
-   OPENAI_API_KEY=your_openai_key
-   OPENAI_BASE_URL=https://api.openai.com/v1
-   OPENAI_MODEL=gpt-4o-mini
-   ```
-
-3. Run the app:
+2. Run the app:
    ```bash
    npm run dev
    ```
 
-4. Open http://localhost:3000
+3. Open http://localhost:3000
 
-## Build for Production
+That's it! The app includes pre-generated static cache files, so it works immediately without any API configuration.
+
+## Cloud Sync Setup (Optional)
+
+For cross-device progress tracking and mastery calculation:
+
+1. Configure API URL in `.env.local`:
+   ```bash
+   VITE_API_URL=https://vocabmaster-api.jk-veda.workers.dev
+   ```
+
+2. The app will automatically sync quiz attempts and mastery data to the cloud.
+
+## Run Locally
+
+### Development Mode
+
+```bash
+npm run dev
+```
+
+### Production Build
 
 ```bash
 npm run build
@@ -53,8 +63,16 @@ npm run preview
 
 ## Tech Stack
 
+### Frontend
 - **React 19** + **TypeScript** + **Vite**
 - **Tailwind CSS** (via CDN)
-- **OpenAI SDK** (for 智谱 GLM / OpenAI compatibility)
-- **Web Speech API** (pronunciation)
-- **LocalStorage** (progress persistence)
+- **lucide-react** - Icon library
+- **Web Speech API** - Pronunciation features
+
+### Backend (Optional)
+- **Cloudflare Workers** - Serverless API
+- **Cloudflare D1** - SQLite database at edge
+- **itty-router** - Fast routing
+
+### AI Services
+- **OpenAI SDK** - Compatible with 智谱 GLM, OpenAI, and more

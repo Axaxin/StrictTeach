@@ -60,16 +60,38 @@ async function enrichBatch(words: string[]): Promise<Map<string, any>> {
         messages: [
           {
             role: 'system',
-            content: '你是英语词汇助手。只返回JSON，无其他文字。',
+            content: `你是初一英语词汇教学专家。为中国初一学生提供简单、准确的英语单词信息。
+
+重要规则：
+1. 只提供1-2个最常用、最核心的释义（不要列举过多释义）
+2. 释义要简洁明了，适合初一学生理解水平
+3. 例句要简单实用，使用初一学生能看懂的词汇
+4. 例句长度控制在10个单词以内
+5. 只返回JSON，不要其他文字`,
           },
           {
             role: 'user',
-            content: `为以下单词生成数据（音标、词性释义、例句）：${words.join(', ')}
+            content: `为以下初一英语单词生成数据：${words.join(', ')}
+
+要求：
+- 音标：使用标准国际音标
+- 词性：n.(名词) v.(动词) adj.(形容词) adv.(副词) prep.(介词)
+- 释义：只提供1-2个最常用的中文释义，简洁准确
+- 例句：每个词1个简单例句，用词量不超过10个单词，适合初一水平
 
 返回JSON格式：
 {
   "words": [
-    {"term": "word", "phonetic": "/.../", "definitions": [{"partOfSpeech": "n.", "meaning": "释义"}], "examples": [{"sentence": "...", "translation": "..."}]}
+    {
+      "term": "apple",
+      "phonetic": "/ˈæpl/",
+      "definitions": [
+        {"partOfSpeech": "n.", "meaning": "苹果"}
+      ],
+      "examples": [
+        {"sentence": "I eat an apple.", "translation": "我吃一个苹果。"}
+      ]
+    }
   ]
 }`,
           },

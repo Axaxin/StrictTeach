@@ -1,45 +1,48 @@
 
 import React, { useState } from 'react';
-import { Word, UserProgress } from '../types';
-import { Volume2, Check, X, ArrowLeft, Search, BookOpen } from 'lucide-react';
+import { Word } from '../types';
+import { Volume2, ArrowLeft, Search, BookOpen, TrendingUp } from 'lucide-react';
 import { highlightWordInSentenceReact } from '../utils/highlight';
+import { useMasteryData, getMasteryBadgeByLevel } from '../hooks/useMasteryData';
 
 interface WordListProps {
   words: Word[];
-  progress: UserProgress;
   onComplete: () => void;
-  onMastered: (wordId: string) => void;
-  onReview: (wordId: string) => void;
 }
 
-const WordList: React.FC<WordListProps> = ({ words, progress, onComplete, onMastered, onReview }) => {
+type MasteryFilterType = 'all' | 'mastered' | 'proficient' | 'learning' | 'new' | 'unpracticed';
+
+const WordList: React.FC<WordListProps> = ({ words, onComplete }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<'all' | 'mastered' | 'learning' | 'unstudied'>('all');
+  const [filterType, setFilterType] = useState<MasteryFilterType>('all');
   const [expandedWords, setExpandedWords] = useState<Set<string>>(new Set());
 
-  // 筛选单词
+  // 获取云端熟练度数据
+  const { masteryData, getMasteryLevel, getMasteryBadge, isLoading: masteryLoading } = useMasteryData(words);
+
+  // 筛选单词（基于云端熟练度）
   const filteredWords = words.filter(word => {
     const matchesSearch = word.term.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (word.definition?.toLowerCase().includes(searchTerm.toLowerCase())) ||
                          (word.definitions?.some(d => d.meaning.toLowerCase().includes(searchTerm.toLowerCase())));
 
-    const isMastered = progress.masteredWords.includes(word.id);
-    const isLearning = progress.learningWords.includes(word.id);
+    const masteryLevel = getMasteryLevel(word.id);
 
     switch (filterType) {
       case 'mastered':
-        return matchesSearch && isMastered;
+        return matchesSearch && masteryLevel >= 80;
+      case 'proficient':
+        return matchesSearch && masteryLevel >= 60 && masteryLevel < 80;
       case 'learning':
-        return matchesSearch && isLearning;
-      case 'unstudied':
-        return matchesSearch && !isMastered && !isLearning;
+        return matchesSearch && masteryLevel >= 40 && masteryLevel < 60;
+      case 'new':
+        return matchesSearch && masteryLevel === 0;
+      case 'unpracticed':
+        return matchesSearch && masteryLevel > 0 && masteryLevel < 40;
       default:
         return matchesSearch;
     }
   });
-
-  const masteredCount = words.filter(w => progress.masteredWords.includes(w.id)).length;
-  const learningCount = words.filter(w => progress.learningWords.includes(w.id)).length;
 
   const speak = (text: string) => {
     if ('speechSynthesis' in window) {
@@ -50,12 +53,6 @@ const WordList: React.FC<WordListProps> = ({ words, progress, onComplete, onMast
       utterance.volume = 1;
       speechSynthesis.speak(utterance);
     }
-  };
-
-  const getWordStatus = (wordId: string) => {
-    if (progress.masteredWords.includes(wordId)) return 'mastered';
-    if (progress.learningWords.includes(wordId)) return 'learning';
-    return 'unstudied';
   };
 
   const toggleExpand = (wordId: string) => {
@@ -82,45 +79,138 @@ const WordList: React.FC<WordListProps> = ({ words, progress, onComplete, onMast
           <span>返回</span>
         </button>
         <div className="text-sm text-slate-500">
-          共 {words.length} 个单词 · 已掌握 {masteredCount}
+          共 {words.length} 个单词
         </div>
       </div>
 
-      {/* 统计卡片 */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      {/* 统计卡片 - 基于云端熟练度 */}
+      <div className="grid grid-cols-5 gap-2 mb-6">
         <button
           onClick={() => setFilterType('all')}
-          className={`p-4 rounded-xl text-center transition-all ${
+          className={`p-3 rounded-xl text-center transition-all ${
             filterType === 'all'
               ? 'bg-slate-800 text-white shadow-lg'
               : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
           }`}
         >
-          <div className="text-2xl font-bold mb-1">{words.length}</div>
+          <div className="text-xl font-bold mb-1">{words.length}</div>
           <div className="text-xs uppercase tracking-wider opacity-70">全部</div>
         </button>
         <button
           onClick={() => setFilterType('mastered')}
-          className={`p-4 rounded-xl text-center transition-all ${
+          className={`p-3 rounded-xl text-center transition-all ${
             filterType === 'mastered'
               ? 'bg-green-600 text-white shadow-lg'
               : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
           }`}
         >
-          <div className="text-2xl font-bold mb-1">{masteredCount}</div>
-          <div className="text-xs uppercase tracking-wider opacity-70">已掌握</div>
+          <div className="text-xl font-bold mb-1">{words.filter(w => getMasteryLevel(w.id) >= 80).length}</div>
+          <div className="text-xs uppercase tracking-wider opacity-70">精通</div>
+        </button>
+        <button
+          onClick={() => setFilterType('proficient')}
+          className={`p-3 rounded-xl text-center transition-all ${
+            filterType === 'proficient'
+              ? 'bg-blue-600 text-white shadow-lg'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+          }`}
+        >
+          <div className="text-xl font-bold mb-1">{words.filter(w => getMasteryLevel(w.id) >= 60 && getMasteryLevel(w.id) < 80).length}</div>
+          <div className="text-xs uppercase tracking-wider opacity-70">熟练</div>
         </button>
         <button
           onClick={() => setFilterType('learning')}
-          className={`p-4 rounded-xl text-center transition-all ${
+          className={`p-3 rounded-xl text-center transition-all ${
             filterType === 'learning'
               ? 'bg-amber-500 text-white shadow-lg'
               : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
           }`}
         >
-          <div className="text-2xl font-bold mb-1">{learningCount}</div>
-          <div className="text-xs uppercase tracking-wider opacity-70">学习中</div>
+          <div className="text-xl font-bold mb-1">{words.filter(w => getMasteryLevel(w.id) >= 40 && getMasteryLevel(w.id) < 60).length}</div>
+          <div className="text-xs uppercase tracking-wider opacity-70">一般</div>
         </button>
+        <button
+          onClick={() => setFilterType('new')}
+          className={`p-3 rounded-xl text-center transition-all ${
+            filterType === 'new'
+              ? 'bg-slate-600 text-white shadow-lg'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+          }`}
+        >
+          <div className="text-xl font-bold mb-1">{words.filter(w => getMasteryLevel(w.id) === 0).length}</div>
+          <div className="text-xs uppercase tracking-wider opacity-70">新词</div>
+        </button>
+      </div>
+
+      {/* 云端测试统计 */}
+      <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 mb-6 border border-indigo-100">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2 text-indigo-700">
+            <TrendingUp size={18} />
+            <span className="text-sm font-bold">测试统计</span>
+          </div>
+          {masteryLoading && (
+            <span className="text-xs text-indigo-500">加载中...</span>
+          )}
+        </div>
+        <div className="grid grid-cols-4 gap-3 text-center">
+          {(() => {
+            // 计算统计数据
+            let totalAttempts = 0;
+            let totalCorrect = 0;
+            let totalTime = 0;
+            let testedWords = 0;
+
+            Object.values(masteryData).forEach(mastery => {
+              if (mastery) {
+                totalAttempts += mastery.attempt_count || 0;
+                totalCorrect += mastery.correct_count || 0;
+                totalTime += mastery.total_time_spent || 0;
+                testedWords++;
+              }
+            });
+
+            const totalWrong = totalAttempts - totalCorrect;
+            const avgTimeMs = totalAttempts > 0 ? totalTime / totalAttempts : 0;
+            const avgTimeSec = (avgTimeMs / 1000).toFixed(1);
+
+            return [
+              {
+                label: '共测试',
+                value: totalAttempts,
+                unit: '次',
+                color: 'text-indigo-600',
+                bgColor: 'bg-indigo-100'
+              },
+              {
+                label: '正确',
+                value: totalCorrect,
+                unit: '次',
+                color: 'text-green-600',
+                bgColor: 'bg-green-100'
+              },
+              {
+                label: '错误',
+                value: totalWrong,
+                unit: '次',
+                color: 'text-red-600',
+                bgColor: 'bg-red-100'
+              },
+              {
+                label: '平均用时',
+                value: avgTimeSec,
+                unit: '秒',
+                color: 'text-amber-600',
+                bgColor: 'bg-amber-100'
+              }
+            ].map((stat, i) => (
+              <div key={i} className={`rounded-lg p-3 border border-indigo-100 ${stat.bgColor}`}>
+                <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+                <div className="text-xs text-slate-600">{stat.label}（{stat.unit}）</div>
+              </div>
+            ));
+          })()}
+        </div>
       </div>
 
       {/* 搜索框 */}
@@ -144,20 +234,24 @@ const WordList: React.FC<WordListProps> = ({ words, progress, onComplete, onMast
           </div>
         ) : (
           filteredWords.map((word, index) => {
-            const status = getWordStatus(word.id);
             const isExpanded = expandedWords.has(word.id);
+            const masteryLevel = getMasteryLevel(word.id);
+            const badge = getMasteryBadge(word.id);
+
             return (
               <div
                 key={word.id}
                 className={`bg-white rounded-2xl border shadow-sm hover:shadow-md transition-all overflow-hidden ${
-                  status === 'mastered' ? 'border-green-200' :
-                  status === 'learning' ? 'border-amber-200' :
+                  masteryLevel >= 80 ? 'border-green-200' :
+                  masteryLevel >= 60 ? 'border-blue-200' :
+                  masteryLevel >= 40 ? 'border-amber-200' :
+                  masteryLevel > 0 ? 'border-orange-200' :
                   'border-slate-200'
                 }`}
               >
                 {/* 单词头部 - 始终显示 */}
                 <div className="p-5">
-                  {/* 第一行：单词 + 发音按钮 + 状态标签 */}
+                  {/* 第一行：单词 + 发音按钮 + 熟练度标签 */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3 flex-wrap">
                       <span className="text-xs font-mono text-slate-400">#{index + 1}</span>
@@ -165,12 +259,14 @@ const WordList: React.FC<WordListProps> = ({ words, progress, onComplete, onMast
                       {word.phonetic && (
                         <span className="text-sm text-slate-500 font-mono hidden sm:inline">[{word.phonetic}]</span>
                       )}
-                      {/* 状态标签 */}
-                      {status === 'mastered' && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium">已掌握</span>
-                      )}
-                      {status === 'learning' && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700 font-medium">学习中</span>
+                      {/* 云端熟练度标签 */}
+                      {masteryLevel > 0 ? (
+                        <span className={`text-xs px-2 py-1 rounded-full ${badge.bgColor} ${badge.color} font-medium flex items-center gap-1`}>
+                          <TrendingUp size={12} />
+                          {badge.level} {masteryLevel}%
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-medium">新词</span>
                       )}
                     </div>
                     {/* 发音按钮 - 更大更显眼 */}
@@ -207,42 +303,44 @@ const WordList: React.FC<WordListProps> = ({ words, progress, onComplete, onMast
                         )}
                       </div>
 
+                      {/* 测试统计 - 紧凑单行显示 */}
+                      {(() => {
+                        const mastery = masteryData[word.id];
+                        if (mastery && mastery.attempt_count > 0) {
+                          const wrongCount = mastery.attempt_count - mastery.correct_count;
+                          const accuracy = Math.round((mastery.correct_count / mastery.attempt_count) * 100);
+                          return (
+                            <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
+                              <span className="flex items-center gap-1">
+                                <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
+                                测试 {mastery.attempt_count} 次
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <span className="w-2 h-2 rounded-full bg-green-400"></span>
+                                正确 {accuracy}%
+                              </span>
+                              {wrongCount > 0 && (
+                                <span className="flex items-center gap-1">
+                                  <span className="w-2 h-2 rounded-full bg-red-400"></span>
+                                  错误 {wrongCount}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
+
                       {/* 展开按钮 */}
                       {(word.definitions && word.definitions.length > 2) ||
                        (word.examples && word.examples.length > 0) ? (
                         <button
                           onClick={() => toggleExpand(word.id)}
-                          className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+                          className="text-sm text-indigo-600 hover:text-indigo-700 font-medium mt-2"
                         >
                           {isExpanded ? '收起详情 ▲' : '展开更多 ▼'}
                         </button>
                       ) : null}
-                    </div>
-
-                    {/* 操作按钮 */}
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => onMastered(word.id)}
-                        className={`p-2 rounded-lg transition-all ${
-                          status === 'mastered'
-                            ? 'bg-green-100 text-green-600'
-                            : 'bg-slate-100 text-slate-400 hover:bg-green-100 hover:text-green-600'
-                        }`}
-                        title="标记为已掌握"
-                      >
-                        <Check size={18} />
-                      </button>
-                      <button
-                        onClick={() => onReview(word.id)}
-                        className={`p-2 rounded-lg transition-all ${
-                          status === 'learning'
-                            ? 'bg-amber-100 text-amber-600'
-                            : 'bg-slate-100 text-slate-400 hover:bg-amber-100 hover:text-amber-600'
-                        }`}
-                        title="标记为学习中"
-                      >
-                        <X size={18} />
-                      </button>
                     </div>
                   </div>
                 </div>

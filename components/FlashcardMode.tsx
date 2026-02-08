@@ -1,23 +1,24 @@
 
 import React, { useState, useEffect } from 'react';
-import { Word, UserProgress } from '../types';
-import { ChevronLeft, ChevronRight, RotateCcw, Check, Brain, Volume2, Shuffle, X } from 'lucide-react';
+import { Word } from '../types';
+import { ChevronLeft, ChevronRight, RotateCcw, Volume2, Shuffle, X, TrendingUp } from 'lucide-react';
+import { useMasteryData, getMasteryBadgeByLevel } from '../hooks/useMasteryData';
 
 interface FlashcardModeProps {
   words: Word[];
   onComplete: () => void;
-  onMastered: (id: string) => void;
-  onReview: (id: string) => void;
-  progress: UserProgress;
 }
 
-const FlashcardMode: React.FC<FlashcardModeProps> = ({ words, onComplete, onMastered, onReview, progress }) => {
+const FlashcardMode: React.FC<FlashcardModeProps> = ({ words, onComplete }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [shuffledWords, setShuffledWords] = useState<Word[]>(words);
 
   const currentWord = shuffledWords[currentIndex];
+
+  // 获取云端熟练度数据
+  const { getMasteryLevel, getMasteryBadge, masteryData } = useMasteryData(words);
 
   // 当 words 变化时更新 shuffledWords
   useEffect(() => {
@@ -168,10 +169,20 @@ const FlashcardMode: React.FC<FlashcardModeProps> = ({ words, onComplete, onMast
             <span className="text-sm font-bold">随机</span>
           </button>
           <div className="h-2 w-32 bg-slate-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-indigo-500"
-              style={{ width: `${((currentIndex + 1) / shuffledWords.length) * 100}%` }}
-            />
+            {(() => {
+              const badge = getMasteryBadge(currentWord.id);
+              const masteryLevel = getMasteryLevel(currentWord.id);
+              const progressColor = masteryLevel >= 80 ? 'bg-green-500' :
+                                   masteryLevel >= 60 ? 'bg-blue-500' :
+                                   masteryLevel >= 40 ? 'bg-amber-500' :
+                                   masteryLevel > 0 ? 'bg-orange-500' : 'bg-indigo-500';
+              return (
+                <div
+                  className={`h-full ${progressColor} transition-colors duration-300`}
+                  style={{ width: `${((currentIndex + 1) / shuffledWords.length) * 100}%` }}
+                />
+              );
+            })()}
           </div>
         </div>
       </div>
@@ -183,6 +194,21 @@ const FlashcardMode: React.FC<FlashcardModeProps> = ({ words, onComplete, onMast
         <div className={`relative w-full h-full transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`} style={{ transformStyle: 'preserve-3d' }}>
           {/* Front Side */}
           <div className="absolute inset-0 backface-hidden bg-white rounded-[2rem] shadow-xl border border-slate-100 flex flex-col items-center justify-center p-8 text-center">
+            {/* 云端熟练度标签 */}
+            {(() => {
+              const badge = getMasteryBadge(currentWord.id);
+              const masteryLevel = getMasteryLevel(currentWord.id);
+              return masteryLevel > 0 ? (
+                <div className={`absolute top-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full ${badge.bgColor} ${badge.color} font-medium text-sm flex items-center gap-2`}>
+                  <TrendingUp size={16} />
+                  {badge.level} {masteryLevel}%
+                </div>
+              ) : (
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-slate-100 text-slate-500 font-medium text-sm">
+                  新词
+                </div>
+              );
+            })()}
             {currentWord.phonetic && (
               <p className="text-lg text-slate-500 font-mono mb-2">[{currentWord.phonetic}]</p>
             )}
@@ -213,6 +239,28 @@ const FlashcardMode: React.FC<FlashcardModeProps> = ({ words, onComplete, onMast
                 <h3 className="text-5xl font-black">{currentWord.definition}</h3>
               )}
             </div>
+
+            {/* 熟练度统计 */}
+            {(() => {
+              const masteryLevel = getMasteryLevel(currentWord.id);
+              const mastery = masteryData[currentWord.id];
+              if (mastery && masteryLevel > 0) {
+                return (
+                  <div className="mt-6 pt-6 border-t border-indigo-400 w-full">
+                    <div className="flex items-center justify-center gap-6 text-sm">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp size={16} />
+                        <span className="text-indigo-200">熟练度: <strong className="text-white">{masteryLevel}%</strong></span>
+                      </div>
+                      <div className="text-indigo-200">练习: <strong className="text-white">{mastery.attempt_count}</strong> 次</div>
+                      <div className="text-indigo-200">正确: <strong className="text-white">{mastery.correct_count}</strong> 次</div>
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
+
             <p className="mt-12 text-indigo-200 font-medium text-sm">Click to see word</p>
           </div>
         </div>
@@ -241,28 +289,6 @@ const FlashcardMode: React.FC<FlashcardModeProps> = ({ words, onComplete, onMast
         >
           Next
           <ChevronRight size={20} />
-        </button>
-      </div>
-
-      {/* 掌握按钮 */}
-      <div className="grid grid-cols-2 gap-4">
-        <button
-          onClick={() => { onReview(currentWord.id); handleNext(); }}
-          className="flex flex-col items-center justify-center gap-2 bg-white hover:bg-amber-50 border border-slate-200 p-6 rounded-3xl group transition-all"
-        >
-          <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
-            <Brain size={24} />
-          </div>
-          <span className="font-bold text-slate-700">Need Review</span>
-        </button>
-        <button
-          onClick={() => { onMastered(currentWord.id); handleNext(); }}
-          className="flex flex-col items-center justify-center gap-2 bg-white hover:bg-green-50 border border-slate-200 p-6 rounded-3xl group transition-all"
-        >
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
-            <Check size={24} />
-          </div>
-          <span className="font-bold text-slate-700">Mastered</span>
         </button>
       </div>
     </div>

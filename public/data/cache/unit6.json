@@ -6,21 +6,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "a type of bird with a plump body and short neck, commonly found in urban areas"
-      },
-      {
-        "partOfSpeech": "n. informal",
-        "meaning": "a person who is easily deceived or fooled"
+        "meaning": "鸽子"
       }
     ],
     "examples": [
       {
-        "sentence": "A pigeon was perched on the windowsill when I opened the curtains.",
-        "translation": "当我拉开窗帘时，一只鸽子正栖息在窗台上。"
-      },
-      {
-        "sentence": "Don’t be such a pigeon—everyone knows that trick won’t work on him.",
-        "translation": "别那么容易被骗——大家都知道那个把戏对他没用。"
+        "sentence": "Look at the pigeon.",
+        "translation": "看那只鸽子。"
       }
     ],
     "unit": "unit6"
@@ -32,21 +24,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "an unexpected event, fact, or gift"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "to cause someone to feel astonishment or amazement"
+        "meaning": "惊喜"
       }
     ],
     "examples": [
       {
-        "sentence": "His sudden resignation was a complete surprise to the entire team.",
-        "translation": "他的突然辞职让整个团队都感到意外。"
-      },
-      {
-        "sentence": "I wanted to surprise her with flowers when she got home from work.",
-        "translation": "我想在她下班回家时用鲜花给她一个惊喜。"
+        "sentence": "It's a big surprise.",
+        "translation": "这是一个大惊喜。"
       }
     ],
     "unit": "unit6"
@@ -58,21 +42,13 @@
     "definitions": [
       {
         "partOfSpeech": "phrasal verb",
-        "meaning": "to spend time aimlessly in a place; to wander or drift"
-      },
-      {
-        "partOfSpeech": "phrasal verb",
-        "meaning": "to treat something roughly or carelessly"
+        "meaning": "闲逛"
       }
     ],
     "examples": [
       {
-        "sentence": "We knocked around the old town for hours, exploring hidden alleys and cafes.",
-        "translation": "我们在老城区闲逛了好几个小时，探索隐藏的小巷和咖啡馆。"
-      },
-      {
-        "sentence": "Stop knocking around the fragile vase—it might break!",
-        "translation": "别乱碰那只易碎的花瓶——它可能会碎！"
+        "sentence": "Let's knock around.",
+        "translation": "我们闲逛吧。"
       }
     ],
     "unit": "unit6"
@@ -84,17 +60,13 @@
     "definitions": [
       {
         "partOfSpeech": "n. plural",
-        "meaning": "small pieces of waste matter excreted by animals, especially birds or insects"
+        "meaning": "鸟粪"
       }
     ],
     "examples": [
       {
-        "sentence": "The park ranger had to clean up bird droppings from the benches every morning.",
-        "translation": "公园管理员每天早上都得清理长椅上的鸟粪。"
-      },
-      {
-        "sentence": "Animal droppings can be used as natural fertilizer for gardens.",
-        "translation": "动物粪便可以作为花园的自然肥料。"
+        "sentence": "Clean the droppings.",
+        "translation": "清理鸟粪。"
       }
     ],
     "unit": "unit6"
@@ -106,17 +78,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "causing boredom; lacking interest or excitement"
+        "meaning": "无聊的"
       }
     ],
     "examples": [
       {
-        "sentence": "The lecture was so boring that half the audience fell asleep within the first hour.",
-        "translation": "这场讲座太无聊了，一半听众在一个小时内就睡着了。"
-      },
-      {
-        "sentence": "I find routine tasks like data entry incredibly boring.",
-        "translation": "我觉得像数据录入这样的常规任务极其无聊。"
+        "sentence": "The movie is boring.",
+        "translation": "电影很无聊。"
       }
     ],
     "unit": "unit6"
@@ -128,21 +96,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "喂养；供给食物"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "饲料；进食"
+        "meaning": "喂养"
       }
     ],
     "examples": [
       {
-        "sentence": "She feeds the cat every morning.",
-        "translation": "她每天早上喂猫。"
-      },
-      {
-        "sentence": "The feed for the animals is in the barn.",
-        "translation": "动物的饲料在谷仓里。"
+        "sentence": "Feed the cat.",
+        "translation": "喂猫。"
       }
     ],
     "unit": "unit6"
@@ -154,13 +114,13 @@
     "definitions": [
       {
         "partOfSpeech": "adv.",
-        "meaning": "疯狂地；极度地"
+        "meaning": "疯狂地"
       }
     ],
     "examples": [
       {
-        "sentence": "He was madly in love with her.",
-        "translation": "他疯狂地爱着她。"
+        "sentence": "He ran madly.",
+        "translation": "他疯狂地跑。"
       }
     ],
     "unit": "unit6"
@@ -172,13 +132,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "可怕的；令人害怕的"
+        "meaning": "可怕的"
       }
     ],
     "examples": [
       {
-        "sentence": "That movie was really scary.",
-        "translation": "那部电影真的很吓人。"
+        "sentence": "The ghost is scary.",
+        "translation": "鬼很可怕。"
       }
     ],
     "unit": "unit6"
@@ -190,21 +150,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "研究；调查"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "研究；调查"
+        "meaning": "研究"
       }
     ],
     "examples": [
       {
-        "sentence": "She did a lot of research on climate change.",
-        "translation": "她对气候变化做了很多研究。"
-      },
-      {
-        "sentence": "They are researching new methods to improve efficiency.",
-        "translation": "他们正在研究提高效率的新方法。"
+        "sentence": "Do some research.",
+        "translation": "做些研究。"
       }
     ],
     "unit": "unit6"
@@ -216,13 +168,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "认出；识别；承认"
+        "meaning": "认出"
       }
     ],
     "examples": [
       {
-        "sentence": "I didn't recognise him at first because he had changed so much.",
-        "translation": "一开始我没认出他，因为他变化太大了。"
+        "sentence": "I recognise him.",
+        "translation": "我认出他了。"
       }
     ],
     "unit": "unit6"
@@ -234,17 +186,13 @@
     "definitions": [
       {
         "partOfSpeech": "pron.",
-        "meaning": "他们自己（反身代词）"
-      },
-      {
-        "partOfSpeech": "pron.",
-        "meaning": "他们亲自；他们本身"
+        "meaning": "他们自己"
       }
     ],
     "examples": [
       {
-        "sentence": "They built the house themselves.",
-        "translation": "他们自己建造了这所房子。"
+        "sentence": "They did it themselves.",
+        "translation": "他们自己做的。"
       }
     ],
     "unit": "unit6"
@@ -257,20 +205,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "镜子"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "反射；映照"
       }
     ],
     "examples": [
       {
-        "sentence": "She adjusted her hair in the mirror.",
-        "translation": "她在镜子里整理头发。"
-      },
-      {
-        "sentence": "The calm water mirrored the blue sky.",
-        "translation": "平静的水面映照着蓝天。"
+        "sentence": "Look in the mirror.",
+        "translation": "照镜子。"
       }
     ],
     "unit": "unit6"
@@ -282,17 +222,13 @@
     "definitions": [
       {
         "partOfSpeech": "pron.",
-        "meaning": "它自己（反身代词）"
-      },
-      {
-        "partOfSpeech": "pron.",
-        "meaning": "它本身；它自身"
+        "meaning": "它自己"
       }
     ],
     "examples": [
       {
-        "sentence": "The machine turned off by itself.",
-        "translation": "机器自动关闭了。"
+        "sentence": "The cat washed itself.",
+        "translation": "猫自己洗澡。"
       }
     ],
     "unit": "unit6"
@@ -304,13 +240,13 @@
     "definitions": [
       {
         "partOfSpeech": "adv.",
-        "meaning": "或许；大概；可能"
+        "meaning": "或许"
       }
     ],
     "examples": [
       {
-        "sentence": "Maybe we can go to the park tomorrow.",
-        "translation": "也许我们明天可以去公园。"
+        "sentence": "Maybe tomorrow.",
+        "translation": "也许明天吧。"
       }
     ],
     "unit": "unit6"
@@ -322,13 +258,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "几个；若干；数个"
+        "meaning": "几个"
       }
     ],
     "examples": [
       {
-        "sentence": "Several students were absent from class today.",
-        "translation": "今天有几个学生缺课。"
+        "sentence": "Several books.",
+        "translation": "几本书。"
       }
     ],
     "unit": "unit6"
@@ -340,13 +276,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "a unit of length equal to 1,000 metres 公里"
+        "meaning": "公里"
       }
     ],
     "examples": [
       {
-        "sentence": "The distance between the two cities is about 100 kilometres.",
-        "translation": "这两个城市之间的距离大约是100公里。"
+        "sentence": "It's one kilometre away.",
+        "translation": "有一公里远。"
       }
     ],
     "unit": "unit6"
@@ -358,13 +294,13 @@
     "definitions": [
       {
         "partOfSpeech": "v. phr.",
-        "meaning": "to lose one's way; become unable to find the correct route 迷路；迷失方向"
+        "meaning": "迷路"
       }
     ],
     "examples": [
       {
-        "sentence": "If you go into the forest alone, you might get lost.",
-        "translation": "如果你独自进入森林，可能会迷路。"
+        "sentence": "Don't get lost.",
+        "translation": "别迷路了。"
       }
     ],
     "unit": "unit6"
@@ -376,21 +312,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "the rate at which someone or something moves or travels 速度"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "to move or travel faster 加速"
+        "meaning": "速度"
       }
     ],
     "examples": [
       {
-        "sentence": "The car was travelling at high speed.",
-        "translation": "这辆车以高速行驶。"
-      },
-      {
-        "sentence": "He sped up to catch the bus.",
-        "translation": "他加速去赶公交车。"
+        "sentence": "The speed is fast.",
+        "translation": "速度很快。"
       }
     ],
     "unit": "unit6"
@@ -402,13 +330,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "causing great surprise or wonder; astonishing 令人惊异的；了不起的"
+        "meaning": "令人惊异的"
       }
     ],
     "examples": [
       {
-        "sentence": "The view from the top of the mountain is amazing.",
-        "translation": "从山顶看到的景色令人惊叹。"
+        "sentence": "It's amazing!",
+        "translation": "太棒了！"
       }
     ],
     "unit": "unit6"
@@ -420,21 +348,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "as much or as many as required 足够的"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "to the required degree; sufficiently 足够地"
+        "meaning": "足够的"
       }
     ],
     "examples": [
       {
-        "sentence": "I have enough money to buy a new phone.",
-        "translation": "我有足够的钱买一部新手机。"
-      },
-      {
-        "sentence": "She didn't run fast enough to win the race.",
-        "translation": "她跑得不够快，没赢得比赛。"
+        "sentence": "I have enough money.",
+        "translation": "我有足够的钱。"
       }
     ],
     "unit": "unit6"
@@ -447,16 +367,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "海狸"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "（用木头等）筑坝"
       }
     ],
     "examples": [
       {
-        "sentence": "The beaver built a dam across the river.",
-        "translation": "这只海狸在河上筑了一座水坝。"
+        "sentence": "The beaver builds dams.",
+        "translation": "海狸筑坝。"
       }
     ],
     "unit": "unit6"
@@ -469,16 +385,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "狼"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "狼吞虎咽地吃"
       }
     ],
     "examples": [
       {
-        "sentence": "The wolf howled at the full moon.",
-        "translation": "那只狼对着满月嚎叫。"
+        "sentence": "The wolf howls.",
+        "translation": "狼嚎叫。"
       }
     ],
     "unit": "unit6"
@@ -491,16 +403,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "工程师"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "设计；策划"
       }
     ],
     "examples": [
       {
-        "sentence": "She works as a civil engineer designing bridges.",
-        "translation": "她是一名土木工程师，负责设计桥梁。"
+        "sentence": "He is an engineer.",
+        "translation": "他是一名工程师。"
       }
     ],
     "unit": "unit6"
@@ -512,17 +420,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "英雄；男主角"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "（俚语）极好的；出色的"
+        "meaning": "英雄"
       }
     ],
     "examples": [
       {
-        "sentence": "He was hailed as a hero for rescuing the drowning child.",
-        "translation": "他因救起溺水儿童而被赞为英雄。"
+        "sentence": "He is a hero.",
+        "translation": "他是英雄。"
       }
     ],
     "unit": "unit6"
@@ -533,18 +437,14 @@
     "phonetic": "/ˈreskjuː/",
     "definitions": [
       {
-        "partOfSpeech": "n.",
-        "meaning": "救援；营救"
-      },
-      {
         "partOfSpeech": "v.",
-        "meaning": "营救；拯救"
+        "meaning": "营救"
       }
     ],
     "examples": [
       {
-        "sentence": "The rescue team saved three people from the burning building.",
-        "translation": "救援队从着火的大楼里救出了三个人。"
+        "sentence": "Rescue the cat.",
+        "translation": "救那只猫。"
       }
     ],
     "unit": "unit6"
@@ -557,16 +457,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "地震"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "大动荡；天翻地覆的事件"
       }
     ],
     "examples": [
       {
-        "sentence": "The earthquake caused widespread destruction in the city.",
-        "translation": "这场地震给这座城市造成了广泛的破坏。"
+        "sentence": "The earthquake was strong.",
+        "translation": "地震很强烈。"
       }
     ],
     "unit": "unit6"
@@ -578,21 +474,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "失踪的；下落不明的"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "缺失的东西；下落不明的人"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "miss 的现在分词（错过；想念）"
+        "meaning": "失踪的"
       }
     ],
     "examples": [
       {
-        "sentence": "The police are searching for the missing person.",
-        "translation": "警方正在寻找那个失踪的人。"
+        "sentence": "The boy is missing.",
+        "translation": "男孩失踪了。"
       }
     ],
     "unit": "unit6"
@@ -604,25 +492,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "挽救；拯救"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "节省；储蓄"
-      },
-      {
-        "partOfSpeech": "prep.",
-        "meaning": "除…之外"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "救援；节约"
+        "meaning": "挽救"
       }
     ],
     "examples": [
       {
-        "sentence": "He saved the drowning boy by jumping into the river.",
-        "translation": "他跳进河里救起了溺水的男孩。"
+        "sentence": "Save the child.",
+        "translation": "救那个孩子。"
       }
     ],
     "unit": "unit6"
@@ -634,21 +510,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "死的；失去生命的"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "完全地；绝对地"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "死者"
+        "meaning": "死的"
       }
     ],
     "examples": [
       {
-        "sentence": "The dead leaves covered the ground in autumn.",
-        "translation": "秋天的地上覆盖着枯叶。"
+        "sentence": "The plant is dead.",
+        "translation": "植物枯死了。"
       }
     ],
     "unit": "unit6"
@@ -660,17 +528,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "渡渡鸟（一种已灭绝的不会飞的鸟）"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "蠢人；老古董"
+        "meaning": "渡渡鸟"
       }
     ],
     "examples": [
       {
-        "sentence": "The dodo became extinct in the 17th century due to human activities.",
-        "translation": "由于人类活动，渡渡鸟在17世纪就灭绝了。"
+        "sentence": "The dodo is extinct.",
+        "translation": "渡渡鸟灭绝了。"
       }
     ],
     "unit": "unit6"
@@ -682,17 +546,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "过时的；灭绝的"
-      },
-      {
-        "partOfSpeech": "idiom",
-        "meaning": "彻底无用或过时的事物"
+        "meaning": "过时的"
       }
     ],
     "examples": [
       {
-        "sentence": "The old computer model is as dead as a dodo.",
-        "translation": "这款老电脑型号已经完全过时了。"
+        "sentence": "That style is as dead as a dodo.",
+        "translation": "那种风格已经过时了。"
       }
     ],
     "unit": "unit6"
@@ -704,21 +564,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "性格；品质"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "角色；人物"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "字符；符号"
+        "meaning": "性格"
       }
     ],
     "examples": [
       {
-        "sentence": "She has a kind and generous character.",
-        "translation": "她有着善良大方的性格。"
+        "sentence": "She has good character.",
+        "translation": "她性格很好。"
       }
     ],
     "unit": "unit6"
@@ -730,13 +582,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "博物馆；展览馆"
+        "meaning": "博物馆"
       }
     ],
     "examples": [
       {
-        "sentence": "We spent the whole afternoon at the natural history museum.",
-        "translation": "我们在自然历史博物馆待了一整个下午。"
+        "sentence": "Visit the museum.",
+        "translation": "参观博物馆。"
       }
     ],
     "unit": "unit6"
@@ -748,17 +600,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "岛屿；岛"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "使成为岛屿；孤立"
+        "meaning": "岛屿"
       }
     ],
     "examples": [
       {
-        "sentence": "The Caribbean islands are popular tourist destinations.",
-        "translation": "加勒比群岛是热门旅游目的地。"
+        "sentence": "The island is beautiful.",
+        "translation": "岛屿很美。"
       }
     ],
     "unit": "unit6"
@@ -770,17 +618,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "海洋；大洋"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "大量；广阔区域"
+        "meaning": "海洋"
       }
     ],
     "examples": [
       {
-        "sentence": "The Atlantic Ocean separates Europe from North America.",
-        "translation": "大西洋分隔了欧洲和北美洲。"
+        "sentence": "The ocean is big.",
+        "translation": "海洋很大。"
       }
     ],
     "unit": "unit6"
@@ -792,21 +636,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "大量；充足"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "充足的"
+        "meaning": "大量"
       }
     ],
     "examples": [
       {
-        "sentence": "There is plenty of water here.",
-        "translation": "这里有大量的水。"
-      },
-      {
-        "sentence": "We have plenty of time for the trip.",
-        "translation": "我们有充足的时间去旅行。"
+        "sentence": "We have plenty of food.",
+        "translation": "我们有很多食物。"
       }
     ],
     "unit": "unit6"
@@ -818,13 +654,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "友好的；亲切的"
+        "meaning": "友好的"
       }
     ],
     "examples": [
       {
-        "sentence": "He is always friendly to his neighbors.",
-        "translation": "他总是对邻居很友好。"
+        "sentence": "She is friendly.",
+        "translation": "她很友好。"
       }
     ],
     "unit": "unit6"
@@ -836,13 +672,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "和平的；宁静的"
+        "meaning": "和平的"
       }
     ],
     "examples": [
       {
-        "sentence": "The village has a peaceful atmosphere.",
-        "translation": "这个村庄有一种宁静的氛围。"
+        "sentence": "The village is peaceful.",
+        "translation": "村庄很宁静。"
       }
     ],
     "unit": "unit6"
@@ -854,13 +690,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "到达；抵达"
+        "meaning": "到达"
       }
     ],
     "examples": [
       {
-        "sentence": "They arrived at the airport on time.",
-        "translation": "他们准时到达了机场。"
+        "sentence": "We arrived home.",
+        "translation": "我们到家了。"
       }
     ],
     "unit": "unit6"
@@ -877,8 +713,8 @@
     ],
     "examples": [
       {
-        "sentence": "Many birds live in the forest.",
-        "translation": "许多鸟生活在森林里。"
+        "sentence": "The forest is green.",
+        "translation": "森林很绿。"
       }
     ],
     "unit": "unit6"
@@ -890,21 +726,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "打猎；搜寻"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "打猎；搜寻"
+        "meaning": "打猎"
       }
     ],
     "examples": [
       {
-        "sentence": "He likes to hunt deer in the forest.",
-        "translation": "他喜欢在森林里猎鹿。"
-      },
-      {
-        "sentence": "The hunt for the missing child lasted three days.",
-        "translation": "寻找失踪孩子的行动持续了三天。"
+        "sentence": "Hunt for food.",
+        "translation": "打猎觅食。"
       }
     ],
     "unit": "unit6"
@@ -916,13 +744,13 @@
     "definitions": [
       {
         "partOfSpeech": "phr. v.",
-        "meaning": "灭绝；消失"
+        "meaning": "灭绝"
       }
     ],
     "examples": [
       {
-        "sentence": "Many species are dying out because of habitat loss.",
-        "translation": "许多物种因栖息地丧失而灭绝。"
+        "sentence": "Many animals die out.",
+        "translation": "很多动物灭绝了。"
       }
     ],
     "unit": "unit6"
@@ -934,17 +762,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "满的；完整的；充分的"
+        "meaning": "满的"
       }
     ],
     "examples": [
       {
-        "sentence": "The glass is full of water.",
-        "translation": "玻璃杯装满了水。"
-      },
-      {
-        "sentence": "She gave us a full explanation.",
-        "translation": "她给我们做了详细的解释。"
+        "sentence": "The cup is full.",
+        "translation": "杯子满了。"
       }
     ],
     "unit": "unit6"
@@ -956,17 +780,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "极好的；奇异的"
+        "meaning": "极好的"
       }
     ],
     "examples": [
       {
-        "sentence": "We had a fantastic time at the party.",
-        "translation": "我们在派对上玩得很开心。"
-      },
-      {
-        "sentence": "The new movie has fantastic special effects.",
-        "translation": "这部新电影有出色的特效。"
+        "sentence": "The movie is fantastic.",
+        "translation": "电影太棒了。"
       }
     ],
     "unit": "unit6"
@@ -978,13 +798,13 @@
     "definitions": [
       {
         "partOfSpeech": "idiom",
-        "meaning": "非常快乐；心满意足"
+        "meaning": "非常快乐"
       }
     ],
     "examples": [
       {
-        "sentence": "After getting his favorite toy, the boy was as happy as a clam.",
-        "translation": "得到最喜欢的玩具后，男孩高兴极了。"
+        "sentence": "I'm as happy as a clam.",
+        "translation": "我非常快乐。"
       }
     ],
     "unit": "unit6"

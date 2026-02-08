@@ -1,16 +1,37 @@
 
-import React from 'react';
-import { Unit, AppMode, UserProgress } from '../types';
+import React, { useState, useEffect } from 'react';
+import { Unit } from '../types';
 import { ChevronRight, BookOpen } from 'lucide-react';
+import { getBatchMasteryPost } from '../services/api';
 
 interface UnitListItemProps {
   unit: Unit;
-  progress: UserProgress;
   onClick: () => void;
 }
 
-const UnitListItem: React.FC<UnitListItemProps> = ({ unit, progress, onClick }) => {
-  const masteredCount = unit.words.filter(w => progress.masteredWords.some(id => id.startsWith(unit.id))).length;
+const UnitListItem: React.FC<UnitListItemProps> = ({ unit, onClick }) => {
+  const [masteryData, setMasteryData] = useState<{[wordId: string]: number}>({});
+
+  // 获取所有单词ID
+  const allWordIds = unit.words.map((_, idx) => `${unit.id}-${idx}`);
+
+  // 获取云端熟练度数据
+  useEffect(() => {
+    getBatchMasteryPost(allWordIds)
+      .then(data => {
+        const map: {[wordId: string]: number} = {};
+        data.forEach(m => {
+          map[m.word_id] = m.mastery_level;
+        });
+        setMasteryData(map);
+      })
+      .catch(err => {
+        console.error('Failed to fetch mastery data:', err);
+      });
+  }, [unit.id]);
+
+  // 计算掌握进度（基于云端数据）
+  const masteredCount = Object.values(masteryData).filter(level => level >= 80).length;
   const progressPercent = Math.round((masteredCount / unit.words.length) * 100);
 
   return (
@@ -27,7 +48,7 @@ const UnitListItem: React.FC<UnitListItemProps> = ({ unit, progress, onClick }) 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <BookOpen size={14} className="text-slate-400" />
-              <span className="text-xs text-slate-500">{masteredCount}/{unit.words.length} 已掌握</span>
+              <span className="text-xs text-slate-500">{masteredCount}/{unit.words.length} 精通</span>
             </div>
             <div className="h-1.5 w-24 bg-slate-100 rounded-full overflow-hidden">
               <div

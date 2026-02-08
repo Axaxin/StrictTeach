@@ -6,17 +6,13 @@
     "definitions": [
       {
         "partOfSpeech": "prep.",
-        "meaning": "没有；不"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "在外面；外部"
+        "meaning": "没有"
       }
     ],
     "examples": [
       {
-        "sentence": "She went to school without breakfast.",
-        "translation": "她没吃早饭就去上学了。"
+        "sentence": "I go to school without breakfast.",
+        "translation": "我没吃早饭去上学。"
       }
     ],
     "unit": "unit1"
@@ -28,21 +24,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "句子；宣判"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "宣判；判决"
+        "meaning": "句子"
       }
     ],
     "examples": [
       {
-        "sentence": "The teacher wrote a long sentence on the blackboard.",
-        "translation": "老师在黑板上写了一个长句子。"
-      },
-      {
-        "sentence": "He was sentenced to five years in prison.",
-        "translation": "他被判处五年监禁。"
+        "sentence": "Please write a sentence.",
+        "translation": "请写一个句子。"
       }
     ],
     "unit": "unit1"
@@ -53,14 +41,14 @@
     "phonetic": "/pɔɪnt aʊt/",
     "definitions": [
       {
-        "partOfSpeech": "phr. v.",
-        "meaning": "指出；指明"
+        "partOfSpeech": "phr.",
+        "meaning": "指出"
       }
     ],
     "examples": [
       {
-        "sentence": "He pointed out the mistakes in my essay.",
-        "translation": "他指出我文章中的错误。"
+        "sentence": "Can you point out the mistake?",
+        "translation": "你能指出这个错误吗？"
       }
     ],
     "unit": "unit1"
@@ -72,21 +60,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "错误；失误"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "弄错；误解"
+        "meaning": "错误"
       }
     ],
     "examples": [
       {
-        "sentence": "I made a mistake in the calculation.",
-        "translation": "我在计算上犯了个错误。"
-      },
-      {
-        "sentence": "Don't mistake his kindness for weakness.",
-        "translation": "不要把他的善良误认为是软弱。"
+        "sentence": "I made a mistake.",
+        "translation": "我犯了一个错误。"
       }
     ],
     "unit": "unit1"
@@ -98,13 +78,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "有礼貌的；客气的"
+        "meaning": "有礼貌的"
       }
     ],
     "examples": [
       {
-        "sentence": "She is always polite to everyone she meets.",
-        "translation": "她对遇到的每个人都很礼貌。"
+        "sentence": "Be polite to others.",
+        "translation": "对别人有礼貌。"
       }
     ],
     "unit": "unit1"
@@ -115,22 +95,14 @@
     "phonetic": "/maɪnd/",
     "definitions": [
       {
-        "partOfSpeech": "n.",
-        "meaning": "思想；头脑"
-      },
-      {
         "partOfSpeech": "v.",
-        "meaning": "介意；注意"
+        "meaning": "介意"
       }
     ],
     "examples": [
       {
-        "sentence": "She has a sharp mind.",
-        "translation": "她思维敏锐。"
-      },
-      {
-        "sentence": "Do you mind if I open the window?",
-        "translation": "你介意我开窗吗？"
+        "sentence": "Do you mind opening the window?",
+        "translation": "你介意开窗吗？"
       }
     ],
     "unit": "unit1"
@@ -138,16 +110,16 @@
   {
     "id": "unit1-6",
     "term": "hers",
-    "phonetic": "/hɜːrz/",
+    "phonetic": "/hɜːz/",
     "definitions": [
       {
         "partOfSpeech": "pron.",
-        "meaning": "她的（所有物）"
+        "meaning": "她的"
       }
     ],
     "examples": [
       {
-        "sentence": "The book is hers.",
+        "sentence": "This book is hers.",
         "translation": "这本书是她的。"
       }
     ],
@@ -160,21 +132,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "干燥的"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "使变干"
+        "meaning": "干的"
       }
     ],
     "examples": [
       {
-        "sentence": "The clothes are dry now.",
-        "translation": "衣服现在干了。"
-      },
-      {
-        "sentence": "He dried his hands with a towel.",
-        "translation": "他用毛巾擦干手。"
+        "sentence": "My clothes are dry.",
+        "translation": "我的衣服干了。"
       }
     ],
     "unit": "unit1"
@@ -186,13 +150,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "意义；含义"
+        "meaning": "意思"
       }
     ],
     "examples": [
       {
-        "sentence": "What's the meaning of this word?",
-        "translation": "这个单词的意思是什么？"
+        "sentence": "What's the meaning?",
+        "translation": "是什么意思？"
       }
     ],
     "unit": "unit1"
@@ -209,8 +173,8 @@
     ],
     "examples": [
       {
-        "sentence": "It's a fact that the earth is round.",
-        "translation": "地球是圆的这个是事实。"
+        "sentence": "It's a fact.",
+        "translation": "这是事实。"
       }
     ],
     "unit": "unit1"
@@ -218,25 +182,17 @@
   {
     "id": "unit1-10",
     "term": "in fact",
-    "phonetic": "/ɪn ˈfækt/",
+    "phonetic": "/ɪn fækt/",
     "definitions": [
       {
-        "partOfSpeech": "adv. 短语",
-        "meaning": "事实上；实际上"
-      },
-      {
-        "partOfSpeech": "adv. 短语",
-        "meaning": "其实；确切地说"
+        "partOfSpeech": "phr.",
+        "meaning": "事实上"
       }
     ],
     "examples": [
       {
-        "sentence": "In fact, I don't like coffee.",
-        "translation": "事实上，我不喜欢咖啡。"
-      },
-      {
-        "sentence": "He looks young, but in fact he is over fifty.",
-        "translation": "他看起来很年轻，但实际上他已经五十多岁了。"
+        "sentence": "In fact, I like it.",
+        "translation": "事实上，我喜欢它。"
       }
     ],
     "unit": "unit1"
@@ -248,21 +204,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "需要；必须"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "需要；需求；必需品"
+        "meaning": "需要"
       }
     ],
     "examples": [
       {
-        "sentence": "I need some help with my homework.",
-        "translation": "我的作业需要一些帮助。"
-      },
-      {
-        "sentence": "There is no need to worry about it.",
-        "translation": "没有必要为此担心。"
+        "sentence": "I need your help.",
+        "translation": "我需要你的帮助。"
       }
     ],
     "unit": "unit1"
@@ -274,21 +222,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "记得；想起；牢记"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "纪念；缅怀"
+        "meaning": "记得"
       }
     ],
     "examples": [
       {
-        "sentence": "Do you remember your first day at school?",
-        "translation": "你还记得你上学的第一天吗？"
-      },
-      {
-        "sentence": "We will always remember those who died in the war.",
-        "translation": "我们将永远铭记那些在战争中死去的人。"
+        "sentence": "Please remember my name.",
+        "translation": "请记住我的名字。"
       }
     ],
     "unit": "unit1"
@@ -300,21 +240,13 @@
     "definitions": [
       {
         "partOfSpeech": "adv.",
-        "meaning": "真地；确实；实在"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "真正地；实际上"
+        "meaning": "真的"
       }
     ],
     "examples": [
       {
-        "sentence": "She is really good at singing.",
-        "translation": "她唱歌真的很好。"
-      },
-      {
-        "sentence": "I really enjoyed the movie.",
-        "translation": "我真的喜欢这部电影。"
+        "sentence": "I really like it.",
+        "translation": "我真的喜欢它。"
       }
     ],
     "unit": "unit1"
@@ -326,21 +258,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "重要的；重大的；有重大影响的"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "显要的；有权力的"
+        "meaning": "重要的"
       }
     ],
     "examples": [
       {
-        "sentence": "It's important to drink enough water every day.",
-        "translation": "每天喝足够的水很重要。"
-      },
-      {
-        "sentence": "He is an important person in the company.",
-        "translation": "他是公司里的重要人物。"
+        "sentence": "This is important.",
+        "translation": "这很重要。"
       }
     ],
     "unit": "unit1"
@@ -353,20 +277,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "计划"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "计划"
       }
     ],
     "examples": [
       {
-        "sentence": "I have a plan for the weekend.",
-        "translation": "我有一个周末的计划。"
-      },
-      {
-        "sentence": "We need to plan our trip carefully.",
-        "translation": "我们需要仔细计划我们的旅行。"
+        "sentence": "I have a plan.",
+        "translation": "我有一个计划。"
       }
     ],
     "unit": "unit1"
@@ -383,12 +299,8 @@
     ],
     "examples": [
       {
-        "sentence": "Do you have any homework tonight?",
-        "translation": "你今晚有家庭作业吗？"
-      },
-      {
-        "sentence": "She finished her homework early.",
-        "translation": "她早早完成了家庭作业。"
+        "sentence": "I do my homework every day.",
+        "translation": "我每天做作业。"
       }
     ],
     "unit": "unit1"
@@ -405,12 +317,8 @@
     ],
     "examples": [
       {
-        "sentence": "The task is difficult but interesting.",
-        "translation": "这个任务很难但很有趣。"
-      },
-      {
-        "sentence": "He was assigned a new task yesterday.",
-        "translation": "他昨天被分配了一个新任务。"
+        "sentence": "This is my task.",
+        "translation": "这是我的任务。"
       }
     ],
     "unit": "unit1"
@@ -423,20 +331,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "项目"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "投射；规划"
       }
     ],
     "examples": [
       {
-        "sentence": "Our class is working on a science project.",
-        "translation": "我们班正在做一个科学项目。"
-      },
-      {
-        "sentence": "The building projects light onto the wall.",
-        "translation": "建筑物把光投射到墙上。"
+        "sentence": "We have a school project.",
+        "translation": "我们有一个学校项目。"
       }
     ],
     "unit": "unit1"
@@ -453,12 +353,8 @@
     ],
     "examples": [
       {
-        "sentence": "My mother gave me some good advice.",
-        "translation": "我妈妈给了我一些好建议。"
-      },
-      {
-        "sentence": "Take my advice and study harder.",
-        "translation": "听我的建议，努力学习。"
+        "sentence": "Can you give me advice?",
+        "translation": "你能给我建议吗？"
       }
     ],
     "unit": "unit1"
@@ -466,21 +362,17 @@
   {
     "id": "unit1-20",
     "term": "journey",
-    "phonetic": "/ˈdʒɜː.ni/",
+    "phonetic": "/ˈdʒɜːni/",
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "旅行；旅程"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "旅行"
+        "meaning": "旅程"
       }
     ],
     "examples": [
       {
-        "sentence": "Their journey across the desert was very difficult.",
-        "translation": "他们穿越沙漠的旅程非常艰难。"
+        "sentence": "Have a nice journey.",
+        "translation": "旅途愉快。"
       }
     ],
     "unit": "unit1"
@@ -492,17 +384,13 @@
     "definitions": [
       {
         "partOfSpeech": "pron.",
-        "meaning": "某事；某物"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "重要的人（或事物）；有一定意义的事物"
+        "meaning": "某事"
       }
     ],
     "examples": [
       {
-        "sentence": "She has something important to tell you.",
-        "translation": "她有重要的事要告诉你。"
+        "sentence": "I want something to eat.",
+        "translation": "我想吃点东西。"
       }
     ],
     "unit": "unit1"
@@ -514,17 +402,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "想法；思绪"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "想；认为（think的过去式和过去分词）"
+        "meaning": "想法"
       }
     ],
     "examples": [
       {
-        "sentence": "He had a sudden thought and stopped walking.",
-        "translation": "他突然有了个想法，停下了脚步。"
+        "sentence": "I have a good thought.",
+        "translation": "我有一个好想法。"
       }
     ],
     "unit": "unit1"
@@ -536,17 +420,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "生命；生活；人生"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "生命的；一生的"
+        "meaning": "生活"
       }
     ],
     "examples": [
       {
-        "sentence": "She enjoys her life in the countryside.",
-        "translation": "她喜欢在乡村的生活。"
+        "sentence": "I love my life.",
+        "translation": "我爱我的生活。"
       }
     ],
     "unit": "unit1"
@@ -554,7 +434,7 @@
   {
     "id": "unit1-24",
     "term": "primary school",
-    "phonetic": "/ˈpraɪ.mər.i skuːl/",
+    "phonetic": "/ˈpraɪməri skuːl/",
     "definitions": [
       {
         "partOfSpeech": "n.",
@@ -563,8 +443,8 @@
     ],
     "examples": [
       {
-        "sentence": "My little brother goes to primary school every day.",
-        "translation": "我的小弟弟每天去上小学。"
+        "sentence": "This is my primary school.",
+        "translation": "这是我的小学。"
       }
     ],
     "unit": "unit1"
@@ -576,17 +456,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "水池；游泳池"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "聚成水洼"
+        "meaning": "游泳池"
       }
     ],
     "examples": [
       {
-        "sentence": "He swims in the swimming pool every day.",
-        "translation": "他每天在游泳池游泳。"
+        "sentence": "Let's swim in the pool.",
+        "translation": "我们在游泳池游泳吧。"
       }
     ],
     "unit": "unit1"
@@ -603,8 +479,8 @@
     ],
     "examples": [
       {
-        "sentence": "We should protect the environment.",
-        "translation": "我们应该保护环境。"
+        "sentence": "We must protect our environment.",
+        "translation": "我们要保护环境。"
       }
     ],
     "unit": "unit1"
@@ -612,25 +488,17 @@
   {
     "id": "unit1-27",
     "term": "wind",
-    "phonetic": "/wɪnd/, /waɪnd/",
+    "phonetic": "/wɪnd/",
     "definitions": [
       {
         "partOfSpeech": "n.",
         "meaning": "风"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "缠绕；吹风"
       }
     ],
     "examples": [
       {
-        "sentence": "The wind blows strongly.",
-        "translation": "风刮得很大。"
-      },
-      {
-        "sentence": "She winds the yarn into a ball.",
-        "translation": "她把毛线绕成一团。"
+        "sentence": "The wind is strong.",
+        "translation": "风很大。"
       }
     ],
     "unit": "unit1"
@@ -642,13 +510,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "宽的；广阔的"
+        "meaning": "宽的"
       }
     ],
     "examples": [
       {
-        "sentence": "The river is wide at this point.",
-        "translation": "这条河在这里很宽。"
+        "sentence": "The river is wide.",
+        "translation": "这条河很宽。"
       }
     ],
     "unit": "unit1"
@@ -659,18 +527,14 @@
     "phonetic": "/seɪl/",
     "definitions": [
       {
-        "partOfSpeech": "n.",
-        "meaning": "帆；航行"
-      },
-      {
         "partOfSpeech": "v.",
         "meaning": "航行"
       }
     ],
     "examples": [
       {
-        "sentence": "They set sail for America.",
-        "translation": "他们启航前往美国。"
+        "sentence": "Ships sail on the sea.",
+        "translation": "船在海上航行。"
       }
     ],
     "unit": "unit1"
@@ -682,21 +546,13 @@
     "definitions": [
       {
         "partOfSpeech": "prep.",
-        "meaning": "穿过；通过"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "从头到尾；完全地"
+        "meaning": "穿过"
       }
     ],
     "examples": [
       {
-        "sentence": "She walked through the park.",
-        "translation": "她走过公园。"
-      },
-      {
-        "sentence": "Read the book through carefully.",
-        "translation": "仔细通读这本书。"
+        "sentence": "We walk through the park.",
+        "translation": "我们走过公园。"
       }
     ],
     "unit": "unit1"
@@ -708,21 +564,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "暴风雨；风暴"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "猛攻；怒吼"
+        "meaning": "暴风雨"
       }
     ],
     "examples": [
       {
-        "sentence": "A big storm is coming.",
-        "translation": "一场大风暴要来了。"
-      },
-      {
-        "sentence": "The soldiers stormed the castle.",
-        "translation": "士兵们猛攻城堡。"
+        "sentence": "A storm is coming.",
+        "translation": "暴风雨要来了。"
       }
     ],
     "unit": "unit1"
@@ -734,17 +582,13 @@
     "definitions": [
       {
         "partOfSpeech": "prep.",
-        "meaning": "朝；向；对于"
+        "meaning": "朝向"
       }
     ],
     "examples": [
       {
-        "sentence": "He walked towards the door.",
-        "translation": "他走向门口。"
-      },
-      {
-        "sentence": "What's your attitude towards this plan?",
-        "translation": "你对这个计划持什么态度？"
+        "sentence": "He walks towards me.",
+        "translation": "他朝我走来。"
       }
     ],
     "unit": "unit1"
@@ -756,21 +600,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "希望；期望"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "希望；可能性"
+        "meaning": "希望"
       }
     ],
     "examples": [
       {
-        "sentence": "I hope you can come.",
-        "translation": "我希望你能来。"
-      },
-      {
-        "sentence": "There is hope for us.",
-        "translation": "我们有希望。"
+        "sentence": "I hope to see you.",
+        "translation": "我希望见到你。"
       }
     ],
     "unit": "unit1"

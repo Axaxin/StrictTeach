@@ -6,24 +6,20 @@ import {
   Book,
   Unit,
   Word,
-  UserProgress,
   ActivityType,
   QuizMode as QuizModeEnum
 } from './types';
 import { enrichWords, clearWordCache } from './services/aiService';
-import { exportAppData, importAppData } from './services/dataExport';
 import BookList from './components/BookList';
 import UnitListItem from './components/UnitListItem';
 import ActivitySelector from './components/ActivitySelector';
 import QuizModeSelector from './components/QuizModeSelector';
-import FlashcardMode from './components/FlashcardMode';
+import ContextualMode from './components/ContextualMode';
 import WordList from './components/WordList';
 import QuizMode from './components/QuizMode';
-import { Home as HomeIcon, Settings, ArrowLeft, Download, Upload, Trash2, Plus, RotateCcw } from 'lucide-react';
+import { Home as HomeIcon, Settings, ArrowLeft, Trash2, Plus, Info, Cloud } from 'lucide-react';
 
 const App: React.FC = () => {
-  // 文件导入引用
-  const fileInputRef = useRef<HTMLInputElement>(null);
   // 设置菜单状态
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
@@ -55,16 +51,6 @@ const App: React.FC = () => {
   // 学习数据状态
   const [unitWords, setUnitWords] = useState<Word[]>([]);
   const [loading, setLoading] = useState(false);
-
-  // 用户进度
-  const [progress, setProgress] = useState<UserProgress>(() => {
-    const saved = localStorage.getItem('vocab_progress');
-    return saved ? JSON.parse(saved) : { masteredWords: [], learningWords: [] };
-  });
-
-  useEffect(() => {
-    localStorage.setItem('vocab_progress', JSON.stringify(progress));
-  }, [progress]);
 
   // 加载单词数据
   const loadUnitWords = async (unit: Unit) => {
@@ -151,75 +137,32 @@ const App: React.FC = () => {
     setUnitWords([]);
   };
 
-  // 标记单词状态
-  const markAsMastered = (wordId: string) => {
-    setProgress(prev => {
-      if (prev.masteredWords.includes(wordId)) return prev;
-      return {
-        ...prev,
-        masteredWords: [...prev.masteredWords, wordId],
-        learningWords: prev.learningWords.filter(id => id !== wordId)
-      };
-    });
-  };
-
-  const markForReview = (wordId: string) => {
-    setProgress(prev => {
-      if (prev.learningWords.includes(wordId)) return prev;
-      return {
-        ...prev,
-        learningWords: [...prev.learningWords, wordId],
-        masteredWords: prev.masteredWords.filter(id => id !== wordId)
-      };
-    });
-  };
-
   const handleClearCache = () => {
-    if (confirm('确定要清除所有单词缓存吗？之后进入单元需要重新生成 AI 内容。')) {
+    if (confirm('确定要清除所有单词缓存吗？之后进入单元需要重新生成 AI 内容。\n\n注意：此操作不影响云端学习记录。')) {
       clearWordCache();
-      alert('缓存已清除！');
+      alert('本地缓存已清除！\n\n云端学习数据保留。');
     }
   };
 
-  const handleResetProgress = () => {
-    if (confirm('确定要重置所有学习进度吗？这将清空所有已掌握和学习中的单词记录。此操作不可撤销！')) {
-      setProgress({ masteredWords: [], learningWords: [] });
-      alert('学习进度已重置！');
-    }
+  const handleAbout = () => {
+    alert(`VocabMaster Pro\n\n版本：1.0.0\n\n一款基于 Cloudflare Workers + D1 的英语词汇学习应用。\n\n特性：\n• 287个七年级词汇\n• 音标、多词性释义、例句\n• 4种 Quiz 模式\n• 云端同步学习进度`);
+    setShowSettingsMenu(false);
   };
 
-  const handleExportData = () => {
+  const handleCloudStatus = async () => {
+    const apiUrl = (import.meta as any).env?.VITE_API_URL || 'https://vocabmaster-api.jk-veda.workers.dev';
     try {
-      exportAppData();
-      alert('数据导出成功！');
-    } catch (error) {
-      alert('导出失败：' + (error instanceof Error ? error.message : '未知错误'));
-    }
-  };
-
-  const handleImportClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleImportFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      const result = await importAppData(file);
-      if (result.success) {
-        alert(result.message);
+      const response = await fetch(`${apiUrl}/api/health`);
+      if (response.ok) {
+        const data = await response.json();
+        alert(`云端服务状态：✅ 正常\n\nAPI 地址：${apiUrl}\n\n响应：${JSON.stringify(data)}`);
       } else {
-        alert('导入失败：' + result.message);
+        alert(`云端服务状态：⚠️ 异常\n\nHTTP 状态：${response.status}`);
       }
     } catch (error) {
-      alert('导入失败：' + (error instanceof Error ? error.message : '未知错误'));
+      alert(`云端服务状态：❌ 连接失败\n\n错误：${error instanceof Error ? error.message : '未知错误'}\n\n请检查网络连接或联系管理员。`);
     }
-
-    // 重置文件输入
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    setShowSettingsMenu(false);
   };
 
   // 获取面包屑导航文本
@@ -244,7 +187,7 @@ const App: React.FC = () => {
           return modeNames[selectedQuizMode];
         }
         if (selectedActivity === ActivityType.WORD_LIST) return '单词总汇';
-        if (selectedActivity === ActivityType.LEARN) return '卡片学习';
+        if (selectedActivity === ActivityType.LEARN) return '情景阅读';
         return '学习中';
     }
   };
@@ -262,7 +205,7 @@ const App: React.FC = () => {
 
     switch (navLevel) {
       case NavigationLevel.BOOK_LIST:
-        return <BookList books={BOOKS} progress={progress} onSelectBook={handleSelectBook} />;
+        return <BookList books={BOOKS} onSelectBook={handleSelectBook} />;
 
       case NavigationLevel.UNIT_LIST:
         return (
@@ -277,7 +220,6 @@ const App: React.FC = () => {
                 <UnitListItem
                   key={unit.id}
                   unit={unit}
-                  progress={progress}
                   onClick={() => handleSelectUnit(unit)}
                 />
               ))}
@@ -289,7 +231,6 @@ const App: React.FC = () => {
         return selectedUnit && (
           <ActivitySelector
             unit={selectedUnit}
-            progress={progress}
             onSelectActivity={handleSelectActivity}
             onBack={handleBack}
           />
@@ -311,23 +252,18 @@ const App: React.FC = () => {
           return (
             <WordList
               words={unitWords}
-              progress={progress}
               onComplete={handleBack}
-              onMastered={markAsMastered}
-              onReview={markForReview}
             />
           );
         }
 
-        // 卡片学习模式
+        // 情景阅读模式
         if (selectedActivity === ActivityType.LEARN) {
           return (
-            <FlashcardMode
+            <ContextualMode
               words={unitWords}
+              unitId={selectedUnit.id}
               onComplete={handleBack}
-              onMastered={markAsMastered}
-              onReview={markForReview}
-              progress={progress}
             />
           );
         }
@@ -413,48 +349,38 @@ const App: React.FC = () => {
 
             {/* 设置菜单 */}
             {showSettingsMenu && (
-              <div className="absolute bottom-full right-0 mb-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+              <div className="absolute bottom-full right-0 mb-2 w-56 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
                 <button
-                  onClick={() => { handleExportData(); setShowSettingsMenu(false); }}
+                  onClick={handleCloudStatus}
                   className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left"
                 >
-                  <Download size={18} className="text-indigo-600" />
-                  <span className="text-sm font-medium text-slate-700">导出数据</span>
+                  <Cloud size={18} className="text-blue-600" />
+                  <div className="text-left">
+                    <div className="text-sm font-medium text-slate-700">云端服务状态</div>
+                    <div className="text-xs text-slate-400">检查 API 连接</div>
+                  </div>
                 </button>
                 <button
-                  onClick={() => { handleImportClick(); setShowSettingsMenu(false); }}
-                  className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left border-t border-slate-100"
-                >
-                  <Upload size={18} className="text-indigo-600" />
-                  <span className="text-sm font-medium text-slate-700">导入数据</span>
-                </button>
-                <button
-                  onClick={() => { handleResetProgress(); setShowSettingsMenu(false); }}
-                  className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left border-t border-slate-100"
-                >
-                  <RotateCcw size={18} className="text-amber-500" />
-                  <span className="text-sm font-medium text-slate-700">重置进度</span>
-                </button>
-                <button
-                  onClick={() => { handleClearCache(); setShowSettingsMenu(false); }}
+                  onClick={() => { handleClearCache(); }}
                   className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left border-t border-slate-100"
                 >
                   <Trash2 size={18} className="text-red-500" />
-                  <span className="text-sm font-medium text-slate-700">清除缓存</span>
+                  <div className="text-left">
+                    <div className="text-sm font-medium text-slate-700">清除本地缓存</div>
+                    <div className="text-xs text-slate-400">重新生成 AI 内容</div>
+                  </div>
+                </button>
+                <button
+                  onClick={handleAbout}
+                  className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left border-t border-slate-100"
+                >
+                  <Info size={18} className="text-slate-500" />
+                  <span className="text-sm font-medium text-slate-700">关于</span>
                 </button>
               </div>
             )}
           </div>
         </div>
-
-        {/* 隐藏的文件输入框 */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          onChange={handleImportFileChange}
-          className="hidden"
-        />
       </footer>
     </div>
   );

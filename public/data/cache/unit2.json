@@ -7,10 +7,6 @@
       {
         "partOfSpeech": "n.",
         "meaning": "摇滚乐"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "摇滚音乐（风格）"
       }
     ],
     "examples": [
@@ -29,16 +25,12 @@
       {
         "partOfSpeech": "adj.",
         "meaning": "电的；电动的"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "用电的；发电的"
       }
     ],
     "examples": [
       {
-        "sentence": "The electric guitar is a key instrument in rock bands.",
-        "translation": "电吉他是摇滚乐队的关键乐器。"
+        "sentence": "This is an electric guitar.",
+        "translation": "这是一把电吉他。"
       }
     ],
     "unit": "unit2"
@@ -51,16 +43,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "吉他"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "六弦琴"
       }
     ],
     "examples": [
       {
-        "sentence": "He plays the guitar in a rock band.",
-        "translation": "他在一个摇滚乐队弹吉他。"
+        "sentence": "He plays the guitar well.",
+        "translation": "他吉他弹得很好。"
       }
     ],
     "unit": "unit2"
@@ -72,17 +60,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "乐队；乐团"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "带子；箍；环"
+        "meaning": "乐队"
       }
     ],
     "examples": [
       {
-        "sentence": "She joined a rock band last year.",
-        "translation": "她去年加入了一个摇滚乐队。"
+        "sentence": "She joined a rock band.",
+        "translation": "她加入了一个摇滚乐队。"
       }
     ],
     "unit": "unit2"
@@ -94,17 +78,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "声音；声响"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "音质；音响效果"
+        "meaning": "声音"
       }
     ],
     "examples": [
       {
-        "sentence": "The sound of the electric guitar is very distinctive.",
-        "translation": "电吉他的声音很独特。"
+        "sentence": "The sound is loud.",
+        "translation": "声音很大。"
       }
     ],
     "unit": "unit2"
@@ -116,21 +96,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "不同的；有差异的"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "(用于比较) 不同之处"
+        "meaning": "不同的"
       }
     ],
     "examples": [
       {
-        "sentence": "Their tastes in music are completely different.",
-        "translation": "他们在音乐品味上完全不同。"
-      },
-      {
-        "sentence": "The main difference between them is their age.",
-        "translation": "他们之间的主要不同在于年龄。"
+        "sentence": "They are different.",
+        "translation": "它们是不同的。"
       }
     ],
     "unit": "unit2"
@@ -142,17 +114,13 @@
     "definitions": [
       {
         "partOfSpeech": "adv.",
-        "meaning": "突然地；忽然"
+        "meaning": "突然地"
       }
     ],
     "examples": [
       {
-        "sentence": "Suddenly, the lights went out.",
-        "translation": "突然间，灯灭了。"
-      },
-      {
-        "sentence": "She stopped suddenly when she saw a snake.",
-        "translation": "当她看到蛇时突然停了下来。"
+        "sentence": "Suddenly, the rain stopped.",
+        "translation": "突然，雨停了。"
       }
     ],
     "unit": "unit2"
@@ -163,22 +131,14 @@
     "phonetic": "/hɪt/",
     "definitions": [
       {
-        "partOfSpeech": "v. (past tense and past participle: hit)",
-        "meaning": "打；击中；碰撞"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "打击；成功的事物"
+        "partOfSpeech": "v.",
+        "meaning": "打；击中"
       }
     ],
     "examples": [
       {
-        "sentence": "He hit the ball with great force.",
-        "translation": "他用力击打了球。"
-      },
-      {
-        "sentence": "The new movie was a big hit.",
-        "translation": "这部新电影大获成功。"
+        "sentence": "He hit the ball.",
+        "translation": "他击中了球。"
       }
     ],
     "unit": "unit2"
@@ -190,21 +150,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "冲；仓促行动；急速流动"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "匆忙；急流；抢购"
+        "meaning": "冲；匆忙"
       }
     ],
     "examples": [
       {
-        "sentence": "Don't rush; take your time.",
+        "sentence": "Don't rush, take your time.",
         "translation": "别着急，慢慢来。"
-      },
-      {
-        "sentence": "There was a rush for tickets.",
-        "translation": "大家争着买票。"
       }
     ],
     "unit": "unit2"
@@ -216,17 +168,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "节日；庆祝活动；音乐节"
+        "meaning": "节日"
       }
     ],
     "examples": [
       {
-        "sentence": "We celebrate the Mid - Autumn Festival by eating mooncakes.",
-        "translation": "我们通过吃月饼来庆祝中秋节。"
-      },
-      {
-        "sentence": "The city hosts an international film festival every year.",
-        "translation": "这个城市每年举办国际电影节。"
+        "sentence": "We celebrate the festival.",
+        "translation": "我们庆祝这个节日。"
       }
     ],
     "unit": "unit2"
@@ -238,21 +186,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "决定；下决心"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "判决；裁决"
+        "meaning": "决定"
       }
     ],
     "examples": [
       {
-        "sentence": "He decided to go abroad after graduation.",
-        "translation": "毕业后他决定出国。"
-      },
-      {
-        "sentence": "The judge will decide the case next week.",
-        "translation": "法官将在下周审理此案。"
+        "sentence": "He decided to go home.",
+        "translation": "他决定回家。"
       }
     ],
     "unit": "unit2"
@@ -263,30 +203,14 @@
     "phonetic": "/ˈpræktɪs/",
     "definitions": [
       {
-        "partOfSpeech": "n.",
-        "meaning": "练习；实践"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "练习；从事"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "惯例；习惯"
+        "partOfSpeech": "n./v.",
+        "meaning": "练习"
       }
     ],
     "examples": [
       {
-        "sentence": "Regular practice is key to mastering the skill.",
-        "translation": "定期练习是掌握这项技能的关键。"
-      },
-      {
-        "sentence": "She practices yoga every morning.",
-        "translation": "她每天早上练瑜伽。"
-      },
-      {
-        "sentence": "It's common practice to tip waiters in restaurants.",
-        "translation": "在餐厅给服务员小费是常见的做法。"
+        "sentence": "She practices every day.",
+        "translation": "她每天都练习。"
       }
     ],
     "unit": "unit2"
@@ -298,29 +222,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "阶段；时期"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "舞台；平台"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "上演；筹划"
+        "meaning": "舞台"
       }
     ],
     "examples": [
       {
-        "sentence": "The project is in the final stage of development.",
-        "translation": "该项目处于开发的最后阶段。"
-      },
-      {
-        "sentence": "The band performed on a large outdoor stage.",
-        "translation": "乐队在一个大型户外舞台上表演。"
-      },
-      {
-        "sentence": "They plan to stage a protest next month.",
-        "translation": "他们计划下个月举行抗议活动。"
+        "sentence": "They sang on the stage.",
+        "translation": "他们在舞台上唱歌。"
       }
     ],
     "unit": "unit2"
@@ -332,29 +240,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "点头；打盹"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "点头；打盹"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "点头示意"
+        "meaning": "点头"
       }
     ],
     "examples": [
       {
-        "sentence": "He nodded off during the boring lecture.",
-        "translation": "他在枯燥的讲座中打起了瞌睡。"
-      },
-      {
-        "sentence": "She gave a quick nod to show agreement.",
-        "translation": "她迅速点头表示同意。"
-      },
-      {
-        "sentence": "A nod from the teacher meant he could leave.",
-        "translation": "老师一点头意味着他可以离开了。"
+        "sentence": "He nodded to say yes.",
+        "translation": "他点头表示同意。"
       }
     ],
     "unit": "unit2"
@@ -366,29 +258,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "乐器；工具"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "手段；方法"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "仪器；器械"
+        "meaning": "乐器"
       }
     ],
     "examples": [
       {
-        "sentence": "The guitar is a popular stringed instrument.",
-        "translation": "吉他是一种流行的弦乐器。"
-      },
-      {
-        "sentence": "Education is an instrument of social change.",
-        "translation": "教育是社会变革的工具。"
-      },
-      {
-        "sentence": "Scientists use various instruments to measure data.",
-        "translation": "科学家使用各种仪器来测量数据。"
+        "sentence": "The guitar is a musical instrument.",
+        "translation": "吉他是一种乐器。"
       }
     ],
     "unit": "unit2"
@@ -400,13 +276,13 @@
     "definitions": [
       {
         "partOfSpeech": "pron.",
-        "meaning": "每个人；大家"
+        "meaning": "每个人"
       }
     ],
     "examples": [
       {
-        "sentence": "Everybody should follow the rules.",
-        "translation": "每个人都应该遵守规则。"
+        "sentence": "Everybody is here.",
+        "translation": "每个人都在这里。"
       }
     ],
     "unit": "unit2"
@@ -417,22 +293,14 @@
     "phonetic": "/smaɪl/",
     "definitions": [
       {
-        "partOfSpeech": "v.",
+        "partOfSpeech": "v./n.",
         "meaning": "微笑"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "微笑；笑容"
       }
     ],
     "examples": [
       {
-        "sentence": "She smiled when she saw her friends.",
-        "translation": "当她看到朋友时，她笑了。"
-      },
-      {
-        "sentence": "His smile made everyone feel warm.",
-        "translation": "他的笑容让每个人都感到温暖。"
+        "sentence": "She smiled at me.",
+        "translation": "她对我微笑。"
       }
     ],
     "unit": "unit2"
@@ -449,8 +317,8 @@
     ],
     "examples": [
       {
-        "sentence": "Children enjoy playing in the park.",
-        "translation": "孩子们喜欢在公园里玩。"
+        "sentence": "I enjoy reading books.",
+        "translation": "我喜欢读书。"
       }
     ],
     "unit": "unit2"
@@ -462,21 +330,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "滑冰；溜冰"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "溜冰鞋"
+        "meaning": "滑冰"
       }
     ],
     "examples": [
       {
-        "sentence": "We went skating last weekend.",
-        "translation": "我们上周末去滑冰了。"
-      },
-      {
-        "sentence": "He bought a new pair of skates.",
-        "translation": "他买了一双新溜冰鞋。"
+        "sentence": "We went skating yesterday.",
+        "translation": "我们昨天去滑冰了。"
       }
     ],
     "unit": "unit2"
@@ -488,13 +348,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "俱乐部；社团"
+        "meaning": "俱乐部"
       }
     ],
     "examples": [
       {
-        "sentence": "The book club meets every Friday.",
-        "translation": "读书俱乐部每周五聚会。"
+        "sentence": "He joined the music club.",
+        "translation": "他加入了音乐俱乐部。"
       }
     ],
     "unit": "unit2"
@@ -507,16 +367,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "排球"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "排球运动"
       }
     ],
     "examples": [
       {
-        "sentence": "The team won the volleyball match.",
-        "translation": "这个队赢得了排球比赛。"
+        "sentence": "Let's play volleyball.",
+        "translation": "我们打排球吧。"
       }
     ],
     "unit": "unit2"
@@ -528,17 +384,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "传统的；惯例的"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "因袭的；守旧的"
+        "meaning": "传统的"
       }
     ],
     "examples": [
       {
-        "sentence": "She wears traditional clothes on festivals.",
-        "translation": "她在节日穿传统服装。"
+        "sentence": "This is a traditional festival.",
+        "translation": "这是一个传统节日。"
       }
     ],
     "unit": "unit2"
@@ -550,17 +402,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "剪纸艺术"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "剪纸作品"
+        "meaning": "剪纸"
       }
     ],
     "examples": [
       {
-        "sentence": "Paper-cutting is a popular folk art in China.",
-        "translation": "剪纸是中国流行的民间艺术。"
+        "sentence": "She likes paper-cutting.",
+        "translation": "她喜欢剪纸。"
       }
     ],
     "unit": "unit2"
@@ -572,25 +420,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "握住；抓住"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "举行；举办"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "容纳；盛得下"
+        "meaning": "握住；举办"
       }
     ],
     "examples": [
       {
-        "sentence": "He held my hand tightly.",
-        "translation": "他紧紧握住我的手。"
-      },
-      {
-        "sentence": "They will hold a meeting tomorrow.",
-        "translation": "他们明天将开会。"
+        "sentence": "He held my hand.",
+        "translation": "他握住我的手。"
       }
     ],
     "unit": "unit2"
@@ -602,25 +438,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "地面；土地"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "场地； grounds（复数表示场地）"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "理由；根据"
+        "meaning": "地面"
       }
     ],
     "examples": [
       {
-        "sentence": "We sat on the ground to rest.",
-        "translation": "我们坐在地上休息。"
-      },
-      {
-        "sentence": "The school has a sports ground.",
-        "translation": "学校有一个运动场。"
+        "sentence": "The ball is on the ground.",
+        "translation": "球在地上。"
       }
     ],
     "unit": "unit2"
@@ -632,21 +456,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "虚弱的；软弱的"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "薄弱的；差的"
+        "meaning": "虚弱的"
       }
     ],
     "examples": [
       {
         "sentence": "He felt weak after the illness.",
         "translation": "生病后他觉得虚弱。"
-      },
-      {
-        "sentence": "She has a weak memory.",
-        "translation": "她的记忆力差。"
       }
     ],
     "unit": "unit2"
@@ -658,21 +474,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "高的；高级的"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "高地；在高处"
+        "meaning": "高的"
       }
     ],
     "examples": [
       {
         "sentence": "The mountain is very high.",
         "translation": "这座山很高。"
-      },
-      {
-        "sentence": "He held his head high.",
-        "translation": "他高昂着头。"
       }
     ],
     "unit": "unit2"
@@ -684,21 +492,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "自然；自然界"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "本性；天性"
+        "meaning": "自然"
       }
     ],
     "examples": [
       {
-        "sentence": "Nature is beautiful in spring.",
-        "translation": "春天的大自然很美。"
-      },
-      {
-        "sentence": "It's her nature to be kind.",
-        "translation": "善良是她的本性。"
+        "sentence": "I love nature.",
+        "translation": "我喜欢大自然。"
       }
     ],
     "unit": "unit2"
@@ -710,21 +510,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "冒险；奇遇"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "冒险；大胆尝试"
+        "meaning": "冒险"
       }
     ],
     "examples": [
       {
-        "sentence": "They had many adventures in the jungle.",
-        "translation": "他们在丛林中有很多冒险经历。"
-      },
-      {
-        "sentence": "He decided to adventure into the unknown.",
-        "translation": "他决定冒险进入未知领域。"
+        "sentence": "They had a great adventure.",
+        "translation": "他们有一次很棒的冒险经历。"
       }
     ],
     "unit": "unit2"
@@ -737,20 +529,12 @@
       {
         "partOfSpeech": "adj.",
         "meaning": "醒着的"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "唤醒；使觉醒"
       }
     ],
     "examples": [
       {
         "sentence": "I was awake all night.",
         "translation": "我整夜没睡。"
-      },
-      {
-        "sentence": "The noise awoke the baby.",
-        "translation": "噪音吵醒了婴儿。"
       }
     ],
     "unit": "unit2"
@@ -762,13 +546,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "午夜；子夜"
+        "meaning": "午夜"
       }
     ],
     "examples": [
       {
-        "sentence": "At midnight, the clock struck twelve.",
-        "translation": "在午夜，钟敲了十二下。"
+        "sentence": "It's midnight now.",
+        "translation": "现在是午夜。"
       }
     ],
     "unit": "unit2"
@@ -780,21 +564,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "出现；露面"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "似乎；好像"
+        "meaning": "出现"
       }
     ],
     "examples": [
       {
-        "sentence": "She appeared in a movie last year.",
-        "translation": "她去年出演了一部电影。"
-      },
-      {
-        "sentence": "He appears to be tired.",
-        "translation": "他看起来很累。"
+        "sentence": "The sun appeared in the sky.",
+        "translation": "太阳出现在天空中。"
       }
     ],
     "unit": "unit2"
@@ -807,20 +583,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "心脏"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "内心；心肠"
       }
     ],
     "examples": [
       {
-        "sentence": "My heart is beating fast.",
+        "sentence": "My heart beats fast.",
         "translation": "我的心跳得很快。"
-      },
-      {
-        "sentence": "Follow your heart.",
-        "translation": "追随你的内心。"
       }
     ],
     "unit": "unit2"
@@ -832,7 +600,7 @@
     "definitions": [
       {
         "partOfSpeech": "adv.",
-        "meaning": "几乎；差不多"
+        "meaning": "几乎"
       }
     ],
     "examples": [
@@ -850,21 +618,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "轻拍；轻敲"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "轻拍；轻敲声"
+        "meaning": "轻拍"
       }
     ],
     "examples": [
       {
-        "sentence": "He tapped his pen on the table.",
-        "translation": "他用笔轻敲桌子。"
-      },
-      {
-        "sentence": "There was a tap at the door.",
-        "translation": "门上传来轻敲声。"
+        "sentence": "He tapped on the table.",
+        "translation": "他轻敲桌子。"
       }
     ],
     "unit": "unit2"
@@ -876,21 +636,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "摇动；震动"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "摇晃；动摇"
+        "meaning": "摇动"
       }
     ],
     "examples": [
       {
-        "sentence": "She shook the bottle before opening it.",
-        "translation": "她打开前摇了摇瓶子。"
-      },
-      {
-        "sentence": "He gave the bottle a shake.",
-        "translation": "他摇了摇瓶子。"
+        "sentence": "She shook the bottle.",
+        "translation": "她摇了摇瓶子。"
       }
     ],
     "unit": "unit2"
@@ -907,8 +659,8 @@
     ],
     "examples": [
       {
-        "sentence": "My classmate helped me with my homework.",
-        "translation": "我的同班同学帮我做作业。"
+        "sentence": "He is my classmate.",
+        "translation": "他是我的同班同学。"
       }
     ],
     "unit": "unit2"
@@ -920,13 +672,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "孤独的；寂寞的"
+        "meaning": "孤独的"
       }
     ],
     "examples": [
       {
-        "sentence": "She felt lonely after her friends left.",
-        "translation": "朋友们离开后她感到孤独。"
+        "sentence": "She felt lonely.",
+        "translation": "她感到孤独。"
       }
     ],
     "unit": "unit2"
@@ -938,21 +690,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "魔法；魔术"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "有魔力的；神奇的"
+        "meaning": "魔法"
       }
     ],
     "examples": [
       {
-        "sentence": "The magician performed magic tricks.",
-        "translation": "魔术师表演了魔术。"
-      },
-      {
-        "sentence": "This is a magic moment.",
-        "translation": "这是一个神奇的时刻。"
+        "sentence": "The show has magic tricks.",
+        "translation": "这个表演有魔术。"
       }
     ],
     "unit": "unit2"
@@ -964,13 +708,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "快乐；喜悦"
+        "meaning": "快乐"
       }
     ],
     "examples": [
       {
-        "sentence": "Her face was full of joy when she saw the gift.",
-        "translation": "她看到礼物时脸上充满喜悦。"
+        "sentence": "She was full of joy.",
+        "translation": "她充满喜悦。"
       }
     ],
     "unit": "unit2"
@@ -983,16 +727,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "笔记本"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "笔记簿"
       }
     ],
     "examples": [
       {
-        "sentence": "I bought a new notebook for school.",
-        "translation": "我买了一个新笔记本上学。"
+        "sentence": "I bought a new notebook.",
+        "translation": "我买了一本新笔记本。"
       }
     ],
     "unit": "unit2"
@@ -1004,13 +744,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "架子；搁板"
+        "meaning": "架子"
       }
     ],
     "examples": [
       {
-        "sentence": "He put the books on the shelf.",
-        "translation": "他把书放在架子上。"
+        "sentence": "Put the book on the shelf.",
+        "translation": "把书放在架子上。"
       }
     ],
     "unit": "unit2"
@@ -1022,29 +762,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "离开；出发"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "留下；遗留"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "(工作或学习期间的)休假；假期"
+        "meaning": "离开"
       }
     ],
     "examples": [
       {
-        "sentence": "She will leave for Paris tomorrow.",
-        "translation": "她明天将动身去巴黎。"
-      },
-      {
-        "sentence": "Don't leave your bag here.",
-        "translation": "不要把你的包留在这里。"
-      },
-      {
-        "sentence": "She is on maternity leave.",
-        "translation": "她在休产假。"
+        "sentence": "She will leave tomorrow.",
+        "translation": "她明天将离开。"
       }
     ],
     "unit": "unit2"
@@ -1056,21 +780,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "页；页面"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "记录；历史篇章"
+        "meaning": "页"
       }
     ],
     "examples": [
       {
         "sentence": "Turn to page 10.",
         "translation": "翻到第10页。"
-      },
-      {
-        "sentence": "The incident was a dark page in history.",
-        "translation": "那件事是历史上黑暗的一页。"
       }
     ],
     "unit": "unit2"
@@ -1082,21 +798,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "结尾；结局"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "死亡；终结"
+        "meaning": "结局"
       }
     ],
     "examples": [
       {
         "sentence": "The movie has a happy ending.",
         "translation": "这部电影有一个幸福的结局。"
-      },
-      {
-        "sentence": "The war brought a tragic ending to many lives.",
-        "translation": "战争给许多生命带来了悲惨的结局。"
       }
     ],
     "unit": "unit2"

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Word, QuizQuestion, QuestionType, QuizMode as QuizModeEnum, QuizAttemptRecord } from '../types';
-import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, RotateCcw, Volume2, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, RotateCcw, Volume2, Loader2, Timer } from 'lucide-react';
 import { recordAttempts, getBatchMasteryPost, type WordMastery } from '../services/api';
 
 interface QuizModeProps {
@@ -34,12 +34,22 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
 
   // 答题计时相关状态
   const [questionStartTime, setQuestionStartTime] = useState<number>(0);
-  const [timeSpent, setTimeSpent] = useState<number>(0);
+  const [currentElapsedTime, setCurrentElapsedTime] = useState<number>(0);
 
   // 熟练度相关状态
   const [masteryData, setMasteryData] = useState<Map<string, WordMastery>>(new Map());
   const [isRecording, setIsRecording] = useState(false);
   const [recordError, setRecordError] = useState<string | null>(null);
+
+  // Helper function to get definition from word (supports both new and old formats)
+  const getDefinition = (w: Word): string => {
+    // New format: definitions array
+    if (w.definitions && w.definitions.length > 0) {
+      return w.definitions.map(d => d.meaning).join('；');
+    }
+    // Old format: definition string
+    return w.definition || '';
+  };
 
   useEffect(() => {
     const qs: QuizQuestion[] = [];
@@ -50,20 +60,22 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
       case QuizModeEnum.EN_TO_CN_MCQ:
         // 英对中单选：全部生成英译中题目
         selectedWords.forEach(word => {
+          const definition = getDefinition(word);
+
           const distractors = words
             .filter(w => w.id !== word.id)
             .sort(() => 0.5 - Math.random())
             .slice(0, 3)
-            .map(w => w.definition || '');
+            .map(w => getDefinition(w));
 
-          const options = [word.definition || '', ...distractors].sort(() => 0.5 - Math.random());
+          const options = [definition, ...distractors].sort(() => 0.5 - Math.random());
 
           qs.push({
             word,
             type: QuestionType.EN_TO_CN,
             question: word.term,
             options,
-            correctAnswer: word.definition || ''
+            correctAnswer: definition
           });
         });
         break;
@@ -71,6 +83,8 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
       case QuizModeEnum.CN_TO_EN_MCQ:
         // 中对英单选：全部生成中译英题目
         selectedWords.forEach(word => {
+          const definition = getDefinition(word);
+
           const distractors = words
             .filter(w => w.id !== word.id)
             .sort(() => 0.5 - Math.random())
@@ -82,7 +96,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           qs.push({
             word,
             type: QuestionType.CN_TO_EN,
-            question: word.definition || '',
+            question: definition,
             options,
             correctAnswer: word.term
           });
@@ -95,7 +109,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           qs.push({
             word,
             type: QuestionType.SPELLING,
-            question: word.definition || '',
+            question: getDefinition(word),
             correctAnswer: word.term
           });
         });
@@ -107,25 +121,27 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
 
         // 英对中题目
         selectedWords.slice(0, third).forEach(word => {
+          const definition = getDefinition(word);
           const distractors = words
             .filter(w => w.id !== word.id)
             .sort(() => 0.5 - Math.random())
             .slice(0, 3)
-            .map(w => w.definition || '');
+            .map(w => getDefinition(w));
 
-          const options = [word.definition || '', ...distractors].sort(() => 0.5 - Math.random());
+          const options = [definition, ...distractors].sort(() => 0.5 - Math.random());
 
           qs.push({
             word,
             type: QuestionType.EN_TO_CN,
             question: word.term,
             options,
-            correctAnswer: word.definition || ''
+            correctAnswer: definition
           });
         });
 
         // 中对英题目
         selectedWords.slice(third, third * 2).forEach(word => {
+          const definition = getDefinition(word);
           const distractors = words
             .filter(w => w.id !== word.id)
             .sort(() => 0.5 - Math.random())
@@ -137,7 +153,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           qs.push({
             word,
             type: QuestionType.CN_TO_EN,
-            question: word.definition || '',
+            question: definition,
             options,
             correctAnswer: word.term
           });
@@ -148,7 +164,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           qs.push({
             word,
             type: QuestionType.SPELLING,
-            question: word.definition || '',
+            question: getDefinition(word),
             correctAnswer: word.term
           });
         });
@@ -182,8 +198,21 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
   useEffect(() => {
     if (!quizFinished && questions.length > 0) {
       setQuestionStartTime(Date.now());
+      setCurrentElapsedTime(0);
     }
   }, [currentIndex, quizFinished, questions]);
+
+  // 实时更新计时器
+  useEffect(() => {
+    if (quizFinished || questions.length === 0) return;
+
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - questionStartTime;
+      setCurrentElapsedTime(elapsed);
+    }, 100); // 每100ms更新一次
+
+    return () => clearInterval(timer);
+  }, [questionStartTime, quizFinished, questions]);
 
   // 获取英文语音
   const getEnglishVoice = (): SpeechSynthesisVoice | null => {
@@ -300,12 +329,27 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             })
             .catch((err) => {
               console.error('❌ Failed to fetch mastery data:', err);
+              // 即使获取熟练度失败，记录答题成功的状态也显示
+              setRecordError(`答题记录成功，但获取熟练度数据失败: ${err.message}`);
+              setTimeout(() => setRecordError(null), 5000);
             });
         })
         .catch((err) => {
           console.error('❌ Failed to record attempts:', err);
           setIsRecording(false);
-          setRecordError(err.message || 'Failed to record attempts');
+          // 显示更详细的错误信息
+          let errorMsg = '数据同步失败';
+          if (err.message) {
+            errorMsg += `: ${err.message}`;
+          }
+          if (err.status) {
+            errorMsg += ` (HTTP ${err.status})`;
+          }
+          if (err.details) {
+            errorMsg += ` - ${err.details}`;
+          }
+          setRecordError(errorMsg);
+          setTimeout(() => setRecordError(null), 8000); // 8秒后自动消失
         });
     }
   }, [quizFinished, answerRecords]);
@@ -329,12 +373,11 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     if (correct) setScore(prev => prev + 1);
 
     // 记录答题结果（包含计时）
-    const timeSpent = Date.now() - questionStartTime;
     setAnswerRecords(prev => [...prev, {
       question: currentQ,
       userAnswer: selectedAnswer,
       isCorrect: correct,
-      timeSpent
+      timeSpent: currentElapsedTime
     }]);
   };
 
@@ -357,12 +400,11 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     if (correct) setScore(prev => prev + 1);
 
     // 记录答题结果（包含计时）
-    const timeSpent = Date.now() - questionStartTime;
     setAnswerRecords(prev => [...prev, {
       question: currentQ,
       userAnswer: userAnswer,
       isCorrect: correct,
-      timeSpent
+      timeSpent: currentElapsedTime
     }]);
   };
 
@@ -633,6 +675,11 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             <span className={`text-xs font-bold px-3 py-1 rounded-full ${getTypeColor()} flex items-center gap-1`}>
               {currentQ.type === QuestionType.SPELLING ? <Keyboard size={14} /> : <Languages size={14} />}
               {getTypeLabel()}
+            </span>
+            {/* 计时器显示 */}
+            <span className="text-sm font-bold text-amber-600 flex items-center gap-1">
+              <Timer size={16} />
+              {(currentElapsedTime / 1000).toFixed(1)}s
             </span>
             <span className="text-sm font-bold text-indigo-600">Score: {score}</span>
           </div>

@@ -19,12 +19,13 @@ npm run preview      # Preview production build
 ### Cloudflare Workers API Commands (api/ directory)
 
 ```bash
-cd api                # Navigate to API directory
-npm run dev          # Start local Workers dev server
-npm run deploy       # Deploy to Cloudflare Workers
-npm run d1:create    # Create D1 database
-npm run d1:schema    # Initialize database schema
-npm run d1:query     # Run custom D1 queries
+cd api                       # Navigate to API directory
+npm run dev                # Start local Workers dev server
+npm run deploy             # Deploy to Cloudflare Workers
+npm run d1:create          # Create D1 database
+npm run d1:schema          # Initialize remote database schema (with --remote flag)
+npm run d1:schema:local    # Initialize local database schema (for testing)
+npm run d1:query           # Run custom D1 queries
 ```
 
 ### Prebuild Workflow
@@ -91,9 +92,9 @@ vocabmaster_-english-learning-app/
 │   ├── BookList.tsx         # Book/semester selection screen
 │   ├── BookListItem.tsx     # Individual book card with progress
 │   ├── UnitListItem.tsx     # Compact unit list item
-│   ├── ActivitySelector.tsx # Activity type selection (单词总汇/卡片学习/Quiz)
+│   ├── ActivitySelector.tsx # Activity type selection (单词总汇/情景阅读/Quiz/设置)
 │   ├── QuizModeSelector.tsx # Quiz mode selection (4 modes)
-│   ├── FlashcardMode.tsx    # Flashcard learning with shuffle & pronunciation
+│   ├── ContextualMode.tsx   # Contextual reading with 2 modes (full text & sentence-by-sentence)
 │   ├── WordList.tsx         # Word list with search, filter, expand details
 │   └── QuizMode.tsx         # Quiz with confirmation flow + timing tracking
 ├── services/
@@ -113,7 +114,15 @@ vocabmaster_-english-learning-app/
 │   └── package.json         # API dependencies
 ├── public/
 │   └── data/
-│       └── cache/               # Static cache files (tracked in repo, 287 words with phonetics/definitions/examples)
+│       ├── cache/               # Static cache files (tracked in repo, 287 words with phonetics/definitions/examples)
+│       └── passages/            # Reading passages for ContextualMode (7 units: starter, unit1-6)
+│           ├── starter.json     # "My First Day at Junior High"
+│           ├── unit1.json       # "A Journey to Remember"
+│           ├── unit2.json       # "The Music Festival Adventure"
+│           ├── unit3.json       # "A Father's Love"
+│           ├── unit4.json       # "A Special Spring Festival"
+│           ├── unit5.json       # "A Relaxing Weekend in the Yard"
+│           └── unit6.json       # "The Animal Rescue Team"
 ├── data/
 │   └── vocabData.ts         # Vocabulary loader (static cache → JSON fallback)
 ├── utils/
@@ -154,6 +163,7 @@ Cloudflare D1 Database (SQLite at edge)
 - `GET /api/words/need-practice` - Get words needing practice
 - `GET /api/stats` - Get learning statistics
 - `GET /api/health` - Health check
+- `DELETE /api/units/:unitId` - Delete all learning data for a unit (attempts + mastery)
 
 **Features:**
 - **Timing tracking**: Each quiz question is timed (milliseconds)
@@ -200,8 +210,9 @@ BOOK_LIST (VocabMaster Pro)
     └─→ UNIT_LIST (七年级上册)
             └─→ ACTIVITY_SELECT (章节名称)
                     ├─→ LEARNING (单词总汇)
-                    ├─→ LEARNING (卡片学习)
-                    └─→ QUIZ_MODE_SELECT (Quiz模式)
+                    ├─→ LEARNING (情景阅读 - ContextualMode)
+                    ├─→ QUIZ_MODE_SELECT (Quiz模式)
+                    └─→ SETTINGS (单元设置)
                             └─→ LEARNING (Quiz: EN_TO_CN_MCQ/CN_TO_EN_MCQ/CN_TO_EN_SPELLING/MIXED)
 ```
 
@@ -211,9 +222,10 @@ BOOK_LIST (VocabMaster Pro)
 |------|-------------|----------|
 | `BOOK_LIST` | Book/semester selection | Shows total units and mastered words per book |
 | `UNIT_LIST` | Chapter selection | Displays all units with progress indicators |
-| `ACTIVITY_SELECT` | Activity type selection | 单词总汇 / 卡片学习 / Quiz |
+| `ACTIVITY_SELECT` | Activity type selection | 单词总汇 / 情景阅读 / Quiz / 设置 |
 | `QUIZ_MODE_SELECT` | Quiz mode selection | 4 quiz modes to choose from |
-| `LEARNING` | Learning/Quiz mode | Flashcards, Word List, or Quiz based on activity |
+| `LEARNING` | Learning/Quiz mode | ContextualMode, WordList, or Quiz based on activity |
+| `SETTINGS` | Unit settings modal | Statistics display and reset functionality |
 
 ### Quiz Modes
 
@@ -291,33 +303,32 @@ interface QuizQuestion {
   - `vocab_cache_{unitId}` - AI-enriched word cache
 - Word ID format: `{unitId}-{index}` (e.g., "starter-0", "unit1-5")
 
-### Data Export/Import
+### Settings Menu Functions (2026)
 
-**Export Data** (`exportAppData()`):
-- Downloads JSON file: `vocabmaster_backup_YYYY-MM-DD.json`
-- Contains all word caches + progress data
-- Triggered via "导出数据" button in footer
+The settings menu has been redesigned for cloud-native architecture:
 
-**Import Data** (`importAppData(file)`):
-- Imports from JSON backup file
-- Validates version and data structure
-- Shows import statistics (units, words, mastered/learning counts)
-- Reloads page to apply imported data
-- Triggered via "导入数据" button in footer settings menu
+**Cloud Service Status** (`handleCloudStatus()`):
+- Tests connection to Cloudflare Workers API
+- Displays API endpoint URL
+- Shows response status and data
+- Helps diagnose sync issues
 
-### Reset Progress vs Clear Cache
+**Reset Local Progress** (`handleResetProgress()`):
+- Clears LocalStorage progress markers only
+- Preserves all cloud答题记录
+- Allows fresh start while maintaining mastery history
+- Use when local markers are inaccurate
 
-**Reset Progress** (`handleResetProgress()`):
-- Clears user learning progress only
-- Empties `masteredWords` and `learningWords` arrays
-- Keeps all word caches intact
-- Use when starting fresh without losing AI-generated content
+**Clear Local Cache** (`handleClearCache()`):
+- Clears LocalStorage AI-generated word caches
+- Preserves all cloud learning data
+- Next unit visit reloads from static cache or regenerates
+- Use when experiencing content issues
 
-**Clear Cache** (`clearWordCache()`):
-- Clears all AI-generated word caches
-- Keeps user progress intact
-- Next unit visit will regenerate content from AI
-- Use when content needs refreshing (e.g., improved prompts)
+**About** (`handleAbout()`):
+- Displays app version (1.0.0)
+- Lists key features and technologies
+- Shows word count (287 words across 7 units)
 
 **Export Format**:
 ```json
@@ -460,6 +471,8 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 - **Sync status indicators**: Recording spinner, success/error messages in quiz results
 - **Mastery badges**: Color-coded proficiency levels on wrong answers (80%+ green, 60%+ yellow, 40%+ orange, <40% red)
 - **Offline-first**: App works without API, gracefully handles connection failures
+- **itty-router v4 fix**: Correctly passes `env` parameter to route handlers for D1 access
+- **Remote database initialization**: Schema initialized with `--remote` flag for production
 
 **Mastery Data Structure:**
 ```typescript
@@ -483,6 +496,67 @@ interface WordMastery {
 4. Mastery updated → Backend calculates new mastery levels
 5. Frontend fetches → Updated mastery displayed in results
 
+#### 16. Static Cache Format Update & QuizMode Compatibility
+- **New format**: `definitions: [{partOfSpeech, meaning}]` array instead of `definition: string`
+- **Backward compatibility**: `getDefinition()` helper function handles both formats
+- **QuizMode fix**: All quiz modes now correctly extract definitions from new cache format
+- **Affected modes**: EN_TO_CN_MCQ, CN_TO_EN_MCQ, CN_TO_EN_SPELLING, MIXED
+
+#### 17. Settings Menu Redesign (2026)
+- **Removed**: Export/Import JSON (data now in cloud, no need for local backups)
+- **Added**: Cloud Service Status - Test API connection and display endpoint info
+- **Updated**: Reset Local Progress - Only clears LocalStorage, preserves cloud data
+- **Updated**: Clear Local Cache - Now clarifies it doesn't affect cloud records
+- **Added**: About - Shows app version and feature list
+
+#### 18. Real-Time Quiz Timer (2026)
+- **Timer display**: Shows elapsed time per question in seconds (0.1s precision)
+- **Visual indicator**: Timer icon with amber color in header
+- **Updates every 100ms**: Smooth real-time countdown
+- **Accuracy**: Uses `currentElapsedTime` state for both display and recording
+
+#### 19. ContextualMode - 情景阅读模块 (2026)
+- **替代FlashcardMode**：原本的卡片学习被情景阅读取代
+- **两种阅读模式**：
+  - **全文阅读模式**：完整段落显示，英文原文+中文译文分开显示，支持全文连续朗读
+  - **逐句拆解模式**：每句独立显示，英文+中文成对显示，每句有独立的播放/停止按钮
+- **音频控制系统**：
+  - 全文模式：播放/暂停/停止按钮，进度显示
+  - 逐句模式：每句独立的播放/停止按钮，当前播放句子高亮显示
+  - 自动播放：全文模式下自动连续播放所有句子
+  - 组件卸载时自动停止所有音频
+- **单词交互**：点击高亮单词查看详情面板（发音、释义、例句）
+- **7个单元内容**：Starter到Unit6，每个单元有独立的阅读passage
+
+**Passage JSON结构** (`public/data/passages/{unitId}.json`):
+```json
+{
+  "title": "文章标题",
+  "paragraphs": [
+    {
+      "sentences": [
+        {
+          "english": "English sentence.",
+          "chinese": "中文翻译。"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 20. 单元设置重置功能 (2026)
+- **后端API**：`DELETE /api/units/:unitId` - 删除指定单元的所有attempts和mastery记录
+- **前端UI**：单元设置 → 重置学习统计
+- **功能流程**：
+  1. 点击设置按钮打开单元设置弹窗
+  2. 显示学习统计（测试次数、正确率、错误次数、平均用时）
+  3. 点击"重置学习统计"进入确认界面
+  4. 确认后调用API删除云端数据
+  5. 成功后2秒自动关闭并刷新数据
+- **错误处理**：显示错误信息，支持重试
+- **Loading状态**：重置中显示loading动画
+
 ## Troubleshooting
 
 ### macOS Downloads Directory Permission Issues
@@ -500,6 +574,31 @@ chmod +x node_modules/@esbuild/darwin-arm64/bin/esbuild
 
 This happens because macOS applies quarantine attributes to files in Downloads, preventing unsigned binaries from running.
 
+### Cloudflare Workers API Issues
+
+**Problem**: "Cannot read properties of undefined (reading 'DB')"
+- **Cause**: Workers not deployed or `env` parameter not passed to router
+- **Solution**:
+  ```bash
+  cd api
+  npm run deploy  # Re-deploy to ensure D1 binding is active
+  ```
+  The issue was fixed by changing `router.handle(request)` to `router.handle(request, env)` in `api/src/index.ts`
+
+**Problem**: "no such table: attempts"
+- **Cause**: D1 database tables not initialized
+- **Solution**:
+  ```bash
+  cd api
+  npm run d1:schema  # Initialize remote database schema
+  ```
+
+**Problem**: Quiz data not syncing
+- **Check**: Browser DevTools Console for error messages
+- **Test**: Settings → "云端服务状态" to verify API connection
+- **Verify**: `.env.local` contains correct `VITE_API_URL`
+- **Fallback**: App works offline, syncs when connection restored
+
 ## Component Reference
 
 ### BookList
@@ -508,10 +607,15 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Features**: Progress bars, total units, mastered words count
 
 ### ActivitySelector
-- **Props**: `unit: Unit`, `progress: UserProgress`, `onSelectActivity`, `onBack`
-- **Purpose**: Choose learning activity type
-- **Options**: 单词总汇, 卡片学习, Quiz
-- **Stats**: Shows mastered/learning word counts for unit
+- **Props**: `unit: Unit`, `onSelectActivity`, `onBack`
+- **Purpose**: Choose learning activity type or manage unit settings
+- **Options**: 单词总汇, 情景阅读, Quiz, 设置
+- **Stats**: Shows mastered/learning word counts for unit (from cloud mastery data)
+- **Settings**:
+  - 单元学习统计显示（测试次数、正确率、错误次数、平均用时）
+  - 重置学习统计功能（删除云端所有attempts和mastery数据）
+  - 确认流程防止误操作
+  - Loading状态和错误处理
 
 ### QuizModeSelector
 - **Props**: `onSelectMode`, `onBack`
@@ -526,24 +630,31 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Layout**: Two-row word card header with large pronunciation button (icon + "发音" text)
 - **Search**: Filter by word or meaning, with status filter (all/mastered/learning/unstudied)
 
-### FlashcardMode
-- **Props**: `words`, `progress`, `onComplete`, `onMastered`, `onReview`
-- **Purpose**: Learn words through flip cards
-- **Features**: Shuffle, pronunciation, flip animation, mastery tracking
-- **Card Front**: Word + phonetic + pronunciation button
-- **Card Back**: Large definitions with parts of speech (no examples - cleaner UI)
-- **Animation**: 500ms flip, completes before word changes
+### ContextualMode
+- **Props**: `words`, `unitId`, `onComplete`
+- **Purpose**: Learn words through contextual reading passages
+- **Features**:
+  - 两种模式切换：全文阅读 / 逐句拆解
+  - 全文模式：段落式显示，英文原文+中文译文，支持全文连续朗读
+  - 逐句模式：每句独立显示，英文+中文成对，每句有独立的音频按钮
+  - 音频控制：播放/暂停/停止，进度指示，自动连续播放
+  - 单词交互：点击高亮单词查看详情面板
+  - 组件卸载时自动停止所有音频
+- **Passage结构**：从 `public/data/passages/{unitId}.json` 加载
+- **Sentence解析**：按段落组织，每句独立存储english和chinese
 
 ### QuizMode
 - **Props**: `words`, `quizMode`, `onComplete`
 - **Purpose**: Test knowledge with various question types
 - **Features**: Confirmation flow, color-coded badges, score tracking
 - **Pronunciation**: Auto-plays for EN_TO_CN/SPELLING questions + manual Volume2 button
+- **Real-time timer**: Shows elapsed time per question (Timer icon, amber color, 0.1s precision)
 - **Report**: Shows only wrong questions with detailed info, celebration when all correct
 - **Retry**: Two buttons - "同一题目再练一次" (same questions) / "换一批新题目" (new questions)
 - **Timing tracking**: Records time spent on each question (milliseconds)
 - **Cloud sync**: Auto-sends attempts to Cloudflare Workers API on completion
 - **Mastery display**: Shows proficiency level badges on wrong answers
+- **Error handling**: Detailed sync error messages with auto-dismiss (5-8 seconds)
 
 ## Common Tasks
 
@@ -570,11 +681,11 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 3. Check `localStorage` for `vocab_cache_*` entries
 4. Check `localStorage` for `vocab_progress`
 
-### Export/Import Data
-- Export: Settings → "导出数据" → JSON file downloads
-- Import: Settings → "导入数据" → Select JSON file → Auto-reload
-- Reset Progress: Settings → "重置进度" → Clears mastery status (keeps caches)
-- Clear Cache: Settings → "清除缓存" → Clears AI content (keeps progress)
+### Settings Menu Functions
+- Cloud Service Status: Settings → "云端服务状态" → Test API connection
+- Reset Local Progress: Settings → "重置本地进度" → Clear local markers (preserves cloud)
+- Clear Local Cache: Settings → "清除本地缓存" → Clear AI cache (preserves cloud)
+- About: Settings → "关于" → Show app info
 
 ### Deploy Cloudflare Workers API
 
@@ -593,8 +704,8 @@ wrangler d1 create vocabmaster-db
 # 4. Update wrangler.toml with the returned database_id
 # Example: database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
-# 5. Initialize database schema
-wrangler d1 execute vocabmaster-db --file=./schema.sql
+# 5. Initialize remote database schema (IMPORTANT: use --remote for production)
+npm run d1:schema  # Runs with --remote flag
 
 # 6. Deploy Workers
 npm run deploy
@@ -608,6 +719,12 @@ npm run deploy
 cd api
 npm run deploy  # Re-deploy after code changes
 ```
+
+**Important Notes:**
+- Use `npm run d1:schema` to initialize remote database (includes `--remote` flag)
+- Use `npm run d1:schema:local` to initialize local database for testing
+- The `itty-router` requires `router.handle(request, env)` to pass D1 bindings correctly
+- Always verify D1 bindings are active after deployment (check deployment output for "env.DB")
 
 **Running Workers locally:**
 ```bash

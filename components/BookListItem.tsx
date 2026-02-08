@@ -1,22 +1,42 @@
 
 import React from 'react';
-import { Book, UserProgress } from '../types';
+import { Book } from '../types';
 import { ChevronRight, BookOpen } from 'lucide-react';
+import { getBatchMasteryPost } from '../services/api';
+import { useState, useEffect } from 'react';
 
 interface BookListItemProps {
   book: Book;
-  progress: UserProgress;
   onClick: () => void;
 }
 
-const BookListItem: React.FC<BookListItemProps> = ({ book, progress, onClick }) => {
-  // 计算整本书的掌握进度
-  const totalWords = book.units.reduce((sum, unit) => sum + unit.words.length, 0);
-  const masteredWords = book.units.reduce((sum, unit) => {
-    return sum + unit.words.filter(w =>
-      progress.masteredWords.some(id => id.startsWith(unit.id))
-    ).length;
-  }, 0);
+const BookListItem: React.FC<BookListItemProps> = ({ book, onClick }) => {
+  const [masteryData, setMasteryData] = useState<{[wordId: string]: number}>({});
+
+  // 获取所有单词ID
+  const allWordIds = book.units.flatMap(unit =>
+    unit.words.map((_, idx) => `${unit.id}-${idx}`)
+  );
+
+  // 获取云端熟练度数据
+  useEffect(() => {
+    getBatchMasteryPost(allWordIds)
+      .then(data => {
+        const map: {[wordId: string]: number} = {};
+        data.forEach(m => {
+          map[m.word_id] = m.mastery_level;
+        });
+        setMasteryData(map);
+      })
+      .catch(err => {
+        console.error('Failed to fetch mastery data:', err);
+        // 失败时使用空数据，不影响基本功能
+      });
+  }, [book.id]);
+
+  // 计算整本书的掌握进度（基于云端数据）
+  const totalWords = allWordIds.length;
+  const masteredWords = Object.values(masteryData).filter(level => level >= 80).length;
   const progressPercent = totalWords > 0 ? Math.round((masteredWords / totalWords) * 100) : 0;
 
   return (
@@ -38,7 +58,7 @@ const BookListItem: React.FC<BookListItemProps> = ({ book, progress, onClick }) 
 
           <div className="flex items-center gap-4 ml-15">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-500">{book.units.length} 章节 · {masteredWords}/{totalWords} 已掌握</span>
+              <span className="text-sm text-slate-500">{book.units.length} 章节 · {masteredWords}/{totalWords} 精通</span>
             </div>
             <div className="h-2 flex-1 max-w-32 bg-slate-100 rounded-full overflow-hidden">
               <div

@@ -6,17 +6,13 @@
     "definitions": [
       {
         "partOfSpeech": "prep.",
-        "meaning": "在……之内；在……范围内"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "在内；在里面"
+        "meaning": "在……之内"
       }
     ],
     "examples": [
       {
-        "sentence": "He lives within the city limits.",
-        "translation": "他住在城市范围内。"
+        "sentence": "He lives within the city.",
+        "translation": "他住在城市里。"
       }
     ],
     "unit": "unit5"
@@ -28,17 +24,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "四分之一；季度；一刻钟"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "将（某物）分成四部分；供住宿给（士兵等）"
+        "meaning": "四分之一"
       }
     ],
     "examples": [
       {
-        "sentence": "She pays her rent every quarter.",
-        "translation": "她每季度付房租。"
+        "sentence": "A quarter of the class.",
+        "translation": "四分之一的学生。"
       }
     ],
     "unit": "unit5"
@@ -50,17 +42,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "车间；工场；研讨会"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "(非正式)反复练习(技能)；精炼"
+        "meaning": "车间；研讨会"
       }
     ],
     "examples": [
       {
-        "sentence": "They attended a workshop on creative writing.",
-        "translation": "他们参加了一个创意写作研讨会。"
+        "sentence": "Attend the workshop.",
+        "translation": "参加研讨会。"
       }
     ],
     "unit": "unit5"
@@ -72,17 +60,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "叶子；页（书刊的）；金属薄片"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "(书籍等)翻页；长出叶子"
+        "meaning": "叶子"
       }
     ],
     "examples": [
       {
-        "sentence": "The maple leaf turns red in autumn.",
-        "translation": "枫叶在秋天变红。"
+        "sentence": "The leaf is green.",
+        "translation": "叶子是绿色的。"
       }
     ],
     "unit": "unit5"
@@ -94,17 +78,13 @@
     "definitions": [
       {
         "partOfSpeech": "det./pron.",
-        "meaning": "每个；各自"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "各个；每个"
+        "meaning": "每个"
       }
     ],
     "examples": [
       {
-        "sentence": "Each student has their own book.",
-        "translation": "每个学生都有自己的书。"
+        "sentence": "Each student has a book.",
+        "translation": "每个学生都有一本书。"
       }
     ],
     "unit": "unit5"
@@ -116,17 +96,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "to bring or gather together"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "a group of objects gathered for study or display"
+        "meaning": "收集"
       }
     ],
     "examples": [
       {
-        "sentence": "He collects antique coins as a hobby.",
-        "translation": "他收集古币作为爱好。"
+        "sentence": "Collect stamps.",
+        "translation": "收集邮票。"
       }
     ],
     "unit": "unit5"
@@ -138,21 +114,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "the part of a plant that attaches it to the ground and absorbs water and nutrients"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "to grow roots; to become firmly established"
+        "meaning": "根"
       }
     ],
     "examples": [
       {
-        "sentence": "The tree’s roots spread far beneath the surface.",
-        "translation": "树的根在地下延伸得很远。"
-      },
-      {
-        "sentence": "The seed began to root after a week.",
-        "translation": "一周后种子开始生根。"
+        "sentence": "The root is deep.",
+        "translation": "根很深。"
       }
     ],
     "unit": "unit5"
@@ -164,13 +132,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "to cause to go or be taken to a destination; to dispatch"
+        "meaning": "发送"
       }
     ],
     "examples": [
       {
-        "sentence": "She sent an email to confirm the meeting time.",
-        "translation": "她发邮件确认会议时间。"
+        "sentence": "Send a message.",
+        "translation": "发送信息。"
       }
     ],
     "unit": "unit5"
@@ -182,21 +150,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "to move upward; to increase in level or amount"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "an increase; a growth"
+        "meaning": "上升"
       }
     ],
     "examples": [
       {
-        "sentence": "The balloon rose slowly into the sky.",
-        "translation": "气球慢慢升上天空。"
-      },
-      {
-        "sentence": "There has been a sharp rise in oil prices recently.",
-        "translation": "最近油价大幅上涨。"
+        "sentence": "The sun rises.",
+        "translation": "太阳升起。"
       }
     ],
     "unit": "unit5"
@@ -208,21 +168,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "the main stalk of a plant, supporting leaves and flowers"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "to originate from; to come from"
+        "meaning": "茎"
       }
     ],
     "examples": [
       {
-        "sentence": "The stem of the sunflower can reach several meters tall.",
-        "translation": "向日葵的茎可以长到几米高。"
-      },
-      {
-        "sentence": "Her passion for cooking stems from her childhood experiences.",
-        "translation": "她对烹饪的热情源于童年的经历。"
+        "sentence": "The stem is tall.",
+        "translation": "茎很高。"
       }
     ],
     "unit": "unit5"
@@ -235,20 +187,12 @@
       {
         "partOfSpeech": "v.",
         "meaning": "混合"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "混合物；混合"
       }
     ],
     "examples": [
       {
-        "sentence": "She mixed the ingredients for the cake.",
-        "translation": "她把做蛋糕的原料混合在一起。"
-      },
-      {
-        "sentence": "This drink is a mix of fruit juices.",
-        "translation": "这种饮料是各种果汁的混合物。"
+        "sentence": "Mix the colors.",
+        "translation": "混合颜色。"
       }
     ],
     "unit": "unit5"
@@ -260,21 +204,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "生产；制造"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "农产品；产品"
+        "meaning": "生产"
       }
     ],
     "examples": [
       {
-        "sentence": "The factory produces cars.",
-        "translation": "这家工厂生产汽车。"
-      },
-      {
-        "sentence": "We buy fresh produce at the market.",
-        "translation": "我们在市场上买新鲜农产品。"
+        "sentence": "Factories produce cars.",
+        "translation": "工厂生产汽车。"
       }
     ],
     "unit": "unit5"
@@ -287,20 +223,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "糖"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "加糖于"
       }
     ],
     "examples": [
       {
-        "sentence": "Too much sugar is bad for your health.",
-        "translation": "吃太多糖对你的健康不好。"
-      },
-      {
-        "sentence": "She sugared her tea.",
-        "translation": "她在茶里加了糖。"
+        "sentence": "Add some sugar.",
+        "translation": "加些糖。"
       }
     ],
     "unit": "unit5"
@@ -312,21 +240,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "产品；产物"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "乘积（数学）"
+        "meaning": "产品"
       }
     ],
     "examples": [
       {
-        "sentence": "The company sells electronic products.",
-        "translation": "这家公司销售电子产品。"
-      },
-      {
-        "sentence": "The product of 3 and 4 is 12.",
-        "translation": "3和4的乘积是12。"
+        "sentence": "This product is good.",
+        "translation": "这个产品很好。"
       }
     ],
     "unit": "unit5"
@@ -338,17 +258,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "氧；氧气"
+        "meaning": "氧气"
       }
     ],
     "examples": [
       {
-        "sentence": "Plants release oxygen into the air.",
-        "translation": "植物向空气中释放氧气。"
-      },
-      {
-        "sentence": "We need oxygen to breathe.",
-        "translation": "我们需要氧气呼吸。"
+        "sentence": "We need oxygen.",
+        "translation": "我们需要氧气。"
       }
     ],
     "unit": "unit5"
@@ -361,16 +277,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "人类"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "人的；人类的"
       }
     ],
     "examples": [
       {
-        "sentence": "The human race has made great progress in science.",
-        "translation": "人类在科学方面取得了巨大进步。"
+        "sentence": "Humans are smart.",
+        "translation": "人类很聪明。"
       }
     ],
     "unit": "unit5"
@@ -382,17 +294,13 @@
     "definitions": [
       {
         "partOfSpeech": "conj.",
-        "meaning": "虽然；尽管"
-      },
-      {
-        "partOfSpeech": "adv.",
-        "meaning": "可是；然而"
+        "meaning": "虽然"
       }
     ],
     "examples": [
       {
-        "sentence": "Though it was raining, he went out for a walk.",
-        "translation": "虽然下雨了，他还是出去散步了。"
+        "sentence": "Though it rains, we go.",
+        "translation": "虽然下雨，我们还是去。"
       }
     ],
     "unit": "unit5"
@@ -409,8 +317,8 @@
     ],
     "examples": [
       {
-        "sentence": "We need to breathe fresh air every day.",
-        "translation": "我们需要每天呼吸新鲜空气。"
+        "sentence": "Breathe deeply.",
+        "translation": "深呼吸。"
       }
     ],
     "unit": "unit5"
@@ -422,13 +330,13 @@
     "definitions": [
       {
         "partOfSpeech": "adv.",
-        "meaning": "不久；很快"
+        "meaning": "很快"
       }
     ],
     "examples": [
       {
-        "sentence": "I will finish my homework soon.",
-        "translation": "我很快就会完成作业。"
+        "sentence": "See you soon.",
+        "translation": "回头见。"
       }
     ],
     "unit": "unit5"
@@ -440,17 +348,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "黑暗的；深色的"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "黑暗；暗处"
+        "meaning": "黑暗的"
       }
     ],
     "examples": [
       {
-        "sentence": "It's getting dark outside, so we should go home.",
-        "translation": "外面天黑了，所以我们该回家了。"
+        "sentence": "The room is dark.",
+        "translation": "房间很暗。"
       }
     ],
     "unit": "unit5"
@@ -502,17 +406,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "热带雨林"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "雨林地带"
+        "meaning": "雨林"
       }
     ],
     "examples": [
       {
-        "sentence": "The Amazon rainforest is home to countless species of plants and animals.",
-        "translation": "亚马逊雨林是无数动植物物种的家园。"
+        "sentence": "The rainforest is big.",
+        "translation": "雨林很大。"
       }
     ],
     "unit": "unit5"
@@ -524,21 +424,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "文化；文明"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "教养；修养"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "培养；栽培"
+        "meaning": "文化"
       }
     ],
     "examples": [
       {
-        "sentence": "Chinese culture has a long history dating back thousands of years.",
-        "translation": "中国文化有着数千年的历史。"
+        "sentence": "Chinese culture is old.",
+        "translation": "中国文化很古老。"
       }
     ],
     "unit": "unit5"
@@ -550,13 +442,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "玉米须；玉米花丝"
+        "meaning": "玉米须"
       }
     ],
     "examples": [
       {
-        "sentence": "Corn silk is traditionally used in herbal medicine to treat urinary tract infections.",
-        "translation": "玉米须在传统草药中用于治疗尿路感染。"
+        "sentence": "Corn silk is soft.",
+        "translation": "玉米须很软。"
       }
     ],
     "unit": "unit5"
@@ -568,21 +460,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "健康；健康状况"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "卫生；保健"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "兴旺；繁荣"
+        "meaning": "健康"
       }
     ],
     "examples": [
       {
-        "sentence": "Good nutrition and regular exercise are key to maintaining good health.",
-        "translation": "良好的营养和定期锻炼是保持健康的关键。"
+        "sentence": "Health is important.",
+        "translation": "健康很重要。"
       }
     ],
     "unit": "unit5"
@@ -594,21 +478,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "玫瑰；蔷薇"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "玫瑰色；粉红色"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "上升；上涨（rise的过去式）"
+        "meaning": "玫瑰"
       }
     ],
     "examples": [
       {
-        "sentence": "She received a beautiful bouquet of red roses from her partner.",
-        "translation": "她从伴侣那里收到一束美丽的红玫瑰。"
+        "sentence": "The rose is red.",
+        "translation": "玫瑰是红色的。"
       }
     ],
     "unit": "unit5"
@@ -621,16 +497,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "棉花"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "棉质的"
       }
     ],
     "examples": [
       {
-        "sentence": "She bought a cotton dress.",
-        "translation": "她买了一件棉质连衣裙。"
+        "sentence": "Cotton is soft.",
+        "translation": "棉花很软。"
       }
     ],
     "unit": "unit5"
@@ -647,8 +519,8 @@
     ],
     "examples": [
       {
-        "sentence": "He made a chair from bamboo.",
-        "translation": "他用竹子做了一把椅子。"
+        "sentence": "Bamboo is tall.",
+        "translation": "竹子很高。"
       }
     ],
     "unit": "unit5"
@@ -660,13 +532,13 @@
     "definitions": [
       {
         "partOfSpeech": "adj.",
-        "meaning": "流行的；受欢迎的"
+        "meaning": "流行的"
       }
     ],
     "examples": [
       {
-        "sentence": "This song is very popular among teenagers.",
-        "translation": "这首歌在青少年中很流行。"
+        "sentence": "This song is popular.",
+        "translation": "这首歌很流行。"
       }
     ],
     "unit": "unit5"
@@ -679,20 +551,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "钥匙"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "关键；答案"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "关键的"
       }
     ],
     "examples": [
       {
-        "sentence": "She lost her house key yesterday.",
-        "translation": "她昨天丢了房门钥匙。"
+        "sentence": "Use the key.",
+        "translation": "用钥匙。"
       }
     ],
     "unit": "unit5"
@@ -704,13 +568,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "新闻；消息"
+        "meaning": "新闻"
       }
     ],
     "examples": [
       {
-        "sentence": "I read the latest news online.",
-        "translation": "我在网上读了最新新闻。"
+        "sentence": "Watch the news.",
+        "translation": "看新闻。"
       }
     ],
     "unit": "unit5"
@@ -722,21 +586,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "更喜欢；宁愿"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "(常与to连用) 宁愿…而不愿"
+        "meaning": "更喜欢"
       }
     ],
     "examples": [
       {
-        "sentence": "He prefers tea to coffee.",
-        "translation": "他比起咖啡更喜欢茶。"
-      },
-      {
-        "sentence": "I prefer walking to cycling.",
-        "translation": "我宁愿步行也不愿骑自行车。"
+        "sentence": "I prefer tea.",
+        "translation": "我更喜欢茶。"
       }
     ],
     "unit": "unit5"
@@ -749,20 +605,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "咖啡"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "咖啡色；咖啡饮料"
       }
     ],
     "examples": [
       {
-        "sentence": "She drinks a cup of coffee every morning.",
-        "translation": "她每天早上喝一杯咖啡。"
-      },
-      {
-        "sentence": "The table was covered with a coffee - colored cloth.",
-        "translation": "桌子上铺着一块咖啡色的布。"
+        "sentence": "Drink coffee.",
+        "translation": "喝咖啡。"
       }
     ],
     "unit": "unit5"
@@ -775,20 +623,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "秘密"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "秘密的；保密的"
       }
     ],
     "examples": [
       {
-        "sentence": "Their secret was kept for years.",
-        "translation": "他们的秘密被保守了好几年。"
-      },
-      {
-        "sentence": "They held a secret meeting last night.",
-        "translation": "他们昨晚举行了一次秘密会议。"
+        "sentence": "Keep it secret.",
+        "translation": "保密。"
       }
     ],
     "unit": "unit5"
@@ -801,20 +641,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "丈夫"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "节约使用；精打细算地管理"
       }
     ],
     "examples": [
       {
-        "sentence": "My husband is a doctor.",
-        "translation": "我的丈夫是一名医生。"
-      },
-      {
-        "sentence": "She learned to husband her money carefully.",
-        "translation": "她学会了谨慎地理财。"
+        "sentence": "Her husband is kind.",
+        "translation": "她的丈夫很和蔼。"
       }
     ],
     "unit": "unit5"
@@ -827,20 +659,12 @@
       {
         "partOfSpeech": "n.",
         "meaning": "成年人"
-      },
-      {
-        "partOfSpeech": "adj.",
-        "meaning": "成年的；成熟的"
       }
     ],
     "examples": [
       {
-        "sentence": "As an adult, you need to take responsibility.",
-        "translation": "作为成年人，你需要承担责任。"
-      },
-      {
-        "sentence": "Adults usually have more experience than children.",
-        "translation": "成年人通常比孩子有更多的经验。"
+        "sentence": "He is an adult now.",
+        "translation": "他现在是成年人了。"
       }
     ],
     "unit": "unit5"
@@ -857,8 +681,8 @@
     ],
     "examples": [
       {
-        "sentence": "We usually go to the park on weekends.",
-        "translation": "我们通常在周末去公园。"
+        "sentence": "See you on the weekend.",
+        "translation": "周末见。"
       }
     ],
     "unit": "unit5"
@@ -870,17 +694,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "聊天；闲谈"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "聊天；闲谈"
+        "meaning": "聊天"
       }
     ],
     "examples": [
       {
-        "sentence": "They chatted for hours over coffee.",
-        "translation": "他们喝咖啡时聊了好几个小时。"
+        "sentence": "Let's chat.",
+        "translation": "我们聊聊吧。"
       }
     ],
     "unit": "unit5"
@@ -892,17 +712,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "放松；休息"
-      },
-      {
-        "partOfSpeech": "v.",
-        "meaning": "使放松；使轻松"
+        "meaning": "放松"
       }
     ],
     "examples": [
       {
-        "sentence": "He likes to relax by listening to music.",
-        "translation": "他喜欢通过听音乐来放松。"
+        "sentence": "Relax and rest.",
+        "translation": "放松休息。"
       }
     ],
     "unit": "unit5"
@@ -914,17 +730,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "院子；庭院"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "码（长度单位，等于3英尺）"
+        "meaning": "院子"
       }
     ],
     "examples": [
       {
-        "sentence": "Our dog plays in the backyard every day.",
-        "translation": "我们的狗每天都在后院玩。"
+        "sentence": "Play in the yard.",
+        "translation": "在院子里玩。"
       }
     ],
     "unit": "unit5"
@@ -936,13 +748,13 @@
     "definitions": [
       {
         "partOfSpeech": "n.",
-        "meaning": "饼干；小点心"
+        "meaning": "饼干"
       }
     ],
     "examples": [
       {
-        "sentence": "She ate a biscuit with her tea.",
-        "translation": "她喝茶时吃了一块饼干。"
+        "sentence": "Eat a biscuit.",
+        "translation": "吃一块饼干。"
       }
     ],
     "unit": "unit5"
@@ -954,21 +766,13 @@
     "definitions": [
       {
         "partOfSpeech": "v.",
-        "meaning": "连接；联系；接通（电话等）"
-      },
-      {
-        "partOfSpeech": "n.",
-        "meaning": "连接；关系"
+        "meaning": "连接"
       }
     ],
     "examples": [
       {
-        "sentence": "Please connect the printer to your computer.",
-        "translation": "请把打印机连到电脑上。"
-      },
-      {
-        "sentence": "She connected with her old friend after many years.",
-        "translation": "多年后她与老朋友取得了联系。"
+        "sentence": "Connect to the internet.",
+        "translation": "连接网络。"
       }
     ],
     "unit": "unit5"

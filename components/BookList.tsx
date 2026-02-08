@@ -1,15 +1,14 @@
 
 import React from 'react';
-import { Book, UserProgress } from '../types';
+import { Book } from '../types';
 import BookListItem from './BookListItem';
 
 interface BookListProps {
   books: Book[];
-  progress: UserProgress;
   onSelectBook: (book: Book) => void;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, progress, onSelectBook }) => {
+const BookList: React.FC<BookListProps> = ({ books, onSelectBook }) => {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <header className="mb-10 text-center">
@@ -26,7 +25,6 @@ const BookList: React.FC<BookListProps> = ({ books, progress, onSelectBook }) =>
           <BookListItem
             key={book.id}
             book={book}
-            progress={progress}
             onClick={() => onSelectBook(book)}
           />
         ))}
