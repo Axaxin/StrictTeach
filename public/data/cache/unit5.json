@@ -1,0 +1,976 @@
+[
+  {
+    "id": "unit5-0",
+    "term": "within",
+    "phonetic": "/wɪˈðɪn/",
+    "definitions": [
+      {
+        "partOfSpeech": "prep.",
+        "meaning": "在……之内；在……范围内"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "在内；在里面"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He lives within the city limits.",
+        "translation": "他住在城市范围内。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-1",
+    "term": "quarter",
+    "phonetic": "/ˈkwɔːtə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "四分之一；季度；一刻钟"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "将（某物）分成四部分；供住宿给（士兵等）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She pays her rent every quarter.",
+        "translation": "她每季度付房租。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-2",
+    "term": "workshop",
+    "phonetic": "/ˈwɜːkʃɒp/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "车间；工场；研讨会"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "(非正式)反复练习(技能)；精炼"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "They attended a workshop on creative writing.",
+        "translation": "他们参加了一个创意写作研讨会。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-3",
+    "term": "leaf",
+    "phonetic": "/liːf/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "叶子；页（书刊的）；金属薄片"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "(书籍等)翻页；长出叶子"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The maple leaf turns red in autumn.",
+        "translation": "枫叶在秋天变红。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-4",
+    "term": "each",
+    "phonetic": "/iːtʃ/",
+    "definitions": [
+      {
+        "partOfSpeech": "det./pron.",
+        "meaning": "每个；各自"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "各个；每个"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Each student has their own book.",
+        "translation": "每个学生都有自己的书。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-5",
+    "term": "collect",
+    "phonetic": "/kəˈlekt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "to bring or gather together"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "a group of objects gathered for study or display"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He collects antique coins as a hobby.",
+        "translation": "他收集古币作为爱好。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-6",
+    "term": "root",
+    "phonetic": "/ruːt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "the part of a plant that attaches it to the ground and absorbs water and nutrients"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "to grow roots; to become firmly established"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The tree’s roots spread far beneath the surface.",
+        "translation": "树的根在地下延伸得很远。"
+      },
+      {
+        "sentence": "The seed began to root after a week.",
+        "translation": "一周后种子开始生根。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-7",
+    "term": "send",
+    "phonetic": "/send/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "to cause to go or be taken to a destination; to dispatch"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She sent an email to confirm the meeting time.",
+        "translation": "她发邮件确认会议时间。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-8",
+    "term": "rise",
+    "phonetic": "/raɪz/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "to move upward; to increase in level or amount"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "an increase; a growth"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The balloon rose slowly into the sky.",
+        "translation": "气球慢慢升上天空。"
+      },
+      {
+        "sentence": "There has been a sharp rise in oil prices recently.",
+        "translation": "最近油价大幅上涨。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-9",
+    "term": "stem",
+    "phonetic": "/stem/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "the main stalk of a plant, supporting leaves and flowers"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "to originate from; to come from"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The stem of the sunflower can reach several meters tall.",
+        "translation": "向日葵的茎可以长到几米高。"
+      },
+      {
+        "sentence": "Her passion for cooking stems from her childhood experiences.",
+        "translation": "她对烹饪的热情源于童年的经历。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-10",
+    "term": "mix",
+    "phonetic": "/mɪks/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "混合"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "混合物；混合"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She mixed the ingredients for the cake.",
+        "translation": "她把做蛋糕的原料混合在一起。"
+      },
+      {
+        "sentence": "This drink is a mix of fruit juices.",
+        "translation": "这种饮料是各种果汁的混合物。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-11",
+    "term": "produce",
+    "phonetic": "/prəˈdjuːs/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "生产；制造"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "农产品；产品"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The factory produces cars.",
+        "translation": "这家工厂生产汽车。"
+      },
+      {
+        "sentence": "We buy fresh produce at the market.",
+        "translation": "我们在市场上买新鲜农产品。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-12",
+    "term": "sugar",
+    "phonetic": "/ˈʃʊɡə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "糖"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "加糖于"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Too much sugar is bad for your health.",
+        "translation": "吃太多糖对你的健康不好。"
+      },
+      {
+        "sentence": "She sugared her tea.",
+        "translation": "她在茶里加了糖。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-13",
+    "term": "product",
+    "phonetic": "/ˈprɒdʌkt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "产品；产物"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "乘积（数学）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The company sells electronic products.",
+        "translation": "这家公司销售电子产品。"
+      },
+      {
+        "sentence": "The product of 3 and 4 is 12.",
+        "translation": "3和4的乘积是12。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-14",
+    "term": "oxygen",
+    "phonetic": "/ˈɒksɪdʒən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "氧；氧气"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Plants release oxygen into the air.",
+        "translation": "植物向空气中释放氧气。"
+      },
+      {
+        "sentence": "We need oxygen to breathe.",
+        "translation": "我们需要氧气呼吸。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-15",
+    "term": "human",
+    "phonetic": "/ˈhjuːmən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "人类"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "人的；人类的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The human race has made great progress in science.",
+        "translation": "人类在科学方面取得了巨大进步。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-16",
+    "term": "though",
+    "phonetic": "/ðəʊ/",
+    "definitions": [
+      {
+        "partOfSpeech": "conj.",
+        "meaning": "虽然；尽管"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "可是；然而"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Though it was raining, he went out for a walk.",
+        "translation": "虽然下雨了，他还是出去散步了。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-17",
+    "term": "breathe",
+    "phonetic": "/briːð/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "呼吸"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We need to breathe fresh air every day.",
+        "translation": "我们需要每天呼吸新鲜空气。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-18",
+    "term": "soon",
+    "phonetic": "/suːn/",
+    "definitions": [
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "不久；很快"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I will finish my homework soon.",
+        "translation": "我很快就会完成作业。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-19",
+    "term": "dark",
+    "phonetic": "/dɑːk/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "黑暗的；深色的"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "黑暗；暗处"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "It's getting dark outside, so we should go home.",
+        "translation": "外面天黑了，所以我们该回家了。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-20",
+    "term": "rest",
+    "phonetic": "",
+    "definitions": [],
+    "examples": [],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-21",
+    "term": "natural",
+    "phonetic": "",
+    "definitions": [],
+    "examples": [],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-22",
+    "term": "seed",
+    "phonetic": "",
+    "definitions": [],
+    "examples": [],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-23",
+    "term": "grow",
+    "phonetic": "",
+    "definitions": [],
+    "examples": [],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-24",
+    "term": "part",
+    "phonetic": "",
+    "definitions": [],
+    "examples": [],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-25",
+    "term": "rainforest",
+    "phonetic": "/ˈreɪnfɒrɪst/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "热带雨林"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "雨林地带"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The Amazon rainforest is home to countless species of plants and animals.",
+        "translation": "亚马逊雨林是无数动植物物种的家园。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-26",
+    "term": "culture",
+    "phonetic": "/ˈkʌltʃə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "文化；文明"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "教养；修养"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "培养；栽培"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Chinese culture has a long history dating back thousands of years.",
+        "translation": "中国文化有着数千年的历史。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-27",
+    "term": "corn silk",
+    "phonetic": "/kɔːn sɪlk/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "玉米须；玉米花丝"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Corn silk is traditionally used in herbal medicine to treat urinary tract infections.",
+        "translation": "玉米须在传统草药中用于治疗尿路感染。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-28",
+    "term": "health",
+    "phonetic": "/helθ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "健康；健康状况"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "卫生；保健"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "兴旺；繁荣"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Good nutrition and regular exercise are key to maintaining good health.",
+        "translation": "良好的营养和定期锻炼是保持健康的关键。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-29",
+    "term": "rose",
+    "phonetic": "/rəʊz/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "玫瑰；蔷薇"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "玫瑰色；粉红色"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "上升；上涨（rise的过去式）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She received a beautiful bouquet of red roses from her partner.",
+        "translation": "她从伴侣那里收到一束美丽的红玫瑰。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-30",
+    "term": "cotton",
+    "phonetic": "/ˈkɒtən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "棉花"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "棉质的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She bought a cotton dress.",
+        "translation": "她买了一件棉质连衣裙。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-31",
+    "term": "bamboo",
+    "phonetic": "/ˌbæmˈbuː/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "竹子"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He made a chair from bamboo.",
+        "translation": "他用竹子做了一把椅子。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-32",
+    "term": "popular",
+    "phonetic": "/ˈpɒpjʊlə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "流行的；受欢迎的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "This song is very popular among teenagers.",
+        "translation": "这首歌在青少年中很流行。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-33",
+    "term": "key",
+    "phonetic": "/kiː/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "钥匙"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "关键；答案"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "关键的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She lost her house key yesterday.",
+        "translation": "她昨天丢了房门钥匙。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-34",
+    "term": "news",
+    "phonetic": "/njuːz/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "新闻；消息"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I read the latest news online.",
+        "translation": "我在网上读了最新新闻。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-35",
+    "term": "prefer",
+    "phonetic": "/prɪˈfɜːr/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "更喜欢；宁愿"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "(常与to连用) 宁愿…而不愿"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He prefers tea to coffee.",
+        "translation": "他比起咖啡更喜欢茶。"
+      },
+      {
+        "sentence": "I prefer walking to cycling.",
+        "translation": "我宁愿步行也不愿骑自行车。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-36",
+    "term": "coffee",
+    "phonetic": "/ˈkɒfi/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "咖啡"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "咖啡色；咖啡饮料"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She drinks a cup of coffee every morning.",
+        "translation": "她每天早上喝一杯咖啡。"
+      },
+      {
+        "sentence": "The table was covered with a coffee - colored cloth.",
+        "translation": "桌子上铺着一块咖啡色的布。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-37",
+    "term": "secret",
+    "phonetic": "/ˈsiːkrət/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "秘密"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "秘密的；保密的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Their secret was kept for years.",
+        "translation": "他们的秘密被保守了好几年。"
+      },
+      {
+        "sentence": "They held a secret meeting last night.",
+        "translation": "他们昨晚举行了一次秘密会议。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-38",
+    "term": "husband",
+    "phonetic": "/ˈhʌzbənd/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "丈夫"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "节约使用；精打细算地管理"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "My husband is a doctor.",
+        "translation": "我的丈夫是一名医生。"
+      },
+      {
+        "sentence": "She learned to husband her money carefully.",
+        "translation": "她学会了谨慎地理财。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-39",
+    "term": "adult",
+    "phonetic": "/ˈædʌlt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "成年人"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "成年的；成熟的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "As an adult, you need to take responsibility.",
+        "translation": "作为成年人，你需要承担责任。"
+      },
+      {
+        "sentence": "Adults usually have more experience than children.",
+        "translation": "成年人通常比孩子有更多的经验。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-40",
+    "term": "weekend",
+    "phonetic": "/ˌwiːkˈend/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "周末"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We usually go to the park on weekends.",
+        "translation": "我们通常在周末去公园。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-41",
+    "term": "chat",
+    "phonetic": "/tʃæt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "聊天；闲谈"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "聊天；闲谈"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "They chatted for hours over coffee.",
+        "translation": "他们喝咖啡时聊了好几个小时。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-42",
+    "term": "relax",
+    "phonetic": "/rɪˈlæks/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "放松；休息"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "使放松；使轻松"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He likes to relax by listening to music.",
+        "translation": "他喜欢通过听音乐来放松。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-43",
+    "term": "yard",
+    "phonetic": "/jɑːrd/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "院子；庭院"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "码（长度单位，等于3英尺）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Our dog plays in the backyard every day.",
+        "translation": "我们的狗每天都在后院玩。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-44",
+    "term": "biscuit",
+    "phonetic": "/ˈbɪskɪt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "饼干；小点心"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She ate a biscuit with her tea.",
+        "translation": "她喝茶时吃了一块饼干。"
+      }
+    ],
+    "unit": "unit5"
+  },
+  {
+    "id": "unit5-45",
+    "term": "connect",
+    "phonetic": "/kəˈnekt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "连接；联系；接通（电话等）"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "连接；关系"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Please connect the printer to your computer.",
+        "translation": "请把打印机连到电脑上。"
+      },
+      {
+        "sentence": "She connected with her old friend after many years.",
+        "translation": "多年后她与老朋友取得了联系。"
+      }
+    ],
+    "unit": "unit5"
+  }
+]

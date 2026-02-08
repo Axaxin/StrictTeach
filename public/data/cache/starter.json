@@ -1,0 +1,694 @@
+[
+  {
+    "id": "starter-0",
+    "term": "ready",
+    "phonetic": "/ˈredi/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "准备好的；现成的"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "预先；已经"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The students are ready for the exam.",
+        "translation": "学生们准备好考试了。"
+      },
+      {
+        "sentence": "Dinner is ready; come and eat!",
+        "translation": "晚饭准备好了，来吃吧！"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-1",
+    "term": "textbook",
+    "phonetic": "/ˈtekstbʊk/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "教科书；课本"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "标准的；规范的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He bought a new textbook yesterday.",
+        "translation": "他昨天买了一本新教科书。"
+      },
+      {
+        "sentence": "This is a textbook example of how to solve the problem.",
+        "translation": "这是如何解决问题的标准范例。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-2",
+    "term": "eraser",
+    "phonetic": "/ɪˈreɪzə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "橡皮擦；板擦"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She uses an eraser to correct mistakes on paper.",
+        "translation": "她用橡皮擦改正纸上的错误。"
+      },
+      {
+        "sentence": "Don't forget to bring an eraser to class.",
+        "translation": "别忘了带橡皮擦上课。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-3",
+    "term": "junior high",
+    "phonetic": "/ˌdʒuːniər ˈhaɪ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "初中（美国教育体系中中学的前三年）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "My sister is in junior high now.",
+        "translation": "我妹妹现在上初中。"
+      },
+      {
+        "sentence": "Junior high students usually study subjects like math and science.",
+        "translation": "初中学生通常学习数学和科学等科目。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-4",
+    "term": "geography",
+    "phonetic": "/dʒiˈɒɡrəfi/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "地理；地理学"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "地形；地貌"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I like geography because it helps me understand the world.",
+        "translation": "我喜欢地理，因为它帮助我了解世界。"
+      },
+      {
+        "sentence": "The geography of this region includes mountains and rivers.",
+        "translation": "这个地区的地理包括山脉和河流。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-5",
+    "term": "biology",
+    "phonetic": "/baɪˈɒlədʒi/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "生物学"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The biology class is studying cell structure.",
+        "translation": "生物课正在研究细胞结构。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-6",
+    "term": "history",
+    "phonetic": "/ˈhɪstəri/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "历史；历史学"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She loves reading history books about ancient civilizations.",
+        "translation": "她喜欢读关于古代文明的历史书。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-7",
+    "term": "grey",
+    "phonetic": "/ɡreɪ/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "灰色的；阴沉的"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "灰色"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He has grey eyes.",
+        "translation": "他有灰色的眼睛。"
+      },
+      {
+        "sentence": "She chose the grey for her new dress.",
+        "translation": "她为新裙子选了灰色。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-8",
+    "term": "jacket",
+    "phonetic": "/ˈdʒækɪt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "夹克；短外套"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He put on his jacket before going out.",
+        "translation": "他出门前穿上了夹克。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-9",
+    "term": "red scarf",
+    "phonetic": "/red skɑːf/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "红围巾"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She bought a beautiful red scarf yesterday.",
+        "translation": "她昨天买了一条漂亮的红围巾。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-10",
+    "term": "T-shirt",
+    "phonetic": "/ˈtiːʃɜːrt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "T恤衫"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I bought a new T-shirt yesterday.",
+        "translation": "我昨天买了一件新T恤。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-11",
+    "term": "uniform",
+    "phonetic": "/ˈjuːnɪfɔːrm/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "制服"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "统一的；相同的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The students wear uniforms to school.",
+        "translation": "学生们穿校服上学。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-12",
+    "term": "school uniform",
+    "phonetic": "/skuːl ˈjuːnɪfɔːrm/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "校服"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She put on her school uniform before going to class.",
+        "translation": "她上课前穿上了校服。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-13",
+    "term": "of course",
+    "phonetic": "/əv kɔːrs/",
+    "definitions": [
+      {
+        "partOfSpeech": "adv. phrase",
+        "meaning": "当然；自然"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Can you help me with this? Of course!",
+        "translation": "你能帮我这个吗？当然可以！"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-14",
+    "term": "forget",
+    "phonetic": "/fərˈget/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "忘记"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I forgot my keys at home.",
+        "translation": "我把钥匙忘在家里了。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-15",
+    "term": "teaching building",
+    "phonetic": "/ˈtiːtʃɪŋ ˈbɪldɪŋ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "教学楼"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The teaching building is where students have classes.",
+        "translation": "教学楼是学生上课的地方。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-16",
+    "term": "dining hall",
+    "phonetic": "/ˈdaɪnɪŋ hɔːl/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "食堂"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The students eat lunch in the dining hall.",
+        "translation": "学生们在食堂吃午饭。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-17",
+    "term": "together",
+    "phonetic": "/təˈɡeðə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "一起；共同"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We worked together on the project.",
+        "translation": "我们在这个项目上一起合作。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-18",
+    "term": "lab",
+    "phonetic": "/læb/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "实验室"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She conducted experiments in the science lab.",
+        "translation": "她在科学实验室做实验。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-19",
+    "term": "start",
+    "phonetic": "/stɑːt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "开始；启动"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He will start his new job next week.",
+        "translation": "他下周将开始新工作。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-20",
+    "term": "each other",
+    "phonetic": "/ˌiːtʃ ˈʌðər/",
+    "definitions": [
+      {
+        "partOfSpeech": "pron.",
+        "meaning": "互相；彼此"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "互相"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "They help each other with their homework.",
+        "translation": "他们互相帮助做作业。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-21",
+    "term": "everyone",
+    "phonetic": "/ˈevriwʌn/",
+    "definitions": [
+      {
+        "partOfSpeech": "pron.",
+        "meaning": "每个人；人人"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Everyone is welcome to attend the meeting.",
+        "translation": "欢迎每个人参加这次会议。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-22",
+    "term": "explore",
+    "phonetic": "/ɪkˈsplɔːr/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "探索；探究；考察"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "探测；勘探"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Scientists are exploring new ways to treat this disease.",
+        "translation": "科学家们正在探索治疗这种疾病的新方法。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-23",
+    "term": "fun",
+    "phonetic": "/fʌn/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "乐趣；娱乐；嬉戏"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "有趣的；逗乐的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We had a lot of fun at the amusement park yesterday.",
+        "translation": "昨天我们在游乐园玩得很开心。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-24",
+    "term": "introduce",
+    "phonetic": "/ˌɪntrəˈdjuːs/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "介绍；引见"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "提出；采用；推行"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "使接触；使了解"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He introduced me to his sister last week.",
+        "translation": "上周他把我和他妹妹介绍了认识。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-25",
+    "term": "yourself",
+    "phonetic": "/jɔːˈself/",
+    "definitions": [
+      {
+        "partOfSpeech": "pron.",
+        "meaning": "你自己"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "你本人；亲自"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "You should take care of yourself.",
+        "translation": "你应该照顾好自己。"
+      },
+      {
+        "sentence": "Do it yourself if you want it done properly.",
+        "translation": "如果你想要做好这件事，就自己做吧。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-26",
+    "term": "hobby",
+    "phonetic": "/ˈhɒbi/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "爱好；业余爱好"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He has many hobbies, such as reading and painting.",
+        "translation": "他有很多爱好，比如读书和绘画。"
+      },
+      {
+        "sentence": "Collecting stamps is her favorite hobby.",
+        "translation": "集邮是她最喜欢的爱好。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-27",
+    "term": "a bit",
+    "phonetic": "/ə ˈbɪt/",
+    "definitions": [
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "有点儿；稍微"
+      },
+      {
+        "partOfSpeech": "phr.",
+        "meaning": "少量；少许"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I'm a bit tired after the long walk.",
+        "translation": "长途步行后我有点累。"
+      },
+      {
+        "sentence": "Can you give me a bit of help?",
+        "translation": "你能给我一点帮助吗？"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-28",
+    "term": "nervous",
+    "phonetic": "/ˈnɜːvəs/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "紧张的；焦虑的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "神经质的；易激动的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She felt nervous before the exam.",
+        "translation": "考试前她感到紧张。"
+      },
+      {
+        "sentence": "Don't be so nervous; everything will be fine.",
+        "translation": "别那么紧张，一切都会好的。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-29",
+    "term": "join",
+    "phonetic": "/dʒɔɪn/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "加入；参加"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "连接；结合"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "会合；联合"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Would you like to join our club?",
+        "translation": "你想加入我们的俱乐部吗？"
+      },
+      {
+        "sentence": "The two rivers join here.",
+        "translation": "两条河在这里汇合。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-30",
+    "term": "team",
+    "phonetic": "/tiːm/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "队；组"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "(team up) 合作；协作"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The basketball team practiced hard every day.",
+        "translation": "篮球队每天刻苦训练。"
+      },
+      {
+        "sentence": "They teamed up to finish the project on time.",
+        "translation": "他们合作按时完成了项目。"
+      }
+    ],
+    "unit": "starter"
+  },
+  {
+    "id": "starter-31",
+    "term": "take part in",
+    "phonetic": "/teɪk pɑːt ɪn/",
+    "definitions": [
+      {
+        "partOfSpeech": "phr. v.",
+        "meaning": "参加；参与（活动、事件等）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Many students took part in the school art festival.",
+        "translation": "许多学生参加了学校艺术节。"
+      },
+      {
+        "sentence": "I'd like to take part in the volunteer work next weekend.",
+        "translation": "我想参加下周末的志愿者工作。"
+      }
+    ],
+    "unit": "starter"
+  }
+]

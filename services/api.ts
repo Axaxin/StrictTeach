@@ -112,7 +112,7 @@ async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> 
 /**
  * 记录答题结果
  */
-export async recordAttempts(attempts: QuizAttempt[]): Promise<RecordAttemptsResponse> {
+export async function recordAttempts(attempts: QuizAttempt[]): Promise<RecordAttemptsResponse> {
   return fetchAPI<RecordAttemptsResponse>('/api/attempts', {
     method: 'POST',
     body: JSON.stringify({ userId: 'default', attempts }),
@@ -122,7 +122,7 @@ export async recordAttempts(attempts: QuizAttempt[]): Promise<RecordAttemptsResp
 /**
  * 获取单个单词熟练度
  */
-export async getWordMastery(wordId: string): Promise<WordMastery | null> {
+export async function getWordMastery(wordId: string): Promise<WordMastery | null> {
   try {
     return await fetchAPI<WordMastery>(`/api/mastery/${wordId}`);
   } catch (error) {
@@ -136,7 +136,7 @@ export async getWordMastery(wordId: string): Promise<WordMastery | null> {
 /**
  * 批量获取单词熟练度
  */
-export async getBatchMastery(wordIds: string[]): Promise<WordMastery[]> {
+export async function getBatchMastery(wordIds: string[]): Promise<WordMastery[]> {
   const params = new URLSearchParams({ wordIds: wordIds.join(',') });
   return fetchAPI<WordMastery[]>(`/api/mastery?${params}`);
 }
@@ -144,7 +144,7 @@ export async getBatchMastery(wordIds: string[]): Promise<WordMastery[]> {
 /**
  * 批量获取单词熟练度（POST 方式，支持更多 wordIds）
  */
-export async getBatchMasteryPost(wordIds: string[]): Promise<WordMastery[]> {
+export async function getBatchMasteryPost(wordIds: string[]): Promise<WordMastery[]> {
   return fetchAPI<WordMastery[]>('/api/mastery/batch', {
     method: 'POST',
     body: JSON.stringify({ wordIds }),
@@ -160,7 +160,7 @@ export interface NeedPracticeOptions {
   maxMasteryLevel?: number;
 }
 
-export async getWordsNeedPractice(options: NeedPracticeOptions = {}): Promise<WordMastery[]> {
+export async function getWordsNeedPractice(options: NeedPracticeOptions = {}): Promise<WordMastery[]> {
   const params = new URLSearchParams({
     limit: String(options.limit || 10),
     maxMasteryLevel: String(options.maxMasteryLevel || 80),
@@ -176,20 +176,20 @@ export async getWordsNeedPractice(options: NeedPracticeOptions = {}): Promise<Wo
 /**
  * 获取学习统计
  */
-export async getLearningStats(userId: string = 'default'): Promise<LearningStats> {
+export async function getLearningStats(userId: string = 'default'): Promise<LearningStats> {
   return fetchAPI<LearningStats>(`/api/stats?userId=${userId}`);
 }
 
 /**
  * 获取单词答题历史
  */
-export async getWordAttempts(wordId: string, limit: number = 50): Promise<any[]> {
+export async function getWordAttempts(wordId: string, limit: number = 50): Promise<any[]> {
   return fetchAPI<any[]>(`/api/attempts/word/${wordId}?limit=${limit}`);
 }
 
 /**
  * 健康检查
  */
-export async healthCheck(): Promise<{ status: string }> {
+export async function healthCheck(): Promise<{ status: string }> {
   return fetchAPI<{ status: string }>('/api/health');
 }

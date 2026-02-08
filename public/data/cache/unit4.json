@@ -1,0 +1,1096 @@
+[
+  {
+    "id": "unit4-0",
+    "term": "unusual",
+    "phonetic": "/ʌnˈjuːʒuəl/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "不寻常的；罕见的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "独特的；与众不同的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The weather is unusual for this time of year.",
+        "translation": "这个时节的天气很不寻常。"
+      },
+      {
+        "sentence": "She has an unusual talent for painting.",
+        "translation": "她有非凡的绘画天赋。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-1",
+    "term": "university",
+    "phonetic": "/ˌjuːnɪˈvɜːsəti/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "大学；综合性大学"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "大学教育；大学生活"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He is studying at a famous university.",
+        "translation": "他在一所著名的大学学习。"
+      },
+      {
+        "sentence": "Many students go to university to get a degree.",
+        "translation": "许多学生上大学是为了获得学位。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-2",
+    "term": "treat",
+    "phonetic": "/triːt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "对待；看待"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "治疗；处理"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "款待；请客"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "乐趣；乐事"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Don't treat him unfairly.",
+        "translation": "不要不公平地对待他。"
+      },
+      {
+        "sentence": "The dentist treated my toothache.",
+        "translation": "牙医治疗了我的牙痛。"
+      },
+      {
+        "sentence": "It's my treat today.",
+        "translation": "今天我请客。"
+      },
+      {
+        "sentence": "It was a real treat to see her again.",
+        "translation": "再次见到她真是件乐事。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-3",
+    "term": "realise",
+    "phonetic": "/ˈrɪəlaɪz/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "意识到；认识到"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "实现；使成为现实"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I didn't realise how late it was.",
+        "translation": "我没意识到天这么晚了。"
+      },
+      {
+        "sentence": "She finally realised her dream of becoming a writer.",
+        "translation": "她终于实现了成为作家的梦想。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-4",
+    "term": "dumpling",
+    "phonetic": "/ˈdʌmplɪŋ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "饺子；汤圆"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "面团团；面疙瘩"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "My mother makes delicious dumplings.",
+        "translation": "我妈妈做美味的饺子。"
+      },
+      {
+        "sentence": "We had beef dumplings for dinner.",
+        "translation": "我们晚餐吃了牛肉饺子。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-5",
+    "term": "whole",
+    "phonetic": "/wəʊl/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "完整的；全部的"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "整体；全部"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The whole class was excited about the field trip.",
+        "translation": "全班都对这次实地考察感到兴奋。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-6",
+    "term": "cucumber",
+    "phonetic": "/ˈkjuːkʌmbə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "黄瓜"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She added slices of fresh cucumber to the sandwich.",
+        "translation": "她在三明治里加了新鲜黄瓜片。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-7",
+    "term": "hang",
+    "phonetic": "/hæŋ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "悬挂；吊死（过去式hung）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He hung his backpack on the chair before sitting down.",
+        "translation": "他坐下来前把背包挂在椅子上。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-8",
+    "term": "balloon",
+    "phonetic": "/bəˈluːn/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "气球"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The kids released colorful balloons into the sky at the event.",
+        "translation": "孩子们在活动中将彩色气球释放到天空中。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-9",
+    "term": "lantern",
+    "phonetic": "/ˈlæntən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "灯笼"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "They hung paper lanterns along the street for the festival.",
+        "translation": "他们在街道上挂起纸灯笼庆祝节日。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-10",
+    "term": "dish",
+    "phonetic": "/dɪʃ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "盘子"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "(用盘子)盛(食物)"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The waiter carried a dish of soup to the table.",
+        "translation": "服务员把一盘汤端到桌上。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-11",
+    "term": "joke",
+    "phonetic": "/dʒəʊk/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "笑话"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "开玩笑"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She told a funny joke to make us laugh.",
+        "translation": "她讲了个有趣的笑话让我们笑。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-12",
+    "term": "against the law",
+    "phonetic": "/əˈɡenst ðə lɔː/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj./adv.",
+        "meaning": "违法的(地)"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "It's against the law to drive without a license.",
+        "translation": "无证驾驶是违法的。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-13",
+    "term": "shocked",
+    "phonetic": "/ʃɒkt/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "震惊的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I was shocked to hear that he had resigned.",
+        "translation": "听到他辞职的消息我很震惊。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-14",
+    "term": "laugh",
+    "phonetic": "/lɑːf/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "笑"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "笑声"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He laughed loudly when he heard the joke.",
+        "translation": "听到那个笑话他大声笑了。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-15",
+    "term": "pork",
+    "phonetic": "/pɔːk/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "猪肉"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I like to eat pork chops for dinner.",
+        "translation": "我喜欢晚饭吃猪排。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-16",
+    "term": "round",
+    "phonetic": "/raʊnd/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "圆的；圆形的"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "（使）成圆形；（使）转动"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The ball is round.",
+        "translation": "球是圆的。"
+      },
+      {
+        "sentence": "He rounded the corner and saw his friend.",
+        "translation": "他转过街角看到了朋友。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-17",
+    "term": "shape",
+    "phonetic": "/ʃeɪp/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "形状；形态"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "形成；塑造"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "What shape is the moon?",
+        "translation": "月亮是什么形状？"
+      },
+      {
+        "sentence": "She shaped the clay into a bowl.",
+        "translation": "她把黏土塑成一个碗。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-18",
+    "term": "reunion",
+    "phonetic": "/riːˈjuːniən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "团聚；重聚；联谊会"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Our family reunion is next month.",
+        "translation": "我们家的团聚在下个月。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-19",
+    "term": "piece",
+    "phonetic": "/piːs/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "片；块；件"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "修补；拼接"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She ate a piece of cake.",
+        "translation": "她吃了一块蛋糕。"
+      },
+      {
+        "sentence": "He pieced the broken vase back together.",
+        "translation": "他把破碎的花瓶拼在一起。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-20",
+    "term": "knife",
+    "phonetic": "/naɪf/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "刀"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "用刀切"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He cut the apple with a knife.",
+        "translation": "他用刀切苹果。"
+      },
+      {
+        "sentence": "She knifed the bread carefully.",
+        "translation": "她小心地用刀切面包。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-21",
+    "term": "smell",
+    "phonetic": "/smel/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "气味"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "闻起来；嗅"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The smell of roses is wonderful.",
+        "translation": "玫瑰花的气味很香。"
+      },
+      {
+        "sentence": "She smelled the milk to check if it was fresh.",
+        "translation": "她闻了闻牛奶，检查是否新鲜。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-22",
+    "term": "fill",
+    "phonetic": "/fɪl/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "装满；填充"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Fill the bottle with water, please.",
+        "translation": "请把瓶子装满水。"
+      },
+      {
+        "sentence": "The room was filled with people.",
+        "translation": "房间里挤满了人。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-23",
+    "term": "Christmas",
+    "phonetic": "/ˈkrɪsməs/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "圣诞节"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We usually exchange gifts at Christmas.",
+        "translation": "我们通常在圣诞节交换礼物。"
+      },
+      {
+        "sentence": "Christmas is a time for family gatherings.",
+        "translation": "圣诞节是家人团聚的时候。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-24",
+    "term": "waste",
+    "phonetic": "/weɪst/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "废物；浪费"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "浪费；滥用"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Reduce, reuse, and recycle waste to protect the environment.",
+        "translation": "减少、重复使用和回收废物以保护环境。"
+      },
+      {
+        "sentence": "It's a waste of money to buy such an expensive toy.",
+        "translation": "买这么贵的玩具是浪费钱。"
+      },
+      {
+        "sentence": "Don't waste your time on unimportant things.",
+        "translation": "不要把时间浪费在不重要的事情上。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-25",
+    "term": "throw away",
+    "phonetic": "/ˈθrəʊ əˈweɪ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "扔掉；丢弃"
+      },
+      {
+        "partOfSpeech": "phrasal verb",
+        "meaning": "抛弃；浪费"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "They throw away old clothes that are no longer needed.",
+        "translation": "他们把不再需要的旧衣服扔掉了。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-26",
+    "term": "pollution",
+    "phonetic": "/pəˈluːʃ(ə)n/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "污染；污染物"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "玷污；弄脏"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Air pollution has become a major problem in many big cities.",
+        "translation": "空气污染已成为许多大城市的重大问题。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-27",
+    "term": "plastic",
+    "phonetic": "/ˈplæstɪk/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "塑料；塑料制品"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "塑料的；可塑的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We should avoid using single - use plastic products to protect the environment.",
+        "translation": "为了保护环境，我们应避免使用一次性塑料制品。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-28",
+    "term": "celebrate",
+    "phonetic": "/ˈselɪbreɪt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "庆祝；庆贺"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "赞美；歌颂"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "People around the world celebrate New Year's Day with various activities.",
+        "translation": "世界各地的人们通过各种活动庆祝新年。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-29",
+    "term": "meal",
+    "phonetic": "/miːl/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "一餐；一顿饭"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "膳食；进餐时间"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I had a light meal for breakfast today.",
+        "translation": "我今天早餐吃得很少。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-30",
+    "term": "duty",
+    "phonetic": "/ˈdjuːti/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "责任；义务"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "税；关税"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "It's our duty to help those in need.",
+        "translation": "帮助有需要的人是我们的责任。"
+      },
+      {
+        "sentence": "There is a heavy duty on imported cars.",
+        "translation": "进口汽车有关税。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-31",
+    "term": "shine",
+    "phonetic": "/ʃaɪn/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "发光；照耀"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "擦亮；使发光"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "光泽；光亮"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The sun shines brightly in the sky.",
+        "translation": "太阳在天空中明亮地照耀。"
+      },
+      {
+        "sentence": "She shined her shoes before going out.",
+        "translation": "她出门前把鞋子擦亮了。"
+      },
+      {
+        "sentence": "The diamond has a beautiful shine.",
+        "translation": "这颗钻石有美丽的光泽。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-32",
+    "term": "usually",
+    "phonetic": "/ˈjuːʒuəli/",
+    "definitions": [
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "通常；一般"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I usually get up at six o'clock in the morning.",
+        "translation": "我通常早上六点起床。"
+      },
+      {
+        "sentence": "What do you usually have for breakfast?",
+        "translation": "你早餐通常吃什么？"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-33",
+    "term": "break",
+    "phonetic": "/breɪk/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "打破；折断"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "违背；违反"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "中断；暂停"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "休息；间歇"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "破裂；断裂处"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He broke the vase into pieces.",
+        "translation": "他把花瓶打碎了。"
+      },
+      {
+        "sentence": "Don't break your promise.",
+        "translation": "不要违背你的诺言。"
+      },
+      {
+        "sentence": "We need to break for lunch now.",
+        "translation": "我们现在需要停下来吃午饭。"
+      },
+      {
+        "sentence": "Let's take a break after working for two hours.",
+        "translation": "工作两小时后让我们休息一下。"
+      },
+      {
+        "sentence": "There is a break in the pipe.",
+        "translation": "管道上有个裂缝。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-34",
+    "term": "emergency",
+    "phonetic": "/ɪˈmɜːdʒənsi/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "紧急情况；突发事件"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "非常时刻；紧急事件"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "In case of emergency, dial 120 immediately.",
+        "translation": "遇到紧急情况，请立即拨打120。"
+      },
+      {
+        "sentence": "The hospital has an emergency room for urgent cases.",
+        "translation": "医院有急诊室处理紧急病例。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-35",
+    "term": "miss",
+    "phonetic": "/mɪs/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "错过"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "想念"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "小姐"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I missed the bus this morning.",
+        "translation": "我今天早上错过了公交车。"
+      },
+      {
+        "sentence": "She misses her hometown very much.",
+        "translation": "她非常想念她的家乡。"
+      },
+      {
+        "sentence": "Good morning, Miss Li.",
+        "translation": "早上好，李小姐。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-36",
+    "term": "thirsty",
+    "phonetic": "/ˈθɜːsti/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "渴的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "渴望的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I'm thirsty. Could I have a glass of water?",
+        "translation": "我渴了，能给我一杯水吗？"
+      },
+      {
+        "sentence": "The plant is thirsty and needs watering.",
+        "translation": "这株植物缺水，需要浇水。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-37",
+    "term": "challenge",
+    "phonetic": "/ˈtʃæləndʒ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "挑战"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "向…挑战"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Climbing the mountain was a great challenge for him.",
+        "translation": "对他来说，爬山是一项巨大的挑战。"
+      },
+      {
+        "sentence": "He challenged his friend to a game of chess.",
+        "translation": "他向朋友挑战下棋。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-38",
+    "term": "patient",
+    "phonetic": "/ˈpeɪʃnt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "病人"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "有耐心的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The doctor is examining the patient in the room.",
+        "translation": "医生正在房间里检查病人。"
+      },
+      {
+        "sentence": "You need to be patient when learning a new language.",
+        "translation": "学习新语言时你需要有耐心。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-39",
+    "term": "situation",
+    "phonetic": "/ˌsɪtʃuˈeɪʃn/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "情况；形势"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "处境；位置"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The economic situation in the country is improving.",
+        "translation": "该国的经济形势正在改善。"
+      },
+      {
+        "sentence": "We need to assess the current situation before making a decision.",
+        "translation": "在做决定前我们需要评估当前的情况。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-40",
+    "term": "regret",
+    "phonetic": "/rɪˈɡret/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "后悔；对……感到遗憾"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "遗憾；懊悔"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "I regret not studying harder for the exam.",
+        "translation": "我后悔没有更努力学习考试。"
+      },
+      {
+        "sentence": "She felt no regret about leaving her job.",
+        "translation": "她对离开工作毫无遗憾。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-41",
+    "term": "decision",
+    "phonetic": "/dɪˈsɪʒən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "决定；抉择"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "It was a difficult decision to make.",
+        "translation": "这是一个很难做的决定。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-42",
+    "term": "support",
+    "phonetic": "/səˈpɔːrt/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "支持；援助"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "支持；支撑物"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The community supported the local charity.",
+        "translation": "社区支持当地的慈善机构。"
+      },
+      {
+        "sentence": "The bridge needs additional support.",
+        "translation": "这座桥需要额外的支撑。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-43",
+    "term": "medical",
+    "phonetic": "/ˈmedɪkl/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "医学的；医疗的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He received medical treatment after the accident.",
+        "translation": "事故后他接受了治疗。"
+      }
+    ],
+    "unit": "unit4"
+  },
+  {
+    "id": "unit4-44",
+    "term": "firework",
+    "phonetic": "/ˈfaɪərwɜːrk/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "烟花；烟火（常用复数）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We watched fireworks on New Year's Eve.",
+        "translation": "我们在除夕夜看烟花。"
+      }
+    ],
+    "unit": "unit4"
+  }
+]

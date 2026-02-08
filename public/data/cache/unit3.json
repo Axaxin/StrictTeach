@@ -1,0 +1,1025 @@
+[
+  {
+    "id": "unit3-0",
+    "term": "silent",
+    "phonetic": "/ˈsaɪlənt/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "沉默的；寂静的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "未表达的；未提及的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The library was completely silent during the exam period.",
+        "translation": "考试期间图书馆完全寂静无声。"
+      },
+      {
+        "sentence": "He gave a silent nod to show agreement.",
+        "translation": "他默默点头表示同意。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-1",
+    "term": "along",
+    "phonetic": "/əˈlɒŋ/",
+    "definitions": [
+      {
+        "partOfSpeech": "prep.",
+        "meaning": "沿着；顺着"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "向前；一起"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We walked along the beach at sunset.",
+        "translation": "我们在日落时沿着海滩散步。"
+      },
+      {
+        "sentence": "Come along with me to the party!",
+        "translation": "和我一起去派对吧！"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-2",
+    "term": "mountain",
+    "phonetic": "/ˈmaʊntən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "山；山脉"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "大量；许多"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The climbers reached the top of the mountain after three days.",
+        "translation": "登山者三天后到达了山顶。"
+      },
+      {
+        "sentence": "There’s a mountain of work waiting for me tomorrow.",
+        "translation": "明天有一大堆工作等着我。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-3",
+    "term": "road",
+    "phonetic": "/rəʊd/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "路；道路"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "途径；方法"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "It’s dangerous to cross the road without looking both ways.",
+        "translation": "不左右看就过马路是很危险的。"
+      },
+      {
+        "sentence": "Education is the road to success.",
+        "translation": "教育是成功之路。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-4",
+    "term": "handsome",
+    "phonetic": "/ˈhænsəm/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "（男子）英俊的；帅气的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "可观的；相当大的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He grew up to be a tall and handsome man.",
+        "translation": "他长大后成了一个高大帅气的人。"
+      },
+      {
+        "sentence": "She has a handsome salary working as a manager.",
+        "translation": "她担任经理，薪水可观。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-5",
+    "term": "strict",
+    "phonetic": "/strɪkt/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "严厉的；严格的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "精确的；严谨的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The teacher is very strict with students.",
+        "translation": "老师对学生要求非常严格。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-6",
+    "term": "follow",
+    "phonetic": "/ˈfɒləʊ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "跟随；接着"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "遵循；听从"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "理解；采用"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He followed the map to find the way.",
+        "translation": "他按照地图寻找路线。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-7",
+    "term": "postman",
+    "phonetic": "/ˈpəʊstmən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "邮递员；投递员"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The postman delivers letters every morning.",
+        "translation": "邮递员每天早晨送信件。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-8",
+    "term": "touching",
+    "phonetic": "/ˈtʌtʃɪŋ/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "感人的；动人的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "接触的；触觉的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "That was a touching story about love.",
+        "translation": "那是一个关于爱情的感人故事。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-9",
+    "term": "son",
+    "phonetic": "/sʌn/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "儿子；孩子"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "后代；子孙"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "My son is studying in college now.",
+        "translation": "我的儿子现在正在上大学。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-10",
+    "term": "serve",
+    "phonetic": "/sɜːv/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "提供；服务"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "招待（食物或饮料）"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "发球；服役期"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She will serve dinner at six o'clock.",
+        "translation": "她将在六点供应晚餐。"
+      },
+      {
+        "sentence": "He has served in the army for five years.",
+        "translation": "他在军队服役五年了。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-11",
+    "term": "area",
+    "phonetic": "/ˈeəriə/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "地区；区域"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "领域；范围"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "This area is known for its beautiful beaches.",
+        "translation": "这个地区以美丽的海滩闻名。"
+      },
+      {
+        "sentence": "She specializes in the area of environmental science.",
+        "translation": "她专攻环境科学领域。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-12",
+    "term": "absent",
+    "phonetic": "/ˈæbsənt/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "缺席的；不在场的"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "使缺席；使离开"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He was absent from school yesterday.",
+        "translation": "他昨天没来上学。"
+      },
+      {
+        "sentence": "The teacher absented herself from the meeting.",
+        "translation": "老师没有出席会议。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-13",
+    "term": "seldom",
+    "phonetic": "/ˈseldəm/",
+    "definitions": [
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "很少；不常"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We seldom go out on weekdays.",
+        "translation": "我们平日很少外出。"
+      },
+      {
+        "sentence": "Seldom have I seen such a beautiful sunset.",
+        "translation": "我很少看到这么美的日落。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-14",
+    "term": "position",
+    "phonetic": "/pəˈzɪʃən/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "位置；方位"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "职位；职务"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "放置；定位"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The position of the city on the map is clear.",
+        "translation": "这座城市在地图上的位置很清楚。"
+      },
+      {
+        "sentence": "She applied for a position as a manager.",
+        "translation": "她申请经理一职。"
+      },
+      {
+        "sentence": "Position the camera carefully before taking photos.",
+        "translation": "拍照前仔细定位相机。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-15",
+    "term": "carry",
+    "phonetic": "/ˈkæri/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "携带；运送"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "运载工具（较少用）"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She carried the books to the library.",
+        "translation": "她把书带到图书馆。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-16",
+    "term": "across",
+    "phonetic": "/əˈkrɒs/",
+    "definitions": [
+      {
+        "partOfSpeech": "prep./adv.",
+        "meaning": "穿过；横过"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We walked across the bridge.",
+        "translation": "我们走过桥。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-17",
+    "term": "memory",
+    "phonetic": "/ˈmeməri/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "记忆；记忆力"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "My memory of that day is still clear.",
+        "translation": "我对那天的记忆仍然清晰。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-18",
+    "term": "tear",
+    "phonetic": [
+      "/tɛə(r)/",
+      "/tɪə(r)/"
+    ],
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "撕开；扯破"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "眼泪"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He tore the paper into pieces.",
+        "translation": "他把纸撕成碎片。"
+      },
+      {
+        "sentence": "Tears streamed down her face.",
+        "translation": "泪水顺着她的脸流下来。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-19",
+    "term": "growth",
+    "phonetic": "/ɡrəʊθ/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "生长；增长"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The company has shown steady growth in recent years.",
+        "translation": "该公司近年来稳步增长。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-20",
+    "term": "hide",
+    "phonetic": "/haɪd/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "隐藏；躲藏"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "兽皮"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He hid the book under the bed.",
+        "translation": "他把书藏在床底下。"
+      },
+      {
+        "sentence": "The hunter used animal hide to make clothes.",
+        "translation": "猎人用兽皮做衣服。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-21",
+    "term": "care",
+    "phonetic": "/ker/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "关心；在意"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "照顾；关怀"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She cares about her students very much.",
+        "translation": "她非常关心她的学生。"
+      },
+      {
+        "sentence": "The baby needs proper care.",
+        "translation": "婴儿需要适当的照顾。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-22",
+    "term": "hug",
+    "phonetic": "/hʌɡ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v./n.",
+        "meaning": "拥抱"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "They hugged each other tightly when they met.",
+        "translation": "他们见面时紧紧地拥抱在一起。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-23",
+    "term": "kiss",
+    "phonetic": "/kɪs/",
+    "definitions": [
+      {
+        "partOfSpeech": "v./n.",
+        "meaning": "吻"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He kissed his wife goodbye.",
+        "translation": "他吻别了妻子。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-24",
+    "term": "marry",
+    "phonetic": "/ˈmæri/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "结婚；嫁娶"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She married a rich man last year.",
+        "translation": "她去年嫁给了一个有钱人。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-25",
+    "term": "queen",
+    "phonetic": "/kwiːn/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "女王；王后"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She is the queen of England.",
+        "translation": "她是英国女王。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-26",
+    "term": "pick up",
+    "phonetic": "/pɪk ʌp/",
+    "definitions": [
+      {
+        "partOfSpeech": "v. phr.",
+        "meaning": "捡起"
+      },
+      {
+        "partOfSpeech": "v. phr.",
+        "meaning": "用车接某人"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He picked up his book from the floor.",
+        "translation": "他从地板上捡起了书。"
+      },
+      {
+        "sentence": "I'll pick you up at the station.",
+        "translation": "我会去车站接你。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-27",
+    "term": "actress",
+    "phonetic": "/ˈæktrəs/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "女演员"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "She is a famous actress in Hollywood.",
+        "translation": "她是好莱坞的著名女演员。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-28",
+    "term": "change",
+    "phonetic": "/tʃeɪndʒ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "改变；更换"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "变化；零钱"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He wants to change his job.",
+        "translation": "他想换工作。"
+      },
+      {
+        "sentence": "Can you give me some change for a dollar?",
+        "translation": "你能给我一些一美元的零钱吗？"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-29",
+    "term": "race",
+    "phonetic": "/reɪs/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "比赛；竞赛"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "种族"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "赛跑；竞速"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The horse race was very exciting.",
+        "translation": "那场赛马非常激动人心。"
+      },
+      {
+        "sentence": "People of all races should be treated equally.",
+        "translation": "所有种族的人都应受到平等对待。"
+      },
+      {
+        "sentence": "They raced each other to the top of the hill.",
+        "translation": "他们互相竞速爬到山顶。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-30",
+    "term": "serious",
+    "phonetic": "/ˈsɪəriəs/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "严肃的；认真的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "严重的；危急的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He gave me a serious look.",
+        "translation": "他给了我一个严肃的眼神。"
+      },
+      {
+        "sentence": "The patient has a serious illness.",
+        "translation": "病人得了重病。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-31",
+    "term": "disease",
+    "phonetic": "/dɪˈziːz/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "疾病；病症"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "弊病；弊端"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Heart disease is a major health problem.",
+        "translation": "心脏病是一个主要的健康问题。"
+      },
+      {
+        "sentence": "Corruption is a social disease.",
+        "translation": "腐败是一种社会弊病。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-32",
+    "term": "stay",
+    "phonetic": "/steɪ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "停留；暂住"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "保持；维持"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "停留；逗留"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "We stayed at home all weekend.",
+        "translation": "整个周末我们都待在家里。"
+      },
+      {
+        "sentence": "Stay calm in an emergency.",
+        "translation": "紧急情况下要保持冷静。"
+      },
+      {
+        "sentence": "I enjoyed my stay in Paris.",
+        "translation": "我很喜欢在巴黎的逗留时光。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-33",
+    "term": "trailer",
+    "phonetic": "/ˈtreɪlə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "拖车；挂车"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "(电影)预告片"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "（移动房屋用的）活动住房"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The truck was pulling a heavy trailer.",
+        "translation": "卡车正拖着沉重的拖车。"
+      },
+      {
+        "sentence": "The new movie trailer looks amazing.",
+        "translation": "这部新电影的预告片看起来很棒。"
+      },
+      {
+        "sentence": "They live in a mobile trailer.",
+        "translation": "他们住在移动的活动住房里。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-34",
+    "term": "pull",
+    "phonetic": "/pʊl/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "拉；扯；拽"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "拔出；抽出"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "吸引；招引"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "拉；拉力"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Pull the door to open it.",
+        "translation": "拉开门。"
+      },
+      {
+        "sentence": "She pulled out her phone from her bag.",
+        "translation": "她从包里掏出手机。"
+      },
+      {
+        "sentence": "The show pulls large audiences.",
+        "translation": "这个节目吸引了大量观众。"
+      },
+      {
+        "sentence": "The rope broke under the pull of the weight.",
+        "translation": "绳子在重物的拉力下断了。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-35",
+    "term": "bright",
+    "phonetic": "/braɪt/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "明亮的；发光的"
+      },
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "聪明的；伶俐的"
+      },
+      {
+        "partOfSpeech": "adv.",
+        "meaning": "明亮地；光明地"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The room was bright with sunlight.",
+        "translation": "房间被阳光照得明亮。"
+      },
+      {
+        "sentence": "She is a bright student who always gets good grades.",
+        "translation": "她是个聪明的学生，总是取得好成绩。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-36",
+    "term": "refuse",
+    "phonetic": "/rɪˈfjuːz/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "拒绝；不肯；不愿"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "垃圾；废弃物"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "He refused to help me with my homework.",
+        "translation": "他拒绝帮我做作业。"
+      },
+      {
+        "sentence": "Please put the refuse in the trash can.",
+        "translation": "请把垃圾放进垃圾桶里。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-37",
+    "term": "result",
+    "phonetic": "/rɪˈzʌlt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "结果；成效；成绩"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "导致；结果是；发生"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "(体育比赛的)比分"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "The result of the experiment surprised everyone.",
+        "translation": "实验的结果让每个人都感到惊讶。"
+      },
+      {
+        "sentence": "His hard work resulted in a promotion.",
+        "translation": "他的努力工作带来了晋升。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-38",
+    "term": "matter",
+    "phonetic": "/ˈmætə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "物质；材料"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "事件；问题；麻烦"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "有关系；要紧；重要"
+      },
+      {
+        "partOfSpeech": "pron.",
+        "meaning": "某事；某物"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Matter exists in three states: solid, liquid, and gas.",
+        "translation": "物质以三种状态存在：固态、液态和气态。"
+      },
+      {
+        "sentence": "What’s the matter with your phone? It’s not working.",
+        "translation": "你的手机怎么了？它不工作了。"
+      }
+    ],
+    "unit": "unit3"
+  },
+  {
+    "id": "unit3-39",
+    "term": "power",
+    "phonetic": "/ˈpaʊə(r)/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "力量；能力；权力"
+      },
+      {
+        "partOfSpeech": "n.",
+        "meaning": "电力；能源"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "为…提供动力；驱动"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Knowledge is power.",
+        "translation": "知识就是力量。"
+      },
+      {
+        "sentence": "This car is powered by an electric motor.",
+        "translation": "这辆车由电动机驱动。"
+      }
+    ],
+    "unit": "unit3"
+  }
+]

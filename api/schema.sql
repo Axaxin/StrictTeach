@@ -11,11 +11,12 @@ CREATE TABLE IF NOT EXISTS attempts (
   is_correct INTEGER NOT NULL,          -- 0=错误, 1=正确
   time_spent INTEGER NOT NULL,          -- 答题用时（毫秒）
   user_answer TEXT,                      -- 用户答案
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_word_id (word_id),
-  INDEX idx_user_id (user_id),
-  INDEX idx_created_at (created_at)
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_attempts_word_id ON attempts(word_id);
+CREATE INDEX IF NOT EXISTS idx_attempts_user_id ON attempts(user_id);
+CREATE INDEX IF NOT EXISTS idx_attempts_created_at ON attempts(created_at);
 
 -- 单词熟练度表
 CREATE TABLE IF NOT EXISTS mastery (
@@ -29,10 +30,11 @@ CREATE TABLE IF NOT EXISTS mastery (
   last_attempt_at DATETIME,
   last_correct_at DATETIME,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_mastery_level (mastery_level),
-  INDEX idx_unit_id (unit_id)
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_mastery_level ON mastery(mastery_level);
+CREATE INDEX IF NOT EXISTS idx_mastery_unit_id ON mastery(unit_id);
 
 -- 用户学习统计表（可选）
 CREATE TABLE IF NOT EXISTS user_stats (
