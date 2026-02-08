@@ -362,41 +362,95 @@
   {
     "id": "unit5-20",
     "term": "rest",
-    "phonetic": "",
-    "definitions": [],
-    "examples": [],
+    "phonetic": "/rest/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "休息"
+      },
+      {
+        "partOfSpeech": "v.",
+        "meaning": "休息；放松"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "You need a rest.",
+        "translation": "你需要休息。"
+      }
+    ],
     "unit": "unit5"
   },
   {
     "id": "unit5-21",
     "term": "natural",
-    "phonetic": "",
-    "definitions": [],
-    "examples": [],
+    "phonetic": "/ˈnætʃrəl/",
+    "definitions": [
+      {
+        "partOfSpeech": "adj.",
+        "meaning": "自然的；天然的"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "It's natural.",
+        "translation": "这是自然的。"
+      }
+    ],
     "unit": "unit5"
   },
   {
     "id": "unit5-22",
     "term": "seed",
-    "phonetic": "",
-    "definitions": [],
-    "examples": [],
+    "phonetic": "/siːd/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "种子"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Plant the seed.",
+        "translation": "种下种子。"
+      }
+    ],
     "unit": "unit5"
   },
   {
     "id": "unit5-23",
     "term": "grow",
-    "phonetic": "",
-    "definitions": [],
-    "examples": [],
+    "phonetic": "/ɡrəʊ/",
+    "definitions": [
+      {
+        "partOfSpeech": "v.",
+        "meaning": "生长；成长"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Plants grow fast.",
+        "translation": "植物长得很快。"
+      }
+    ],
     "unit": "unit5"
   },
   {
     "id": "unit5-24",
     "term": "part",
-    "phonetic": "",
-    "definitions": [],
-    "examples": [],
+    "phonetic": "/pɑːt/",
+    "definitions": [
+      {
+        "partOfSpeech": "n.",
+        "meaning": "部分"
+      }
+    ],
+    "examples": [
+      {
+        "sentence": "Part of the fun.",
+        "translation": "乐趣的一部分。"
+      }
+    ],
     "unit": "unit5"
   },
   {

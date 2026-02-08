@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Word } from '../types';
-import { ArrowLeft, Volume2, VolumeX, BookOpen, Play, Pause, Loader2, FileText, List } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen, Play, Pause, Loader2, FileText, List } from 'lucide-react';
 import { highlightWordInSentenceReact } from '../utils/highlight';
 
 interface ContextualModeProps {
@@ -36,6 +36,13 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
   const [loading, setLoading] = useState(true);
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const [paragraphs, setParagraphs] = useState<Paragraph[]>([]);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
+
+  // 同步 voices 到 ref
+  useEffect(() => {
+    voicesRef.current = voices;
+  }, [voices]);
 
   // Audio state - for sentence mode
   const [playingSentenceIndex, setPlayingSentenceIndex] = useState<number | null>(null);
@@ -50,8 +57,16 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
   useEffect(() => {
     const loadPassage = async () => {
       setLoading(true);
+      // 添加5秒超时保护
+      const timeoutId = setTimeout(() => {
+        console.error('[ContextualMode] Loading timeout for passage:', unitId);
+        setLoading(false);
+        setPassage(null);
+      }, 5000);
+
       try {
         const response = await fetch(`/data/passages/${unitId}.json`);
+        clearTimeout(timeoutId);
         if (response.ok) {
           const data: Passage = await response.json();
           setPassage(data);
@@ -70,10 +85,12 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
           setParagraphs(data.paragraphs);
           setSentences(parsedSentences);
         } else {
+          console.error('[ContextualMode] Failed to load passage:', response.status);
           setPassage(null);
         }
       } catch (error) {
-        console.error('Failed to load passage:', error);
+        clearTimeout(timeoutId);
+        console.error('[ContextualMode] Failed to load passage:', error);
         setPassage(null);
       } finally {
         setLoading(false);
@@ -82,6 +99,31 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
 
     loadPassage();
   }, [unitId]);
+
+  // 初始化语音列表（Android 兼容性修复）
+  useEffect(() => {
+    const loadVoices = () => {
+      const availableVoices = window.speechSynthesis.getVoices();
+      setVoices(availableVoices);
+    };
+
+    loadVoices();
+
+    // Android 浏览器需要监听 voiceschanged 事件
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+
+    return () => {
+      window.speechSynthesis.onvoiceschanged = null;
+    };
+  }, []);
+
+  // 获取英文语音
+  const getEnglishVoice = (): SpeechSynthesisVoice | null => {
+    const currentVoices = voicesRef.current;
+    const englishVoices = currentVoices.filter(v => v.lang.startsWith('en'));
+    // 优先选择美国英语
+    return englishVoices.find(v => v.lang === 'en-US') || englishVoices[0] || null;
+  };
 
   // Create a set of word terms for quick lookup
   const wordSet = useMemo(() => new Set(words.map(w => w.term.toLowerCase())), [words]);
@@ -122,8 +164,8 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
 
   // Stop all speech
   const stopAllSpeech = () => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
     }
     setPlayingSentenceIndex(null);
     activeUtteranceRef.current = null;
@@ -134,19 +176,42 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
 
   // Speak individual sentence (for sentence mode)
   const speakSentence = (index: number) => {
-    stopAllSpeech();
-
     const sentence = sentences[index];
     if (!sentence) return;
 
+    if (!window.speechSynthesis) {
+      console.warn('[ContextualMode] Speech synthesis not supported');
+      return;
+    }
+
+    // 检查 voices 是否可用
+    if (voicesRef.current.length === 0) {
+      console.warn('[ContextualMode] No voices available, skipping.');
+      return;
+    }
+
+    // Arc 浏览器修复：不调用 cancel()，让浏览器自然处理队列
+    setPlayingSentenceIndex(null);
+    activeUtteranceRef.current = null;
+
     const utterance = new SpeechSynthesisUtterance(sentence.english);
+
+    // 设置语音属性
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
-    utterance.pitch = 1;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    // 设置英文语音
+    const englishVoice = getEnglishVoice();
+    if (englishVoice) {
+      utterance.voice = englishVoice;
+    }
 
     utterance.onstart = () => {
       setPlayingSentenceIndex(index);
       activeUtteranceRef.current = index;
+      console.log(`[ContextualMode] ✓ Started playing sentence "${sentence.english.substring(0, 30)}..."`);
     };
 
     utterance.onend = () => {
@@ -154,28 +219,44 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
       activeUtteranceRef.current = null;
     };
 
-    utterance.onerror = () => {
+    utterance.onerror = (event) => {
+      console.error('[ContextualMode] ✗ speakSentence error:', event.error);
       setPlayingSentenceIndex(null);
       activeUtteranceRef.current = null;
     };
 
-    speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance);
   };
 
   // Full text mode audio controls
   const playFullText = () => {
     if (isFullPlaying && !isFullPaused) {
       // Pause if currently playing
-      speechSynthesis.pause();
+      window.speechSynthesis.pause();
       setIsFullPaused(true);
       return;
     }
     if (isFullPlaying && isFullPaused) {
       // Resume if paused
-      speechSynthesis.resume();
+      window.speechSynthesis.resume();
       setIsFullPaused(false);
       return;
     }
+
+    if (!window.speechSynthesis) {
+      console.warn('[ContextualMode] Speech synthesis not supported');
+      return;
+    }
+
+    // 检查 voices 是否可用
+    if (voicesRef.current.length === 0) {
+      console.warn('[ContextualMode] No voices available, skipping.');
+      return;
+    }
+
+    // 停止单句播放模式
+    setPlayingSentenceIndex(null);
+    activeUtteranceRef.current = null;
 
     const playNextSentence = (index: number) => {
       if (index >= sentences.length) {
@@ -184,24 +265,37 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
         return;
       }
 
+      // 直接创建并播放语音（连续播放模式）
       const utterance = new SpeechSynthesisUtterance(sentences[index].english);
+
+      // 设置语音属性
       utterance.lang = 'en-US';
       utterance.rate = 0.9;
-      utterance.pitch = 1;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+
+      // 设置英文语音
+      const englishVoice = getEnglishVoice();
+      if (englishVoice) {
+        utterance.voice = englishVoice;
+      }
 
       utterance.onstart = () => {
         setCurrentFullSentenceIndex(index);
+        console.log(`[ContextualMode] ✓ Started playing sentence ${index}`);
       };
 
       utterance.onend = () => {
+        // 继续播放下一句
         playNextSentence(index + 1);
       };
 
-      utterance.onerror = () => {
+      utterance.onerror = (event) => {
+        console.error('[ContextualMode] ✗ playNextSentence error:', event.error);
         setIsFullPlaying(false);
       };
 
-      speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
     };
 
     setIsFullPlaying(true);
@@ -211,22 +305,58 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
 
   const pauseFullText = () => {
     if (isFullPlaying && !isFullPaused) {
-      speechSynthesis.pause();
+      window.speechSynthesis.pause();
       setIsFullPaused(true);
     }
   };
 
   // Speak individual word
   const speakWord = (word: string) => {
-    stopAllSpeech();
-
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      speechSynthesis.speak(utterance);
+    if (!window.speechSynthesis) {
+      console.warn('[ContextualMode] Speech synthesis not supported');
+      return;
     }
+
+    // 检查 voices 是否可用
+    if (voicesRef.current.length === 0) {
+      console.warn('[ContextualMode] No voices available, skipping.');
+      return;
+    }
+
+    // 停止其他播放模式
+    setIsFullPlaying(false);
+    setIsFullPaused(false);
+    setPlayingSentenceIndex(null);
+    activeUtteranceRef.current = null;
+
+    // Arc 浏览器修复：不调用 cancel()，让浏览器自然处理队列
+    const utterance = new SpeechSynthesisUtterance(word);
+
+    // 设置语音属性
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    // 设置英文语音
+    const englishVoice = getEnglishVoice();
+    if (englishVoice) {
+      utterance.voice = englishVoice;
+    }
+
+    utterance.onstart = () => {
+      console.log(`[ContextualMode] ✓ Started playing "${word}"`);
+    };
+
+    utterance.onend = () => {
+      console.log(`[ContextualMode] ✓ Finished playing "${word}"`);
+    };
+
+    utterance.onerror = (event) => {
+      console.error('[ContextualMode] ✗ speakWord error:', event.error);
+    };
+
+    window.speechSynthesis.speak(utterance);
   };
 
   // Cleanup on unmount
@@ -240,16 +370,6 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <button
-            onClick={onComplete}
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors font-medium"
-          >
-            <ArrowLeft size={20} />
-            <span>返回</span>
-          </button>
-        </div>
-
         <div className="flex flex-col items-center justify-center py-20">
           <Loader2 className="animate-spin text-indigo-600 mb-4" size={40} />
           <p className="text-slate-600 font-medium">加载阅读内容中...</p>
@@ -262,16 +382,6 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
   if (!passage || sentences.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <button
-            onClick={onComplete}
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors font-medium"
-          >
-            <ArrowLeft size={20} />
-            <span>返回</span>
-          </button>
-        </div>
-
         <div className="text-center py-16">
           <BookOpen size={64} className="mx-auto mb-6 text-slate-300" />
           <h2 className="text-2xl font-bold text-slate-700 mb-3">情景阅读</h2>
@@ -289,15 +399,7 @@ const ContextualMode: React.FC<ContextualModeProps> = ({ words, unitId, onComple
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={onComplete}
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors font-medium"
-        >
-          <ArrowLeft size={20} />
-          <span>返回</span>
-        </button>
-
+      <div className="flex items-center justify-end mb-6">
         {/* Mode toggle */}
         <div className="flex bg-slate-100 rounded-xl p-1">
           <button

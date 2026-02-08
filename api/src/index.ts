@@ -104,6 +104,123 @@ router.get('/api/mastery', async (request, env) => {
 });
 
 /**
+ * 计算熟练度分数（更合理的算法）
+ *
+ * 新计算模型：
+ * 1. 正确率分 (70%)：总体正确率，拼写题权重更高
+ * 2. 效率分 (30%)：所有题目（包括答错的）的平均用时
+ * 3. 答错惩罚：连续答错或错误率过高时额外扣分
+ * 4. 最少答题要求：至少需要2次答题才能达到>60分，至少3次才能达到>80分
+ *
+ * 设计理念：
+ * - 拼写题比选择题难，权重应该是选择题的2倍
+ * - 答错应该有明显惩罚，不仅仅是不得分
+ * - 效率分应该反映所有答题，不只是答对的
+ * - 需要多次验证才能达到精通，避免一次答对就标记为精通
+ */
+function calculateMasteryLevel(attempts: any[]): number {
+  if (!attempts || attempts.length === 0) return 0;
+
+  const totalAttempts = attempts.length;
+  const totalCorrect = attempts.filter(a => a.is_correct).length;
+  const overallAccuracy = totalCorrect / totalAttempts;
+
+  // 分类统计
+  const mcqAttempts = attempts.filter(a =>
+    a.question_type === 'EN_TO_CN' || a.question_type === 'CN_TO_EN'
+  );
+  const spellingAttempts = attempts.filter(a =>
+    a.question_type === 'SPELLING' || a.question_type === 'CN_TO_EN_SPELLING'
+  );
+
+  // ========== 正确率分 (70%) ==========
+  let accuracyScore = 0;
+
+  if (spellingAttempts.length > 0 && mcqAttempts.length > 0) {
+    // 两种题型都有：拼写题权重2倍
+    const mcqCorrect = mcqAttempts.filter(a => a.is_correct).length;
+    const spellingCorrect = spellingAttempts.filter(a => a.is_correct).length;
+
+    const mcqRate = mcqCorrect / mcqAttempts.length;
+    const spellingRate = spellingCorrect / spellingAttempts.length;
+
+    // 加权正确率：拼写题权重2倍
+    // 公式：(2×拼写题数 + 选择题数) / (2×拼写题总数 + 选择题总数)
+    const weightedAccuracy = (2 * spellingCorrect + mcqCorrect) / (2 * spellingAttempts.length + mcqAttempts.length);
+    accuracyScore = weightedAccuracy * 70;
+
+  } else if (spellingAttempts.length > 0) {
+    // 只有拼写题
+    const spellingCorrect = spellingAttempts.filter(a => a.is_correct).length;
+    accuracyScore = (spellingCorrect / spellingAttempts.length) * 70;
+
+  } else {
+    // 只有选择题
+    const mcqCorrect = mcqAttempts.filter(a => a.is_correct).length;
+    accuracyScore = (mcqCorrect / mcqAttempts.length) * 70;
+  }
+
+  // ========== 效率分 (30%) ==========
+  // 基于所有题目的平均用时（包括答错的）
+  const avgTime = attempts.reduce((sum, a) => sum + a.time_spent, 0) / totalAttempts;
+
+  let efficiencyScore = 0;
+
+  if (spellingAttempts.length > 0) {
+    // 有拼写题时，使用拼写题的标准
+    let efficiencyFactor = 0;
+    if (avgTime < 8000) efficiencyFactor = 1.0;      // < 8秒：非常熟练
+    else if (avgTime < 15000) efficiencyFactor = 0.85; // 8-15秒：熟练
+    else if (avgTime < 30000) efficiencyFactor = 0.65; // 15-30秒：一般
+    else if (avgTime < 50000) efficiencyFactor = 0.4;   // 30-50秒：较慢
+    else efficiencyFactor = 0.2;                       // > 50秒：很慢
+
+    efficiencyScore = efficiencyFactor * 30;
+  } else {
+    // 只有选择题时，标准放宽
+    let efficiencyFactor = 0;
+    if (avgTime < 3000) efficiencyFactor = 1.0;
+    else if (avgTime < 8000) efficiencyFactor = 0.9;
+    else if (avgTime < 15000) efficiencyFactor = 0.7;
+    else if (avgTime < 30000) efficiencyFactor = 0.4;
+    else efficiencyFactor = 0.2;
+
+    efficiencyScore = efficiencyFactor * 30;
+  }
+
+  // ========== 答错惩罚 ==========
+  // 如果错误率超过50%，额外扣分
+  const errorRate = 1 - overallAccuracy;
+  let errorPenalty = 0;
+
+  if (errorRate > 0.5) {
+    // 错误率50%-100%，扣0-20分
+    errorPenalty = (errorRate - 0.5) * 2 * 20;
+  }
+
+  // ========== 最终计算 ==========
+  let finalScore = accuracyScore + efficiencyScore - errorPenalty;
+
+  // ========== 最少答题次数限制 ==========
+  // 避免一次答对就标记为精通
+  if (totalAttempts === 1) {
+    // 第一次答题最高只能得55分（勉强及格）
+    return Math.min(55, Math.max(5, Math.round(finalScore))); // 最低5分（练习过但不会）
+  } else if (totalAttempts === 2) {
+    // 第二次答题最高只能得75分（学习中）
+    return Math.min(75, Math.max(5, Math.round(finalScore))); // 最低5分
+  }
+
+  // 三次及以上才有机会获得满分
+  // 全对且快（适用于3次及以上答题）
+  if (overallAccuracy === 1 && avgTime < 10000 && spellingAttempts.length > 0) {
+    return 100;
+  }
+
+  return Math.min(100, Math.max(5, Math.round(finalScore))); // 最低5分，确保练习过的词不显示"新词"
+}
+
+/**
  * 记录答题结果
  */
 router.post('/api/attempts', async (request, env) => {
@@ -143,6 +260,8 @@ router.post('/api/attempts', async (request, env) => {
       // 批量更新熟练度
       for (const attempt of batch) {
         const wordId = attempt.wordId;
+        const isSpelling = attempt.questionType === 'SPELLING' ||
+                           attempt.questionType === 'CN_TO_EN_SPELLING';
 
         // 检查是否已有熟练度记录
         const existing = await env.DB.prepare(
@@ -150,11 +269,29 @@ router.post('/api/attempts', async (request, env) => {
         ).bind(wordId).first();
 
         if (existing) {
-          // 更新现有记录
+          // 获取现有记录
           const newAttemptCount = existing.attempt_count + 1;
           const newCorrectCount = existing.correct_count + (attempt.isCorrect ? 1 : 0);
           const newTotalTime = existing.total_time_spent + attempt.timeSpent;
-          const newMasteryLevel = Math.round((newCorrectCount / newAttemptCount) * 100);
+
+          // 获取该单词的所有答题记录用于重新计算熟练度
+          const allAttempts = await env.DB.prepare(`
+            SELECT question_type, is_correct, time_spent
+            FROM attempts
+            WHERE word_id = ?
+            ORDER BY created_at DESC
+            LIMIT 50
+          `).bind(wordId).all();
+
+          // 加上当前这次答题
+          allAttempts.results.push({
+            question_type: attempt.questionType,
+            is_correct: attempt.isCorrect ? 1 : 0,
+            time_spent: attempt.timeSpent
+          });
+
+          // 计算新的熟练度
+          const newMasteryLevel = calculateMasteryLevel(allAttempts.results);
 
           await env.DB.prepare(`
             UPDATE mastery
@@ -175,8 +312,12 @@ router.post('/api/attempts', async (request, env) => {
             wordId
           ).run();
         } else {
-          // 创建新记录
-          const masteryLevel = attempt.isCorrect ? 100 : 0;
+          // 创建新记录 - 单次答题
+          const masteryLevel = calculateMasteryLevel([{
+            question_type: attempt.questionType,
+            is_correct: attempt.isCorrect ? 1 : 0,
+            time_spent: attempt.timeSpent
+          }]);
 
           await env.DB.prepare(`
             INSERT INTO mastery (word_id, word_term, unit_id, mastery_level, attempt_count, correct_count, total_time_spent, last_attempt_at, last_correct_at)

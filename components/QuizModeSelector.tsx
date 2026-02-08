@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { QuizMode } from '../types';
-import { ArrowLeft, Languages, RotateCcw, Keyboard, Shuffle } from 'lucide-react';
+import { Languages, RotateCcw, Keyboard, Shuffle } from 'lucide-react';
+import { getQuizQuestionCount } from '../utils/settings';
 
 interface QuizModeSelectorProps {
   onSelectMode: (mode: QuizMode) => void;
@@ -9,27 +10,13 @@ interface QuizModeSelectorProps {
 }
 
 const QuizModeSelector: React.FC<QuizModeSelectorProps> = ({ onSelectMode, onBack }) => {
+  const quizCount = getQuizQuestionCount();
+
   const quizModes = [
-    {
-      mode: QuizMode.EN_TO_CN_MCQ,
-      title: '英对中单选',
-      description: '看英文单词，选择正确的中文释义',
-      icon: Languages,
-      color: 'blue',
-      gradient: 'from-blue-500 to-cyan-500'
-    },
-    {
-      mode: QuizMode.CN_TO_EN_MCQ,
-      title: '中对英单选',
-      description: '看中文释义，选择正确的英文单词',
-      icon: RotateCcw,
-      color: 'purple',
-      gradient: 'from-purple-500 to-pink-500'
-    },
     {
       mode: QuizMode.CN_TO_EN_SPELLING,
       title: '中对英拼写',
-      description: '看中文释义，拼写正确的英文单词',
+      description: `看中文释义，拼写正确的英文单词（${quizCount}题）`,
       icon: Keyboard,
       color: 'emerald',
       gradient: 'from-emerald-500 to-teal-500'
@@ -37,7 +24,7 @@ const QuizModeSelector: React.FC<QuizModeSelectorProps> = ({ onSelectMode, onBac
     {
       mode: QuizMode.MIXED,
       title: '混合题型',
-      description: '包含英对中、中对英、拼写的混合测试',
+      description: `拼写题为主，搭配少量选择题（${quizCount}题）`,
       icon: Shuffle,
       color: 'indigo',
       gradient: 'from-indigo-500 to-purple-500'
@@ -46,15 +33,6 @@ const QuizModeSelector: React.FC<QuizModeSelectorProps> = ({ onSelectMode, onBac
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      {/* 返回按钮 */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors mb-6 font-medium"
-      >
-        <ArrowLeft size={20} />
-        <span>返回</span>
-      </button>
-
       {/* 标题 */}
       <div className="mb-8">
         <h1 className="text-3xl font-extrabold text-slate-900 mb-2">选择 Quiz 模式</h1>

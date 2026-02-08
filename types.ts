@@ -62,6 +62,13 @@ export enum QuizMode {
   MIXED = 'MIXED',                    // 混合题型
 }
 
+// Quiz 出题策略
+export enum QuizStrategy {
+  RANDOM = 'RANDOM',          // 一般模式：等概率随机
+  BALANCED = 'BALANCED',      // 平衡模式：练习次数少的词概率更高
+  FOCUS = 'FOCUS',            // 攻克模式：优先选择低熟练度单词
+}
+
 // 题型枚举（用于内部生成题目）
 export enum QuestionType {
   EN_TO_CN = 'EN_TO_CN',      // 英译中：选择中文定义

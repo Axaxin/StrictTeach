@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Unit, ActivityType } from '../types';
-import { List, BookOpen, ClipboardCheck, Trophy, BookText, ArrowLeft, Settings, X, RotateCcw, TrendingUp, AlertCircle, Loader2, CheckCircle } from 'lucide-react';
+import { List, BookOpen, ClipboardCheck, Trophy, BookText, Settings, X, RotateCcw, TrendingUp, AlertCircle, Loader2, CheckCircle, Plus, Minus } from 'lucide-react';
 import { getBatchMasteryPost, deleteUnitData } from '../services/api';
+import { getQuizQuestionCount, setQuizQuestionCount } from '../utils/settings';
+import { globalMasteryRefresh } from '../hooks/useMasteryRefresh';
 
 interface ActivitySelectorProps {
   unit: Unit;
@@ -12,17 +14,19 @@ interface ActivitySelectorProps {
 
 const ActivitySelector: React.FC<ActivitySelectorProps> = ({ unit, onSelectActivity, onBack }) => {
   const [masteryData, setMasteryData] = useState<{[wordId: string]: any}>({});
+  const [refreshTrigger, setRefreshTrigger] = useState(0); // 全局刷新触发器
   const [showSettings, setShowSettings] = useState(false);
   const [settingsAction, setSettingsAction] = useState<string | null>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [quizQuestionCount, setQuizQuestionCountState] = useState(() => getQuizQuestionCount());
 
   // 获取所有单词ID
   const allWordIds = unit.words.map((_, idx) => `${unit.id}-${idx}`);
 
   // 获取云端熟练度数据（完整数据）
-  useEffect(() => {
+  const fetchMasteryData = () => {
     getBatchMasteryPost(allWordIds)
       .then(data => {
         const map: {[wordId: string]: any} = {};
@@ -30,11 +34,27 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = ({ unit, onSelectActiv
           map[m.word_id] = m;
         });
         setMasteryData(map);
+        console.log(`[ActivitySelector] Fetched ${data.length} mastery records`);
       })
       .catch(err => {
         console.error('Failed to fetch mastery data:', err);
       });
-  }, [unit.id]);
+  };
+
+  // 初始化时和全局刷新时获取数据
+  useEffect(() => {
+    fetchMasteryData();
+  }, [unit.id, refreshTrigger]);
+
+  // 订阅全局刷新事件
+  useEffect(() => {
+    const unsubscribe = globalMasteryRefresh.subscribe(() => {
+      console.log('[ActivitySelector] Global refresh triggered, refetching...');
+      setRefreshTrigger(prev => prev + 1);
+    });
+
+    return unsubscribe;
+  }, []);
 
   // 计算掌握进度（基于云端数据）
   const masteredCount = Object.values(masteryData).filter(level => level.mastery_level >= 80).length;
@@ -110,17 +130,16 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = ({ unit, onSelectActiv
     }
   };
 
+  // 处理测验题目数量变更
+  const handleQuizCountChange = (delta: number) => {
+    const newCount = quizQuestionCount + delta;
+    const validCount = Math.max(6, Math.min(24, newCount)); // 限制在 6-24 之间
+    setQuizQuestionCountState(validCount);
+    setQuizQuestionCount(validCount);
+  };
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      {/* 返回按钮 */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors mb-6 font-medium"
-      >
-        <ArrowLeft size={20} />
-        <span>返回章节列表</span>
-      </button>
-
       {/* 章节标题卡片 */}
       <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-8 text-white mb-8 shadow-xl">
         <h1 className="text-3xl font-black mb-4">{unit.name}</h1>
@@ -263,6 +282,39 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = ({ unit, onSelectActiv
 
                 {/* 操作选项 */}
                 <div className="space-y-3">
+                  {/* 测验题目数量设置 */}
+                  <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2 text-purple-700">
+                        <ClipboardCheck size={18} />
+                        <span className="text-sm font-bold">每次测验题目数量</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-6">
+                      <button
+                        onClick={() => handleQuizCountChange(-2)}
+                        disabled={quizQuestionCount <= 6}
+                        className="w-12 h-12 rounded-full bg-purple-200 hover:bg-purple-300 text-purple-700 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+                      >
+                        <Minus size={20} />
+                      </button>
+                      <div className="text-center">
+                        <div className="text-3xl font-black text-purple-700">{quizQuestionCount}</div>
+                        <div className="text-xs text-purple-500">题/次</div>
+                      </div>
+                      <button
+                        onClick={() => handleQuizCountChange(2)}
+                        disabled={quizQuestionCount >= 24}
+                        className="w-12 h-12 rounded-full bg-purple-200 hover:bg-purple-300 text-purple-700 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+                      >
+                        <Plus size={20} />
+                      </button>
+                    </div>
+                    <div className="mt-2 text-center text-xs text-purple-500">
+                      范围：6-24 题
+                    </div>
+                  </div>
+
                   <button
                     onClick={() => setSettingsAction('reset')}
                     className="w-full flex items-center gap-4 p-4 bg-slate-50 hover:bg-red-50 rounded-2xl transition-all group"

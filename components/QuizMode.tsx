@@ -1,8 +1,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Word, QuizQuestion, QuestionType, QuizMode as QuizModeEnum, QuizAttemptRecord } from '../types';
-import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, RotateCcw, Volume2, Loader2, Timer } from 'lucide-react';
+import { Word, QuizQuestion, QuestionType, QuizMode as QuizModeEnum, QuizAttemptRecord, QuizStrategy } from '../types';
+import { CheckCircle2, XCircle, ArrowRight, Award, Languages, Keyboard, Volume2, Loader2, Timer, RotateCcw, Target, Scale } from 'lucide-react';
 import { recordAttempts, getBatchMasteryPost, type WordMastery } from '../services/api';
+import { getQuizQuestionCount } from '../utils/settings';
+import { selectWordsByStrategy } from '../utils/quizStrategy';
+import { triggerMasteryRefresh } from '../hooks/useMasteryRefresh';
 
 interface QuizModeProps {
   words: Word[];
@@ -28,9 +31,59 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
   const [score, setScore] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [voicesLoaded, setVoicesLoaded] = useState(false); // 追踪 voices 是否已加载
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([]); // 使用 ref 以便在闭包中访问最新值
   const [answerRecords, setAnswerRecords] = useState<AnswerRecord[]>([]);
   const [quizKey, setQuizKey] = useState(0); // 用于强制重新生成题目
-  const hasAutoPlayedRef = useRef(false);
+  const autoPlayTriggeredRef = useRef<Set<number>>(new Set()); // 追踪已自动播放的题目索引
+  const pendingTimeoutRef = useRef<Map<number, NodeJS.Timeout>>(new Map()); // 追踪每个题目的 pending timeout
+  const expectedWordIdRef = useRef<string | null>(null); // 追踪当前轮次预期应该播放的单词ID
+  const spellingInputRef = useRef<HTMLInputElement>(null); // 拼写输入框引用
+
+  // 同步 voices 到 ref，并更新加载状态
+  useEffect(() => {
+    voicesRef.current = voices;
+    setVoicesLoaded(voices.length > 0);
+  }, [voices]);
+
+  // 全局键盘事件处理：拼写题确认后按回车触发下一题
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      // 只处理拼写题确认后的回车键
+      if (e.key === 'Enter' && isConfirmed) {
+        const currentQ = questions[currentIndex];
+        if (currentQ?.type === QuestionType.SPELLING) {
+          // 直接执行 handleNext 的逻辑，避免依赖函数引用
+          if (currentIndex < questions.length - 1) {
+            setCurrentIndex((prev: number) => prev + 1);
+            setSelectedAnswer(null);
+            setUserSpelling('');
+            setIsCorrect(null);
+            setIsConfirmed(false);
+          } else {
+            setQuizFinished(true);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, [isConfirmed, currentIndex, questions]);
+
+  // 拼写题自动聚焦：当切换到拼写题时自动聚焦输入框
+  useEffect(() => {
+    const currentQ = questions[currentIndex];
+    // 只在拼写题且未确认状态下聚焦
+    if (currentQ?.type === QuestionType.SPELLING && !isConfirmed) {
+      // 使用 setTimeout 确保在 DOM 更新后聚焦
+      setTimeout(() => {
+        spellingInputRef.current?.focus();
+      }, 50);
+    }
+  }, [currentIndex, isConfirmed, questions]);
 
   // 答题计时相关状态
   const [questionStartTime, setQuestionStartTime] = useState<number>(0);
@@ -38,73 +91,80 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
 
   // 熟练度相关状态
   const [masteryData, setMasteryData] = useState<Map<string, WordMastery>>(new Map());
+  const [masteryDataLoaded, setMasteryDataLoaded] = useState(false); // 追踪masteryData是否已加载
+  const [masteryRefreshKey, setMasteryRefreshKey] = useState(0); // 触发刷新熟练度数据
   const [isRecording, setIsRecording] = useState(false);
   const [recordError, setRecordError] = useState<string | null>(null);
 
+  // 出题策略状态（默认一般模式）
+  const [strategy, setStrategy] = useState<QuizStrategy>(QuizStrategy.RANDOM);
+  const [currentQuizWords, setCurrentQuizWords] = useState<Word[]>([]);
+  const [isRetryMode, setIsRetryMode] = useState(false); // 是否为"再来"模式（使用相同单词）
+
   // Helper function to get definition from word (supports both new and old formats)
+  // For quiz: only use the first meaning to keep options concise
   const getDefinition = (w: Word): string => {
     // New format: definitions array
     if (w.definitions && w.definitions.length > 0) {
-      return w.definitions.map(d => d.meaning).join('；');
+      // 只返回第一个释义，保持简洁
+      return w.definitions[0].meaning;
     }
-    // Old format: definition string
-    return w.definition || '';
+    // Old format: definition string - split by semicolon and take first
+    if (w.definition) {
+      const parts = w.definition.split('；');
+      return parts[0].trim();
+    }
+    return '';
   };
+
+  // 初始化时获取所有单词的熟练度数据（用于策略选择）
+  // 当 words 或 masteryRefreshKey 变化时重新获取数据
+  useEffect(() => {
+    const allWordIds = words.map(w => w.id);
+    getBatchMasteryPost(allWordIds)
+      .then((masteryList) => {
+        const map = new Map(masteryList.map(m => [m.word_id, m]));
+        setMasteryData(map);
+        setMasteryDataLoaded(true);
+        console.log(`[Mastery Data] Loaded ${masteryList.length} mastery records (refreshKey: ${masteryRefreshKey})`);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch mastery data:', err);
+        // 即使失败也标记为已加载，将使用空 masteryData
+        setMasteryDataLoaded(true);
+      });
+  }, [words, masteryRefreshKey]);
 
   useEffect(() => {
     const qs: QuizQuestion[] = [];
-    const shuffled = [...words].sort(() => 0.5 - Math.random());
-    const selectedWords = shuffled.slice(0, Math.min(10, words.length));
+    const quizCount = getQuizQuestionCount();
+
+    // "再来"模式使用之前保存的单词，否则根据策略选择新单词
+    let selectedWords: Word[];
+    if (isRetryMode && currentQuizWords.length > 0) {
+      selectedWords = currentQuizWords;
+    } else {
+      selectedWords = selectWordsByStrategy(words, masteryData, strategy, quizCount);
+      // 保存选中的单词，供"再来"模式使用
+      setCurrentQuizWords(selectedWords);
+    }
 
     switch (quizMode) {
       case QuizModeEnum.EN_TO_CN_MCQ:
-        // 英对中单选：全部生成英译中题目
-        selectedWords.forEach(word => {
-          const definition = getDefinition(word);
-
-          const distractors = words
-            .filter(w => w.id !== word.id)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 3)
-            .map(w => getDefinition(w));
-
-          const options = [definition, ...distractors].sort(() => 0.5 - Math.random());
-
-          qs.push({
-            word,
-            type: QuestionType.EN_TO_CN,
-            question: word.term,
-            options,
-            correctAnswer: definition
-          });
-        });
-        break;
-
       case QuizModeEnum.CN_TO_EN_MCQ:
-        // 中对英单选：全部生成中译英题目
+        // 已弃用的模式，降级为拼写模式
         selectedWords.forEach(word => {
-          const definition = getDefinition(word);
-
-          const distractors = words
-            .filter(w => w.id !== word.id)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 3)
-            .map(w => w.term);
-
-          const options = [word.term, ...distractors].sort(() => 0.5 - Math.random());
-
           qs.push({
             word,
-            type: QuestionType.CN_TO_EN,
-            question: definition,
-            options,
+            type: QuestionType.SPELLING,
+            question: getDefinition(word),
             correctAnswer: word.term
           });
         });
         break;
 
       case QuizModeEnum.CN_TO_EN_SPELLING:
-        // 中对英拼写：全部生成拼写题目
+        // 中对英拼写：全部生成拼写题目（12题）
         selectedWords.forEach(word => {
           qs.push({
             word,
@@ -116,57 +176,61 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         break;
 
       case QuizModeEnum.MIXED:
-        // 混合题型：约 1/3 英对中，1/3 中对英，1/3 拼写
-        const third = Math.ceil(selectedWords.length / 3);
-
-        // 英对中题目
-        selectedWords.slice(0, third).forEach(word => {
-          const definition = getDefinition(word);
-          const distractors = words
-            .filter(w => w.id !== word.id)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 3)
-            .map(w => getDefinition(w));
-
-          const options = [definition, ...distractors].sort(() => 0.5 - Math.random());
-
-          qs.push({
-            word,
-            type: QuestionType.EN_TO_CN,
-            question: word.term,
-            options,
-            correctAnswer: definition
-          });
-        });
-
-        // 中对英题目
-        selectedWords.slice(third, third * 2).forEach(word => {
-          const definition = getDefinition(word);
-          const distractors = words
-            .filter(w => w.id !== word.id)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 3)
-            .map(w => w.term);
-
-          const options = [word.term, ...distractors].sort(() => 0.5 - Math.random());
-
-          qs.push({
-            word,
-            type: QuestionType.CN_TO_EN,
-            question: definition,
-            options,
-            correctAnswer: word.term
-          });
-        });
+        // 混合题型：以拼写题为主（约2/3），搭配少量选择题（约1/3）
+        const spellingCount = Math.ceil(selectedWords.length * 2 / 3);
+        const mcqCount = selectedWords.length - spellingCount;
 
         // 拼写题目
-        selectedWords.slice(third * 2).forEach(word => {
+        selectedWords.slice(0, spellingCount).forEach(word => {
           qs.push({
             word,
             type: QuestionType.SPELLING,
             question: getDefinition(word),
             correctAnswer: word.term
           });
+        });
+
+        // 选择题（约1/3）- 随机分配为英对中或中对英
+        selectedWords.slice(spellingCount, spellingCount + mcqCount).forEach(word => {
+          const isEnToCn = Math.random() > 0.5;
+
+          if (isEnToCn) {
+            // 英对中
+            const definition = getDefinition(word);
+            const distractors = words
+              .filter(w => w.id !== word.id)
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 3)
+              .map(w => getDefinition(w));
+
+            const options = [definition, ...distractors].sort(() => 0.5 - Math.random());
+
+            qs.push({
+              word,
+              type: QuestionType.EN_TO_CN,
+              question: word.term,
+              options,
+              correctAnswer: definition
+            });
+          } else {
+            // 中对英
+            const definition = getDefinition(word);
+            const distractors = words
+              .filter(w => w.id !== word.id)
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 3)
+              .map(w => w.term);
+
+            const options = [word.term, ...distractors].sort(() => 0.5 - Math.random());
+
+            qs.push({
+              word,
+              type: QuestionType.CN_TO_EN,
+              question: definition,
+              options,
+              correctAnswer: word.term
+            });
+          }
         });
         break;
     }
@@ -175,19 +239,42 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     qs.sort(() => 0.5 - Math.random());
 
     setQuestions(qs);
-  }, [words, quizMode, quizKey]); // 添加 quizKey 依赖，重做时重新生成题目
+  }, [words, quizMode, quizKey, strategy, isRetryMode, masteryDataLoaded]); // 添加 masteryDataLoaded 依赖，确保熟练度数据加载后重新生成题目
+
+  // 当 quizKey 变化时清空自动播放追踪记录并刷新熟练度数据
+  useEffect(() => {
+    // 停止所有正在播放的音频
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      console.log(`[Auto-play] Canceled all pending speech for new quiz (quizKey: ${quizKey})`);
+    }
+    autoPlayTriggeredRef.current.clear();
+    // 清理所有 pending timeouts
+    pendingTimeoutRef.current.forEach((timeout) => clearTimeout(timeout));
+    pendingTimeoutRef.current.clear();
+    // 设置预期单词ID为null，表示新一轮测验开始，需要等待题目更新
+    expectedWordIdRef.current = null;
+    // 刷新熟练度数据（触发重新从API获取）
+    setMasteryDataLoaded(false);
+    setMasteryRefreshKey((prev: number) => prev + 1);
+    console.log(`[Auto-play] Cleared tracking for new quiz (quizKey: ${quizKey})`);
+  }, [quizKey]);
 
   // 初始化语音列表（Android 兼容性修复）
   useEffect(() => {
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices();
+      console.log(`[Voice loading] Loaded ${availableVoices.length} voices`);
       setVoices(availableVoices);
     };
 
     loadVoices();
 
     // Android 浏览器需要监听 voiceschanged 事件
-    window.speechSynthesis.onvoiceschanged = loadVoices;
+    window.speechSynthesis.onvoiceschanged = () => {
+      console.log('[Voice loading] voiceschanged event fired');
+      loadVoices();
+    };
 
     return () => {
       window.speechSynthesis.onvoiceschanged = null;
@@ -214,86 +301,131 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     return () => clearInterval(timer);
   }, [questionStartTime, quizFinished, questions]);
 
-  // 获取英文语音
+  // 获取英文语音（使用 ref 以获取最新值）
   const getEnglishVoice = (): SpeechSynthesisVoice | null => {
-    const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+    const currentVoices = voicesRef.current;
+    const englishVoices = currentVoices.filter(v => v.lang.startsWith('en'));
     // 优先选择美国英语
     return englishVoices.find(v => v.lang === 'en-US') || englishVoices[0] || null;
   };
 
-  // 发音函数
+  // 发音函数（Arc 浏览器修复：不使用 cancel，让浏览器自然处理队列）
   const speak = (text: string) => {
+    console.log(`[QuizMode] speak() called with: "${text}"`);
+
     if (!window.speechSynthesis) {
-      console.warn('Speech synthesis not supported');
+      console.warn('[QuizMode] Speech synthesis not supported');
       return;
     }
 
-    // 取消当前正在播放的语音（Android 修复）
-    window.speechSynthesis.cancel();
+    // 检查 voices 是否可用
+    if (voicesRef.current.length === 0) {
+      console.warn('[QuizMode] No voices available, skipping.');
+      return;
+    }
 
-    // 短暂延迟确保 cancel 完成（Android 修复）
-    setTimeout(() => {
-      const utterance = new SpeechSynthesisUtterance(text);
+    // Arc 浏览器修复：不调用 cancel()，让浏览器自然处理队列
+    const utterance = new SpeechSynthesisUtterance(text);
 
-      // 设置语音属性
-      utterance.lang = 'en-US';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
+    // 设置语音属性
+    utterance.lang = 'en-US';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
 
-      // 尝试设置英文语音
-      const englishVoice = getEnglishVoice();
-      if (englishVoice) {
-        utterance.voice = englishVoice;
-      }
+    // 设置英文语音
+    const englishVoice = getEnglishVoice();
+    console.log('[QuizMode] Selected voice:', englishVoice?.name || 'default');
+    if (englishVoice) {
+      utterance.voice = englishVoice;
+    }
 
-      // 错误处理
-      utterance.onerror = (event) => {
-        console.error('Speech synthesis error:', event.error);
-      };
+    utterance.onstart = () => {
+      console.log(`[QuizMode] ✓ Started playing "${text}"`);
+    };
 
-      // 播放完成后的处理
-      utterance.onend = () => {
-        window.speechSynthesis.cancel();
-      };
+    utterance.onend = () => {
+      console.log(`[QuizMode] ✓ Finished playing "${text}"`);
+    };
 
-      window.speechSynthesis.speak(utterance);
-    }, 50);
+    utterance.onerror = (event) => {
+      console.error(`[QuizMode] ✗ Error for "${text}":`, event.error);
+    };
+
+    window.speechSynthesis.speak(utterance);
+    console.log('[QuizMode] speak() called. speaking:', window.speechSynthesis.speaking, 'pending:', window.speechSynthesis.pending);
   };
 
   // 自动播放发音（当题目变化时）
+  // 只在 voices 加载完成后才开始工作
   useEffect(() => {
-    if (questions.length === 0 || quizFinished) return;
+    if (!voicesLoaded || questions.length === 0 || quizFinished) {
+      console.log(`[Auto-play] Skipping - voicesLoaded: ${voicesLoaded}, questions.length: ${questions.length}, quizFinished: ${quizFinished}`);
+      return;
+    }
 
     const currentQ = questions[currentIndex];
+    if (!currentQ) {
+      console.log(`[Auto-play] No question at index ${currentIndex}`);
+      return;
+    }
+
+    // 检查题目是否是当前轮次的预期题目（仅检查第一题，防止播放旧题目）
+    const currentWordId = currentQ.word.id;
+    if (currentIndex === 0 && expectedWordIdRef.current === null) {
+      // 新一轮测验的第一题，设置预期ID但不播放（避免播放旧题目）
+      expectedWordIdRef.current = currentWordId;
+      console.log(`[Auto-play] Set expected word ID for new quiz: ${currentWordId}, skipping first auto-play`);
+      return;
+    }
+
+    if (currentIndex === 0 && currentWordId !== expectedWordIdRef.current) {
+      // 第一题的单词ID与预期不符，说明是旧题目的残留数据，不播放
+      console.log(`[Auto-play] First question word ${currentWordId} != expected ${expectedWordIdRef.current}, skipping (stale data)`);
+      // 更新为新的预期ID
+      expectedWordIdRef.current = currentWordId;
+      return;
+    }
+
     let textToSpeak = '';
 
     // 英译中题型：播放问题（英文单词）
-    if (currentQ?.type === QuestionType.EN_TO_CN && currentQ.question) {
+    if (currentQ.type === QuestionType.EN_TO_CN && currentQ.question) {
       textToSpeak = currentQ.question;
     }
     // 拼写题型：播放正确答案（英文单词）作为提示
-    else if (currentQ?.type === QuestionType.SPELLING && currentQ.correctAnswer) {
+    else if (currentQ.type === QuestionType.SPELLING && currentQ.correctAnswer) {
       textToSpeak = currentQ.correctAnswer;
     }
+    // 中对英题型：不自动播放，避免泄露答案
+
+    console.log(`[Auto-play] Question ${currentIndex}, type: ${currentQ.type}, textToSpeak: "${textToSpeak}"`);
 
     if (textToSpeak) {
-      // 延迟播放，让 UI 先渲染
-      const delay = voices.length === 0 ? 800 : 300; // 语音未加载时等待更长时间
-      setTimeout(() => {
-        // 直接检查 ref，如果还没播放就播放
-        if (!hasAutoPlayedRef.current) {
-          speak(textToSpeak);
-          hasAutoPlayedRef.current = true;
-        }
-      }, delay);
-    }
+      // 检查是否已经为当前题目触发过自动播放
+      if (autoPlayTriggeredRef.current.has(currentIndex)) {
+        console.log(`[Auto-play] Already played for question ${currentIndex}, skipping`);
+        return;
+      }
 
-    // 切换题目时重置标记（为下一题准备）
-    return () => {
-      hasAutoPlayedRef.current = false;
-    };
-  }, [currentIndex, questions, quizFinished, voices]);
+      // 标记此题目已触发自动播放（立即标记，防止重复触发）
+      autoPlayTriggeredRef.current.add(currentIndex);
+      console.log(`[Auto-play] Marked question ${currentIndex} as played`);
+
+      // 清理之前可能存在的同一题目的 timeout
+      const existingTimeout = pendingTimeoutRef.current.get(currentIndex);
+      if (existingTimeout) {
+        clearTimeout(existingTimeout);
+        console.log(`[Auto-play] Cleared existing timeout for question ${currentIndex}`);
+      }
+
+      // 直接播放，不使用 setTimeout（Chromium 浏览器要求）
+      console.log(`[Auto-play] Triggering speak for: "${textToSpeak}" (question ${currentIndex})`);
+      speak(textToSpeak);
+
+      return; // 不需要清理函数
+    }
+  }, [currentIndex, questions[0]?.word?.id, quizFinished, voicesLoaded]); // 移除 quizKey，只追踪题目内容变化，避免在题目更新前播放旧题目的音频
 
   // Quiz 完成时记录答题数据到 Cloudflare D1
   useEffect(() => {
@@ -326,6 +458,9 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
               const map = new Map(masteryList.map(m => [m.word_id, m]));
               setMasteryData(map);
               console.log('✅ Mastery data updated');
+
+              // 触发全局刷新，通知其他组件（WordList、ActivitySelector）更新数据
+              triggerMasteryRefresh();
             })
             .catch((err) => {
               console.error('❌ Failed to fetch mastery data:', err);
@@ -487,73 +622,87 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         {/* 详细答题记录 - 只显示错题 */}
         {answerRecords.filter(r => !r.isCorrect).length > 0 ? (
           <div className="mb-8">
-            <h3 className="text-lg font-bold text-slate-700 mb-3 flex items-center gap-2">
-              <XCircle size={20} className="text-red-500" />
+            <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center justify-center gap-2">
+              <XCircle size={24} className="text-red-500" />
               需要复习的题目 ({answerRecords.filter(r => !r.isCorrect).length} 题)
             </h3>
-            <div className="space-y-3 max-h-[50vh] overflow-y-auto px-2">
+            <div className="space-y-4">
               {answerRecords.filter(r => !r.isCorrect).map((record, idx) => {
                 const typeInfo = getQuestionTypeLabel(record.question.type);
                 return (
                   <div
                     key={idx}
-                    className="rounded-2xl p-4 border-2 bg-red-50 border-red-200 transition-all"
+                    className="bg-white rounded-2xl p-5 border-2 border-red-200 shadow-sm hover:shadow-md transition-all"
                   >
-                    <div className="flex items-start gap-3">
-                      {/* 状态图标 */}
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center">
-                        <XCircle size={20} />
+                    {/* 卡片头部：单词 + 题型标签 + 发音按钮 */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <h4 className="text-xl font-bold text-slate-800">
+                          {record.question.word.term}
+                        </h4>
+                        <span className={`text-xs font-bold px-2 py-1 rounded-full ${typeInfo.color}`}>
+                          {typeInfo.label}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => speak(record.question.word.term)}
+                        className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 hover:bg-indigo-200 text-indigo-600 flex items-center justify-center transition-all active:scale-95"
+                        aria-label="播放发音"
+                      >
+                        <Volume2 size={20} />
+                      </button>
+                    </div>
+
+                    {/* 答案对比区域 */}
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      {/* 你的答案 */}
+                      <div className="bg-red-50 rounded-xl p-3 border border-red-200">
+                        <div className="text-xs text-red-600 font-semibold mb-1">你的答案</div>
+                        <div className="text-base font-bold text-red-700 break-words">
+                          {record.userAnswer}
+                        </div>
                       </div>
 
-                      {/* 题目内容 */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${typeInfo.color}`}>
-                            {typeInfo.label}
-                          </span>
+                      {/* 正确答案 */}
+                      <div className="bg-green-50 rounded-xl p-3 border border-green-200">
+                        <div className="text-xs text-green-600 font-semibold mb-1">正确答案</div>
+                        <div className="text-base font-bold text-green-700 break-words">
+                          {record.question.correctAnswer}
                         </div>
-
-                        {/* 题目 */}
-                        <div className="text-sm text-slate-600 mb-1">
-                          <span className="font-semibold">题目:</span> {record.question.question}
-                        </div>
-
-                        {/* 用户答案 */}
-                        <div className="text-sm text-red-700 mb-1">
-                          <span className="font-semibold">你的答案:</span> {record.userAnswer}
-                        </div>
-
-                        {/* 正确答案 */}
-                        <div className="text-sm text-green-700 font-medium mb-1">
-                          <span className="font-semibold">正确答案:</span> {record.question.correctAnswer}
-                        </div>
-
-                        {/* 用时显示 */}
-                        {record.timeSpent > 0 && (
-                          <div className="text-xs text-slate-500">
-                            用时: {Math.round(record.timeSpent / 1000)}秒
-                          </div>
-                        )}
-
-                        {/* 熟练度显示 */}
-                        {masteryData.size > 0 && (() => {
-                          const mastery = masteryData.get(record.question.word.id);
-                          if (mastery) {
-                            const getMasteryColor = (level: number) => {
-                              if (level >= 80) return 'bg-green-100 text-green-700';
-                              if (level >= 60) return 'bg-yellow-100 text-yellow-700';
-                              if (level >= 40) return 'bg-orange-100 text-orange-700';
-                              return 'bg-red-100 text-red-700';
-                            };
-                            return (
-                              <div className={`mt-2 text-xs font-bold px-2 py-1 rounded-full inline-block ${getMasteryColor(mastery.mastery_level)}`}>
-                                熟练度: {mastery.mastery_level}%
-                              </div>
-                            );
-                          }
-                          return null;
-                        })()}
                       </div>
+                    </div>
+
+                    {/* 底部信息栏：用时 + 熟练度 */}
+                    <div className="flex items-center justify-between text-xs">
+                      {/* 用时 */}
+                      <div className="text-slate-500">
+                        ⏱ 用时 {Math.round(record.timeSpent / 1000)} 秒
+                      </div>
+
+                      {/* 熟练度 */}
+                      {masteryData.size > 0 && (() => {
+                        const mastery = masteryData.get(record.question.word.id);
+                        if (mastery) {
+                          const getMasteryColor = (level: number) => {
+                            if (level >= 80) return 'bg-green-100 text-green-700 border-green-300';
+                            if (level >= 60) return 'bg-yellow-100 text-yellow-700 border-yellow-300';
+                            if (level >= 40) return 'bg-orange-100 text-orange-700 border-orange-300';
+                            return 'bg-red-100 text-red-700 border-red-300';
+                          };
+                          const getMasteryLabel = (level: number) => {
+                            if (level >= 80) return '已掌握';
+                            if (level >= 60) return '熟练';
+                            if (level >= 40) return '学习中';
+                            return '需加强';
+                          };
+                          return (
+                            <div className={`px-3 py-1 rounded-full font-bold border ${getMasteryColor(mastery.mastery_level)}`}>
+                              {getMasteryLabel(mastery.mastery_level)} {mastery.mastery_level}%
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
                     </div>
                   </div>
                 );
@@ -561,53 +710,117 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             </div>
           </div>
         ) : (
-          <div className="mb-8 text-center py-8 bg-green-50 rounded-2xl border-2 border-green-200">
-            <CheckCircle2 size={48} className="text-green-500 mx-auto mb-3" />
-            <h3 className="text-xl font-bold text-green-700 mb-1">全对！太棒了！</h3>
-            <p className="text-sm text-green-600">所有题目都回答正确，继续保持！</p>
+          <div className="mb-8 text-center py-10 bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl border-2 border-green-200 shadow-sm">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle2 size={36} className="text-green-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-green-700 mb-2">全对！太棒了！</h3>
+            <p className="text-base text-green-600">所有题目都回答正确，继续保持！</p>
           </div>
         )}
 
-        {/* 按钮区域 */}
-        <div className="space-y-3">
-          {/* 同一题目再练一次 */}
-          <button
-            onClick={() => {
-              // 重置状态，但保持题目顺序不变
-              setCurrentIndex(0);
-              setSelectedAnswer(null);
-              setUserSpelling('');
-              setIsCorrect(null);
-              setIsConfirmed(false);
-              setScore(0);
-              setQuizFinished(false);
-              setAnswerRecords([]);
-            }}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold text-lg transition-all shadow-xl shadow-blue-100"
-          >
-            <RotateCcw size={20} />
-            同一题目再练一次
-          </button>
+        {/* 按钮区域 - 三个横向按钮 */}
+        <div className="space-y-4">
+          {/* 说明文字 */}
+          <p className="text-sm text-center text-slate-500">
+            选择下一步学习方式：
+          </p>
 
-          {/* 新题目 */}
-          <button
-            onClick={() => {
-              // 强制重新生成题目
-              setQuizKey(prev => prev + 1);
-              setCurrentIndex(0);
-              setSelectedAnswer(null);
-              setUserSpelling('');
-              setIsCorrect(null);
-              setIsConfirmed(false);
-              setScore(0);
-              setQuizFinished(false);
-              setAnswerRecords([]);
-            }}
-            className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-bold text-lg transition-all shadow-xl shadow-emerald-100"
-          >
-            <Languages size={20} />
-            换一批新题目
-          </button>
+          {/* 三个横向按钮 */}
+          <div className="grid grid-cols-3 gap-3">
+            {/* 再来（同样题目） */}
+            <button
+              onClick={() => {
+                // 启用重试模式，使用相同的单词
+                setIsRetryMode(true);
+                setStrategy(QuizStrategy.RANDOM);
+                setQuizKey((prev: number) => prev + 1);
+                setCurrentIndex(0);
+                setSelectedAnswer(null);
+                setUserSpelling('');
+                setIsCorrect(null);
+                setIsConfirmed(false);
+                setScore(0);
+                setQuizFinished(false);
+                setAnswerRecords([]);
+              }}
+              disabled={isRecording}
+              className={`flex flex-col items-center justify-center gap-2 text-white py-4 rounded-2xl font-bold transition-all shadow-xl ${
+                isRecording
+                  ? 'bg-slate-300 cursor-not-allowed shadow-slate-200'
+                  : 'bg-blue-600 hover:bg-blue-700 shadow-blue-100'
+              }`}
+            >
+              {isRecording ? (
+                <Loader2 size={24} className="animate-spin" />
+              ) : (
+                <RotateCcw size={24} />
+              )}
+              <span className="text-sm">{isRecording ? '上传中...' : '再来'}</span>
+            </button>
+
+            {/* 轮换（平衡模式） */}
+            <button
+              onClick={() => {
+                // 使用平衡模式重新生成题目
+                setIsRetryMode(false);
+                setStrategy(QuizStrategy.BALANCED);
+                setQuizKey((prev: number) => prev + 1);
+                setCurrentIndex(0);
+                setSelectedAnswer(null);
+                setUserSpelling('');
+                setIsCorrect(null);
+                setIsConfirmed(false);
+                setScore(0);
+                setQuizFinished(false);
+                setAnswerRecords([]);
+              }}
+              disabled={isRecording}
+              className={`flex flex-col items-center justify-center gap-2 text-white py-4 rounded-2xl font-bold transition-all shadow-xl ${
+                isRecording
+                  ? 'bg-slate-300 cursor-not-allowed shadow-slate-200'
+                  : 'bg-purple-600 hover:bg-purple-700 shadow-purple-100'
+              }`}
+            >
+              {isRecording ? (
+                <Loader2 size={24} className="animate-spin" />
+              ) : (
+                <Scale size={24} />
+              )}
+              <span className="text-sm">{isRecording ? '上传中...' : '轮换'}</span>
+            </button>
+
+            {/* 攻克（攻克模式） */}
+            <button
+              onClick={() => {
+                // 使用攻克模式重新生成题目
+                setIsRetryMode(false);
+                setStrategy(QuizStrategy.FOCUS);
+                setQuizKey((prev: number) => prev + 1);
+                setCurrentIndex(0);
+                setSelectedAnswer(null);
+                setUserSpelling('');
+                setIsCorrect(null);
+                setIsConfirmed(false);
+                setScore(0);
+                setQuizFinished(false);
+                setAnswerRecords([]);
+              }}
+              disabled={isRecording}
+              className={`flex flex-col items-center justify-center gap-2 text-white py-4 rounded-2xl font-bold transition-all shadow-xl ${
+                isRecording
+                  ? 'bg-slate-300 cursor-not-allowed shadow-slate-200'
+                  : 'bg-orange-600 hover:bg-orange-700 shadow-orange-100'
+              }`}
+            >
+              {isRecording ? (
+                <Loader2 size={24} className="animate-spin" />
+              ) : (
+                <Target size={24} />
+              )}
+              <span className="text-sm">{isRecording ? '上传中...' : '攻克'}</span>
+            </button>
+          </div>
 
           {/* 返回按钮 */}
           <button
@@ -692,10 +905,10 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 mb-6 text-center">
-        <p className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-4">{getQuestionLabel()}</p>
-        <div className="flex items-center justify-center gap-4">
-          <h2 className="text-4xl font-black text-slate-800">{currentQ.question}</h2>
+      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 mb-6 text-center">
+        <p className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-3 md:mb-4">{getQuestionLabel()}</p>
+        <div className="flex items-center justify-center gap-3 md:gap-4">
+          <h2 className="text-2xl md:text-4xl font-black text-slate-800 break-words px-2">{currentQ.question}</h2>
           {/* 英译中题型：播放英文单词 */}
           {currentQ.type === QuestionType.EN_TO_CN && (
             <button
@@ -709,13 +922,20 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           {/* 拼写题型：播放正确答案（英文单词）作为提示 */}
           {currentQ.type === QuestionType.SPELLING && (
             <button
-              onClick={() => speak(currentQ.correctAnswer)}
+              onClick={() => {
+                speak(currentQ.correctAnswer);
+                // 播放后将焦点返回输入框
+                setTimeout(() => {
+                  spellingInputRef.current?.focus();
+                }, 100);
+              }}
               className="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-600 flex items-center justify-center transition-all active:scale-95"
               aria-label="播放发音提示"
             >
               <Volume2 size={24} />
             </button>
           )}
+          {/* 中对英题型：不提供发音按钮，避免泄露答案 */}
         </div>
       </div>
 
@@ -724,12 +944,17 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         <div className="mb-6">
           <div className="bg-white rounded-2xl p-6 border-2 shadow-lg">
             <input
+              ref={spellingInputRef}
               type="text"
               value={userSpelling}
               onChange={(e) => setUserSpelling(e.target.value)}
               onKeyPress={(e) => {
-                if (e.key === 'Enter' && userSpelling.trim() && !isConfirmed) {
-                  handleSpellingSubmit();
+                if (e.key === 'Enter') {
+                  if (userSpelling.trim() && !isConfirmed) {
+                    handleSpellingSubmit();
+                  } else if (isConfirmed) {
+                    handleNext();
+                  }
                 }
               }}
               disabled={isConfirmed}
@@ -738,18 +963,6 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
               autoFocus
             />
           </div>
-
-          {isConfirmed && (
-            <div className={`mt-4 p-4 rounded-xl ${isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-              <p className="font-bold flex items-center justify-center gap-2">
-                {isCorrect ? (
-                  <><CheckCircle2 size={20} /> Correct!</>
-                ) : (
-                  <><XCircle size={20} /> The answer is: {currentQ.correctAnswer}</>
-                )}
-              </p>
-            </div>
-          )}
 
           {!isConfirmed && userSpelling.trim() && (
             <button
@@ -761,8 +974,8 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           )}
         </div>
       ) : (
-        /* 单选题 - 选项按钮 */
-        <div className="space-y-4 mb-6">
+        /* 单选题 - 选项按钮 (2x2布局) */
+        <div className="grid grid-cols-2 gap-3 mb-6">
           {currentQ.options?.map((option, idx) => {
             let styles = "bg-white border-slate-200 text-slate-700 hover:border-indigo-300 hover:bg-indigo-50";
             let icon = null;
@@ -799,9 +1012,9 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
                 key={idx}
                 disabled={selectedAnswer !== null && selectedAnswer !== option}
                 onClick={() => handleSelectAnswer(option)}
-                className={`w-full p-5 rounded-2xl border-2 text-left font-bold transition-all flex justify-between items-center ${styles}`}
+                className={`w-full p-4 md:p-5 rounded-2xl border-2 text-left font-bold transition-all flex justify-between items-center gap-3 ${styles}`}
               >
-                <span>{option}</span>
+                <span className="break-words flex-1">{option}</span>
                 {showSelectionIndicator && (
                   <span className="text-xs font-bold text-indigo-600">已选择</span>
                 )}
@@ -814,59 +1027,67 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
 
       {/* 确认/下一步按钮区域 */}
       {isMultipleChoice ? (
-        <div className="space-y-3">
+        <div className="flex gap-3">
           {/* 已选择但未确认 */}
           {selectedAnswer !== null && !isConfirmed && (
-            <button
-              onClick={handleConfirmAnswer}
-              className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-bold transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
-            >
-              确认答案
-            </button>
+            <>
+              <button
+                onClick={handleConfirmAnswer}
+                className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-bold transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
+              >
+                确认答案
+              </button>
+              <button
+                onClick={handleChangeSelection}
+                className="flex-1 flex items-center justify-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-600 py-3 rounded-2xl font-medium transition-all"
+              >
+                <RotateCcw size={18} />
+                重新选择
+              </button>
+            </>
           )}
 
           {/* 已确认 - 显示结果和下一步按钮 */}
           {isConfirmed && (
             <>
               {!isCorrect && (
-                <div className="bg-red-50 text-red-700 p-4 rounded-xl text-center">
+                <div className="flex-1 bg-red-50 text-red-700 p-4 rounded-xl text-center flex items-center justify-center">
                   <p className="font-bold flex items-center justify-center gap-2">
                     <XCircle size={20} /> 正确答案是: {currentQ.correctAnswer}
                   </p>
                 </div>
               )}
-
               <button
                 onClick={handleNext}
-                className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
+                className="flex-1 flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
               >
                 {currentIndex === questions.length - 1 ? '完成测验' : '下一题'}
                 <ArrowRight size={20} />
               </button>
             </>
           )}
-
-          {/* 未选择 - 可以添加重置按钮（可选） */}
-          {selectedAnswer !== null && !isConfirmed && (
-            <button
-              onClick={handleChangeSelection}
-              className="w-full flex items-center justify-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-600 py-3 rounded-2xl font-medium transition-all"
-            >
-              <RotateCcw size={18} />
-              重新选择
-            </button>
-          )}
         </div>
       ) : (
-        /* 拼写题完成后的下一步按钮 */
+        /* 拼写题完成后的下一步按钮（横向布局） */
         isConfirmed && (
-          <button
-            onClick={handleNext}
-            className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
-          >
-            {currentIndex === questions.length - 1 ? '完成测验' : '下一题'}
-            <ArrowRight size={20} />
-          </button>
+          <div className="flex gap-3">
+            <div className={`flex-1 p-4 rounded-xl ${isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'} flex items-center justify-center`}>
+              <p className="font-bold flex items-center justify-center gap-2">
+                {isCorrect ? (
+                  <><CheckCircle2 size={20} /> Correct!</>
+                ) : (
+                  <><XCircle size={20} /> The answer is: {currentQ.correctAnswer}</>
+                )}
+              </p>
+            </div>
+            <button
+              onClick={handleNext}
+              className="flex-1 flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
+            >
+              {currentIndex === questions.length - 1 ? '完成测验' : '下一题'}
+              <ArrowRight size={20} />
+            </button>
+          </div>
         )
       )}
     </div>

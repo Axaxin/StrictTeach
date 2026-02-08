@@ -9,7 +9,7 @@ import {
   ActivityType,
   QuizMode as QuizModeEnum
 } from './types';
-import { enrichWords, clearWordCache } from './services/aiService';
+import { enrichWords } from './services/aiService';
 import BookList from './components/BookList';
 import UnitListItem from './components/UnitListItem';
 import ActivitySelector from './components/ActivitySelector';
@@ -17,12 +17,30 @@ import QuizModeSelector from './components/QuizModeSelector';
 import ContextualMode from './components/ContextualMode';
 import WordList from './components/WordList';
 import QuizMode from './components/QuizMode';
-import { Home as HomeIcon, Settings, ArrowLeft, Trash2, Plus, Info, Cloud } from 'lucide-react';
+import { Home as HomeIcon, Settings, ArrowLeft, Plus, Info, Cloud } from 'lucide-react';
 
 const App: React.FC = () => {
   // 设置菜单状态
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
+
+  // 导航状态 - 初始化时确保从主页开始
+  const [navLevel, setNavLevel] = useState<NavigationLevel>(NavigationLevel.BOOK_LIST);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
+  const [selectedQuizMode, setSelectedQuizMode] = useState<QuizModeEnum | null>(null);
+
+  // 初始化时重置导航状态（确保每次刷新都从主页开始）
+  useEffect(() => {
+    // 强制重置所有状态
+    setNavLevel(NavigationLevel.BOOK_LIST);
+    setSelectedBook(null);
+    setSelectedUnit(null);
+    setSelectedActivity(null);
+    setSelectedQuizMode(null);
+    setUnitWords([]);
+  }, []); // 只在组件挂载时执行一次
 
   // 点击外部关闭设置菜单
   useEffect(() => {
@@ -40,13 +58,6 @@ const App: React.FC = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showSettingsMenu]);
-
-  // 导航状态
-  const [navLevel, setNavLevel] = useState<NavigationLevel>(NavigationLevel.BOOK_LIST);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
-  const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
-  const [selectedQuizMode, setSelectedQuizMode] = useState<QuizModeEnum | null>(null);
 
   // 学习数据状态
   const [unitWords, setUnitWords] = useState<Word[]>([]);
@@ -137,13 +148,6 @@ const App: React.FC = () => {
     setUnitWords([]);
   };
 
-  const handleClearCache = () => {
-    if (confirm('确定要清除所有单词缓存吗？之后进入单元需要重新生成 AI 内容。\n\n注意：此操作不影响云端学习记录。')) {
-      clearWordCache();
-      alert('本地缓存已清除！\n\n云端学习数据保留。');
-    }
-  };
-
   const handleAbout = () => {
     alert(`VocabMaster Pro\n\n版本：1.0.0\n\n一款基于 Cloudflare Workers + D1 的英语词汇学习应用。\n\n特性：\n• 287个七年级词汇\n• 音标、多词性释义、例句\n• 4种 Quiz 模式\n• 云端同步学习进度`);
     setShowSettingsMenu(false);
@@ -186,7 +190,7 @@ const App: React.FC = () => {
           };
           return modeNames[selectedQuizMode];
         }
-        if (selectedActivity === ActivityType.WORD_LIST) return '单词总汇';
+        if (selectedActivity === ActivityType.WORD_LIST) return `单词总汇 (${unitWords.length})`;
         if (selectedActivity === ActivityType.LEARN) return '情景阅读';
         return '学习中';
     }
@@ -291,15 +295,6 @@ const App: React.FC = () => {
       {/* 顶部导航栏 */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {navLevel !== NavigationLevel.BOOK_LIST && (
-            <button
-              onClick={handleBack}
-              className="flex items-center gap-2 text-slate-600 hover:text-indigo-600 transition-colors font-medium"
-            >
-              <ArrowLeft size={20} />
-              <span>返回</span>
-            </button>
-          )}
           <div className="text-sm font-bold text-slate-700">
             {getBreadcrumbTitle()}
           </div>
@@ -318,15 +313,18 @@ const App: React.FC = () => {
       {/* 底部导航栏 */}
       <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-3 px-6 z-40">
         <div className="max-w-4xl mx-auto flex justify-around items-center">
-          {/* 首页 */}
+          {/* 返回上级 */}
           <button
-            onClick={handleBackToRoot}
+            onClick={handleBack}
+            disabled={navLevel === NavigationLevel.BOOK_LIST}
             className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${
-              navLevel === NavigationLevel.BOOK_LIST ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'
+              navLevel === NavigationLevel.BOOK_LIST
+                ? 'text-slate-300 cursor-not-allowed'
+                : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'
             }`}
           >
-            <HomeIcon size={24} />
-            <span className="text-xs font-bold">首页</span>
+            <ArrowLeft size={24} />
+            <span className="text-xs font-bold">返回</span>
           </button>
 
           {/* 预留位置 */}
@@ -358,16 +356,6 @@ const App: React.FC = () => {
                   <div className="text-left">
                     <div className="text-sm font-medium text-slate-700">云端服务状态</div>
                     <div className="text-xs text-slate-400">检查 API 连接</div>
-                  </div>
-                </button>
-                <button
-                  onClick={() => { handleClearCache(); }}
-                  className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left border-t border-slate-100"
-                >
-                  <Trash2 size={18} className="text-red-500" />
-                  <div className="text-left">
-                    <div className="text-sm font-medium text-slate-700">清除本地缓存</div>
-                    <div className="text-xs text-slate-400">重新生成 AI 内容</div>
                   </div>
                 </button>
                 <button

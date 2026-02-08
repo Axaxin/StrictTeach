@@ -126,7 +126,9 @@ vocabmaster_-english-learning-app/
 ├── data/
 │   └── vocabData.ts         # Vocabulary loader (static cache → JSON fallback)
 ├── utils/
-│   └── highlight.tsx        # Word highlighting utility for examples
+│   ├── highlight.tsx        # Word highlighting utility for examples
+│   ├── quizStrategy.ts      # Quiz word selection strategies (RANDOM/BALANCED/FOCUS)
+│   └── settings.ts          # App settings management (quiz question count)
 ├── App.tsx                  # Main application with multi-level navigation
 ├── constants.ts             # Unit structure and word lists (BOOKS, UNITS)
 ├── types.ts                 # TypeScript definitions
@@ -231,12 +233,27 @@ BOOK_LIST (VocabMaster Pro)
 
 ```typescript
 enum QuizMode {
-  EN_TO_CN_MCQ = 'EN_TO_CN_MCQ',        // 英对中单选：10 questions
-  CN_TO_EN_MCQ = 'CN_TO_EN_MCQ',        // 中对英单选：10 questions
-  CN_TO_EN_SPELLING = 'CN_TO_EN_SPELLING', // 中对英拼写：10 questions
-  MIXED = 'MIXED'                       // 混合题型：~3 EN_TO_CN, ~3 CN_TO_EN, ~3-4 SPELLING
+  EN_TO_CN_MCQ = 'EN_TO_CN_MCQ',        // 英对中单选：12 questions (可配置 6-24)
+  CN_TO_EN_MCQ = 'CN_TO_EN_MCQ',        // 中对英单选：12 questions (可配置 6-24)
+  CN_TO_EN_SPELLING = 'CN_TO_EN_SPELLING', // 中对英拼写：12 questions (可配置 6-24)
+  MIXED = 'MIXED'                       // 混合题型：~4 EN_TO_CN, ~4 CN_TO_EN, ~4 SPELLING
 }
 ```
+
+### Quiz Strategies (2026)
+
+```typescript
+enum QuizStrategy {
+  RANDOM = 'RANDOM',          // 一般模式：等概率随机选择
+  BALANCED = 'BALANCED',      // 平衡模式：练习次数少的词概率更高
+  FOCUS = 'FOCUS',            // 攻克模式：优先选择低熟练度单词
+}
+```
+
+**Strategy Details:**
+- **RANDOM**: 纯随机选择，适合全面复习
+- **BALANCED**: 加权随机（权重 = 1/(attempt_count+1)），优先选练习少的词
+- **FOCUS**: 分层选择，优先选 mastery_level < 40 的词，其次 < 60 的词
 
 ### Quiz Question Types
 
@@ -313,41 +330,10 @@ The settings menu has been redesigned for cloud-native architecture:
 - Shows response status and data
 - Helps diagnose sync issues
 
-**Reset Local Progress** (`handleResetProgress()`):
-- Clears LocalStorage progress markers only
-- Preserves all cloud答题记录
-- Allows fresh start while maintaining mastery history
-- Use when local markers are inaccurate
-
-**Clear Local Cache** (`handleClearCache()`):
-- Clears LocalStorage AI-generated word caches
-- Preserves all cloud learning data
-- Next unit visit reloads from static cache or regenerates
-- Use when experiencing content issues
-
 **About** (`handleAbout()`):
 - Displays app version (1.0.0)
 - Lists key features and technologies
 - Shows word count (287 words across 7 units)
-
-**Export Format**:
-```json
-{
-  "version": "1.0.0",
-  "exportDate": "2025-01-XX",
-  "data": {
-    "words": {
-      "starter": [...],
-      "unit1": [...],
-      ...
-    },
-    "progress": {
-      "masteredWords": ["starter-0", "unit1-5", ...],
-      "learningWords": ["starter-1", ...]
-    }
-  }
-}
-```
 
 ### Word Highlighting in Examples
 
@@ -355,7 +341,7 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 - Uses regex with word boundaries (`\b`)
 - Case-insensitive matching
 - Returns `React.ReactNode` with `<span className="bg-indigo-100">` highlights
-- Applied in both WordList and FlashcardMode components
+- Applied in WordList and ContextualMode components
 
 ### Import Path Alias
 
@@ -369,6 +355,46 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 - **Icons**: `lucide-react` - Used for all UI icons
 
 ## Recent Changes
+
+### 2026 Q1 Updates
+
+#### 21. Quiz Strategy Selection System (2026)
+- **三种出题策略**：
+  - **一般模式 (RANDOM)**：等概率随机选择单词
+  - **平衡模式 (BALANCED)**：练习次数少的词概率更高（权重公式：1/(attempt_count+1)）
+  - **攻克模式 (FOCUS)**：优先选择低熟练度单词（mastery_level < 40 优先）
+- **策略实现**：`utils/quizStrategy.ts` - 加权随机选择算法
+- **默认策略**：Quiz 默认使用一般模式
+- **重试选项**：
+  - "同一题目再练一次"：使用 RANDOM 模式
+  - "换一批新题目（平衡）"：使用 BALANCED 模式
+  - "换一批新题目（攻克）"：使用 FOCUS 模式
+
+#### 22. Audio Playback Fix for Arc/Chromium (2026)
+- **问题**：Arc 浏览器（Chromium 内核）中 Web Speech API 无法播放声音
+- **原因**：每次调用 `speak()` 都先调用 `cancel()`，导致 utterance 被取消
+- **解决方案**：移除所有 `speak()` 函数开头的 `cancel()` 调用
+- **影响组件**：WordList、QuizMode、ContextualMode
+- **浏览器兼容性**：Safari、Edge、Arc 现在都能正常播放
+
+#### 23. Navigation System Simplification (2026)
+- **移除冗余返回按钮**：删除顶部导航栏和所有子页面的返回按钮
+- **统一导航**：仅使用底部导航栏的"返回"按钮
+- **影响组件**：App.tsx、WordList、ActivitySelector、QuizModeSelector、ContextualMode
+- **优势**：减少UI冗余，简化导航逻辑
+
+#### 24. WordList UI Refinements (2026)
+- **移除卡片音标**：卡片上不再显示音标（仅模态框中显示）
+- **修复长单词截断**：使用 `break-words` 替代 `truncate`，字体从 `text-2xl` 降至 `text-xl`
+- **优化释义文本层级**：词性标签 `font-semibold text-xs`，释义 `text-sm`
+- **修复模态框头部布局**：关闭按钮移至右上角外侧，播放按钮移至左侧，避免重叠
+- **布局重组**：测试统计 → 搜索框 → 分类筛选 → 单词网格（更符合用户浏览流程）
+- **单词总数位置**：移至顶部导航栏面包屑标题 "单词总汇 (42)"
+
+#### 25. Settings Menu Cleanup (2026)
+- **移除废弃功能**：删除"清除本地缓存"按钮和相关功能
+- **云端架构**：数据已全部云端化，无需本地缓存管理
+- **保留功能**：云端服务状态、关于
 
 ### 2025-2026 Major Updates
 
@@ -391,13 +417,10 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 - Word highlighting in example sentences
 - Quick mark buttons (✓ mastered, ✗ review)
 
-#### 4. FlashcardMode Enhancements
-- Shuffle button to randomize word order
-- Front: word + phonetic + pronunciation button
-- Back: multiple definitions with parts of speech (enlarged, no examples - cleaner UI)
-- Flip animation timing: card flips first (500ms), then word changes (prevents jarring content jumps)
-- Exit/return button in header
-- Word highlighting in examples (WordList only)
+#### 4. FlashcardMode (已废弃，被 ContextualMode 取代)
+- 原卡片学习功能已被情景阅读模块取代
+- 文件保留在 `components/FlashcardMode.tsx` 仅供参考
+- 请使用 ContextualMode 进行阅读学习
 
 #### 5. QuizMode Overhaul
 - **4 Quiz Modes**: EN_TO_CN_MCQ, CN_TO_EN_MCQ, CN_TO_EN_SPELLING, MIXED
@@ -431,12 +454,13 @@ The `highlightWordInSentenceReact()` function highlights the target word in exam
 
 #### 10. UI/UX Improvements
 - **Footer navigation**: 3-button layout - Home | Reserved (disabled) | Settings
-- **Settings popup menu**: Export Data | Import Data | Reset Progress | Clear Cache
+- **Settings popup menu**: Cloud Service Status | About
 - Click-outside-to-close functionality for settings menu
 - Progress bars on book/unit cards
 - Status badges (已掌握/学习中)
 - Gradient icons for visual hierarchy
 - Responsive design for mobile
+- **Simplified navigation**: Unified bottom navigation back button (no redundant back buttons in pages)
 
 #### 11. QuizMode Pronunciation Feature
 - **Auto-play pronunciation**: English words auto-play when EN_TO_CN or SPELLING questions appear
@@ -599,6 +623,14 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Verify**: `.env.local` contains correct `VITE_API_URL`
 - **Fallback**: App works offline, syncs when connection restored
 
+### Audio Playback Issues (Arc/Chromium Browsers)
+
+**Problem**: No sound plays in Arc browser, but works in Safari
+- **Cause**: Web Speech API in Arc sometimes enters a "bad state"
+- **Solution**: Restart the browser to clear the cached state
+- **Prevention**: The app now avoids calling `cancel()` before `speak()` to prevent triggering this state
+- **Browser Status**: Safari, Edge, Arc (after restart) all work correctly
+
 ## Component Reference
 
 ### BookList
@@ -626,9 +658,16 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 ### WordList
 - **Props**: `words`, `progress`, `onComplete`, `onMastered`, `onReview`
 - **Purpose**: Browse all words in a unit with search/filter
-- **Features**: Expandable cards, word highlighting, quick status toggle
-- **Layout**: Two-row word card header with large pronunciation button (icon + "发音" text)
+- **Features**: Responsive grid layout, modal detail view, word highlighting, quick status toggle
+- **Layout**:
+  - Cloud test statistics section (共测试、正确、错误、平均用时)
+  - Search box
+  - Category filter buttons (新词/生疏/一般/熟练/精通/全部)
+  - Responsive word grid (1/2/3 columns)
+- **Card Design**: Shows word, proficiency badge, definition preview, test stats, pronunciation button
+- **Modal**: Full phonetics, all definitions with parts of speech, example sentences, detailed test stats
 - **Search**: Filter by word or meaning, with status filter (all/mastered/learning/unstudied)
+- **Navigation**: Word count displayed in breadcrumb title "单词总汇 (42)"
 
 ### ContextualMode
 - **Props**: `words`, `unitId`, `onComplete`
@@ -650,7 +689,10 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Pronunciation**: Auto-plays for EN_TO_CN/SPELLING questions + manual Volume2 button
 - **Real-time timer**: Shows elapsed time per question (Timer icon, amber color, 0.1s precision)
 - **Report**: Shows only wrong questions with detailed info, celebration when all correct
-- **Retry**: Two buttons - "同一题目再练一次" (same questions) / "换一批新题目" (new questions)
+- **Retry Options** (3种):
+  1. "同一题目再练一次"：使用 RANDOM 模式，相同单词重新出题
+  2. "换一批新题目（平衡）"：使用 BALANCED 模式，优先选练习少的词
+  3. "换一批新题目（攻克）"：使用 FOCUS 模式，优先选低熟练度词
 - **Timing tracking**: Records time spent on each question (milliseconds)
 - **Cloud sync**: Auto-sends attempts to Cloudflare Workers API on completion
 - **Mastery display**: Shows proficiency level badges on wrong answers
@@ -682,10 +724,13 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 4. Check `localStorage` for `vocab_progress`
 
 ### Settings Menu Functions
-- Cloud Service Status: Settings → "云端服务状态" → Test API connection
-- Reset Local Progress: Settings → "重置本地进度" → Clear local markers (preserves cloud)
-- Clear Local Cache: Settings → "清除本地缓存" → Clear AI cache (preserves cloud)
-- About: Settings → "关于" → Show app info
+- **Cloud Service Status**: Settings → "云端服务状态" → Test API connection
+- **About**: Settings → "关于" → Show app info
+
+### Unit Settings (ActivitySelector)
+- **Quiz Question Count**: 可配置每次测验的题目数量（6-24题，默认12题）
+- **Statistics Display**: 测试次数、正确率、错误次数、平均用时
+- **Reset Unit Data**: 重置本单元所有云端学习数据（attempts + mastery）
 
 ### Deploy Cloudflare Workers API
 
