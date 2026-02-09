@@ -1064,30 +1064,57 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
           {/* 英语句子（带填空） */}
           <div className="bg-white rounded-2xl p-5 mb-4 shadow-sm">
             <p className="text-lg md:text-xl font-medium text-slate-800 leading-relaxed">
-              {currentQ.question.split('___').map((part, idx, arr) => (
-                <span key={idx}>
-                  {part}
-                  {idx < arr.length - 1 && (
-                    <span className="inline-block mx-1 px-3 py-1 bg-indigo-500 text-white rounded-lg font-bold">___</span>
-                  )}
-                </span>
-              ))}
+              {(() => {
+                // 获取当前显示在填空处的内容
+                const getBlankContent = () => {
+                  if (isConfirmed) {
+                    // 已确认：显示正确答案（绿色）或错误答案（红色）
+                    return isCorrect
+                      ? currentQ.correctAnswer
+                      : (currentQ.type === QuestionType.FILL_IN_BLANK_MCQ ? selectedAnswer : userSpelling);
+                  } else {
+                    // 未确认：显示当前输入
+                    if (currentQ.type === QuestionType.FILL_IN_BLANK_MCQ) {
+                      return selectedAnswer || '___';
+                    } else {
+                      return userSpelling || '___';
+                    }
+                  }
+                };
+
+                const blankContent = getBlankContent();
+                const isBlankCorrect = isConfirmed && isCorrect;
+                const isBlankWrong = isConfirmed && !isCorrect;
+
+                return currentQ.question.split('___').map((part, idx, arr) => (
+                  <span key={idx}>
+                    {part}
+                    {idx < arr.length - 1 && (
+                      <span
+                        className={`inline-block mx-1 px-2 py-0.5 rounded font-bold ${
+                          isBlankCorrect
+                            ? 'bg-green-100 text-green-700 border-b-2 border-green-500'
+                            : isBlankWrong
+                            ? 'bg-red-100 text-red-700 border-b-2 border-red-500'
+                            : 'border-b-2 border-slate-400 text-slate-700'
+                        }`}
+                      >
+                        {blankContent}
+                      </span>
+                    )}
+                  </span>
+                ));
+              })()}
             </p>
           </div>
 
           {/* 中文翻译 */}
           {currentQ.sentenceContext.chineseTranslation && (
-            <div className="bg-slate-50 rounded-xl p-4 mb-4">
+            <div className="bg-slate-50 rounded-xl p-4">
               <p className="text-sm text-slate-500 mb-1">中文翻译</p>
               <p className="text-base text-slate-700 leading-relaxed">{currentQ.sentenceContext.chineseTranslation}</p>
             </div>
           )}
-
-          {/* 释义提示 */}
-          <div className="flex items-center justify-center gap-2 text-sm text-slate-600">
-            <span className="font-semibold">提示：</span>
-            <span>{currentQ.sentenceContext.hint}</span>
-          </div>
         </div>
       ) : (
         /* 其他题型：标准题目卡片 */
