@@ -90,6 +90,7 @@ export interface QuizQuestion {
   sentenceContext?: {         // 填空题专用：句子上下文
     originalSentence: string;  // 原始句子
     hint: string;              // 释义提示
+    chineseTranslation?: string; // 中文翻译
   };
 }
 

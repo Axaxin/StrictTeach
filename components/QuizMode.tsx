@@ -50,10 +50,10 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
   // 全局键盘事件处理：拼写题确认后按回车触发下一题
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      // 只处理拼写题确认后的回车键
+      // 只处理拼写题确认后的回车键（包括普通拼写和填空拼写）
       if (e.key === 'Enter' && isConfirmed) {
         const currentQ = questions[currentIndex];
-        if (currentQ?.type === QuestionType.SPELLING) {
+        if (currentQ?.type === QuestionType.SPELLING || currentQ?.type === QuestionType.FILL_IN_BLANK_SPELLING) {
           // 直接执行 handleNext 的逻辑，避免依赖函数引用
           if (currentIndex < questions.length - 1) {
             setCurrentIndex((prev: number) => prev + 1);
@@ -224,12 +224,13 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             qs.push({
               word,
               type: QuestionType.FILL_IN_BLANK_MCQ,
-              question: `根据文章内容，填入正确的单词：\n${question}\n\n提示：${hint}`,
+              question: question,  // 仅存储填空句子
               options,
               correctAnswer: answer,
               sentenceContext: {
                 originalSentence: sentence.english,
-                hint
+                hint,
+                chineseTranslation: sentence.chinese  // 添加中文翻译
               }
             });
           }
@@ -248,11 +249,12 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             qs.push({
               word,
               type: QuestionType.FILL_IN_BLANK_SPELLING,
-              question: `"${question}"\n\n提示：${hint}`,
+              question: question,  // 仅存储填空句子
               correctAnswer: answer,
               sentenceContext: {
                 originalSentence: sentence.english,
-                hint
+                hint,
+                chineseTranslation: sentence.chinese  // 添加中文翻译
               }
             });
           }
@@ -285,12 +287,13 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             qs.push({
               word,
               type: QuestionType.FILL_IN_BLANK_MCQ,
-              question: `根据文章内容，填入正确的单词：\n${question}\n\n提示：${hint}`,
+              question: question,  // 仅存储填空句子
               options,
               correctAnswer: answer,
               sentenceContext: {
                 originalSentence: sentence.english,
-                hint
+                hint,
+                chineseTranslation: sentence.chinese  // 添加中文翻译
               }
             });
           }
@@ -1047,12 +1050,53 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 mb-6 text-center">
-        <p className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-3 md:mb-4">{getQuestionLabel()}</p>
-        <div className="flex items-center justify-center gap-3 md:gap-4">
-          <h2 className="text-2xl md:text-4xl font-black text-slate-800 break-words px-2">{currentQ.question}</h2>
-          {/* 英译中题型：播放英文单词 */}
-          {currentQ.type === QuestionType.EN_TO_CN && (
+      {/* 句子填空题专用UI */}
+      {(currentQ.type === QuestionType.FILL_IN_BLANK_MCQ || currentQ.type === QuestionType.FILL_IN_BLANK_SPELLING) && currentQ.sentenceContext ? (
+        <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl p-6 md:p-8 shadow-xl border border-indigo-100 mb-6">
+          {/* 题型徽章 */}
+          <div className="flex justify-center mb-4">
+            <span className={`text-xs font-bold px-3 py-1 rounded-full ${getTypeColor()} flex items-center gap-1`}>
+              {currentQ.type === QuestionType.FILL_IN_BLANK_MCQ ? <BookOpen size={14} /> : <PenTool size={14} />}
+              {getTypeLabel()}
+            </span>
+          </div>
+
+          {/* 英语句子（带填空） */}
+          <div className="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+            <p className="text-lg md:text-xl font-medium text-slate-800 leading-relaxed">
+              {currentQ.question.split('___').map((part, idx, arr) => (
+                <span key={idx}>
+                  {part}
+                  {idx < arr.length - 1 && (
+                    <span className="inline-block mx-1 px-3 py-1 bg-indigo-500 text-white rounded-lg font-bold">___</span>
+                  )}
+                </span>
+              ))}
+            </p>
+          </div>
+
+          {/* 中文翻译 */}
+          {currentQ.sentenceContext.chineseTranslation && (
+            <div className="bg-slate-50 rounded-xl p-4 mb-4">
+              <p className="text-sm text-slate-500 mb-1">中文翻译</p>
+              <p className="text-base text-slate-700 leading-relaxed">{currentQ.sentenceContext.chineseTranslation}</p>
+            </div>
+          )}
+
+          {/* 释义提示 */}
+          <div className="flex items-center justify-center gap-2 text-sm text-slate-600">
+            <span className="font-semibold">提示：</span>
+            <span>{currentQ.sentenceContext.hint}</span>
+          </div>
+        </div>
+      ) : (
+        /* 其他题型：标准题目卡片 */
+        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 mb-6 text-center">
+          <p className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-3 md:mb-4">{getQuestionLabel()}</p>
+          <div className="flex items-center justify-center gap-3 md:gap-4">
+            <h2 className="text-2xl md:text-4xl font-black text-slate-800 break-words px-2">{currentQ.question}</h2>
+            {/* 英译中题型：播放英文单词 */}
+            {currentQ.type === QuestionType.EN_TO_CN && (
             <button
               onClick={() => speak(currentQ.question)}
               className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-100 hover:bg-indigo-200 text-indigo-600 flex items-center justify-center transition-all active:scale-95"
@@ -1078,11 +1122,12 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             </button>
           )}
           {/* 中对英题型：不提供发音按钮，避免泄露答案 */}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* 拼写题 - 输入框 */}
-      {currentQ.type === QuestionType.SPELLING ? (
+      {/* 拼写题 - 输入框（包括普通拼写题和填空拼写题） */}
+      {currentQ.type === QuestionType.SPELLING || currentQ.type === QuestionType.FILL_IN_BLANK_SPELLING ? (
         <div className="mb-6">
           <div className="bg-white rounded-2xl p-6 border-2 shadow-lg">
             <input
@@ -1100,9 +1145,9 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
                 }
               }}
               disabled={isConfirmed}
-              placeholder="Type the English word..."
+              placeholder={currentQ.type === QuestionType.FILL_IN_BLANK_SPELLING ? "填入正确的英文单词..." : "Type the English word..."}
               className="w-full text-2xl font-bold text-center py-4 border-0 focus:ring-0 focus:outline-none"
-              autoFocus
+              autoFocus={currentQ.type === QuestionType.SPELLING}
             />
           </div>
 

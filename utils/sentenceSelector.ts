@@ -88,7 +88,7 @@ export function createFillInBlankQuestion(
   );
 
   return {
-    question: `"${question}"`,
+    question: question,  // 直接返回填空句子，不加引号
     answer: term,
   };
 }
