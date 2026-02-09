@@ -182,7 +182,7 @@ function saveToCache(unitId: string, words: Word[]): void {
 }
 
 async function prebuild(): Promise<void> {
-  console.log('🚀 VocabMaster Prebuild');
+  console.log('🚀 StrictTeach Prebuild');
   console.log(`📊 Model: ${MODEL}`);
   console.log(`🌐 API: ${BASE_URL}`);
   console.log(`📦 Batch size: ${BATCH_SIZE} words`);

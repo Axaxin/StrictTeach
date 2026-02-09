@@ -4,7 +4,7 @@
  */
 
 // API 配置 - 开发环境使用本地代理，生产环境直接访问 Workers
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://vocabmaster-api.YOUR-SUBDOMAIN.workers.dev';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://strictteach-api.YOUR-SUBDOMAIN.workers.dev';
 
 /**
  * 答题记录接口

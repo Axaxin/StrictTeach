@@ -2,7 +2,7 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# VocabMaster - English Learning App
+# StrictTeach - English Learning App
 
 An interactive English vocabulary learning application with AI-powered definitions, flashcards, quizzes, and cloud-synced progress tracking.
 
@@ -41,7 +41,7 @@ For cross-device progress tracking and mastery calculation:
 
 1. Configure API URL in `.env.local`:
    ```bash
-   VITE_API_URL=https://vocabmaster-api.jk-veda.workers.dev
+   VITE_API_URL=https://strictteach-api.YOUR-SUBDOMAIN.workers.dev
    ```
 
 2. The app will automatically sync quiz attempts and mastery data to the cloud.

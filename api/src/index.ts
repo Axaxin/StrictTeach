@@ -1,5 +1,5 @@
 /**
- * VocabMaster API - Cloudflare Workers
+ * StrictTeach API - Cloudflare Workers
  * 提供答题记录和熟练度查询接口
  */
 
@@ -22,7 +22,7 @@ router.options('*', () => new Response(null, { headers: corsHeaders }));
  */
 router.get('/', () => {
   return new Response(JSON.stringify({
-    name: 'VocabMaster API',
+    name: 'StrictTeach API',
     version: '1.0.0',
     endpoints: {
       'GET /api/health': '健康检查',

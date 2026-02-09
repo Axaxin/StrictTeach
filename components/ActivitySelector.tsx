@@ -56,9 +56,9 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = ({ unit, onSelectActiv
     return unsubscribe;
   }, []);
 
-  // 计算掌握进度（基于云端数据）
-  const masteredCount = Object.values(masteryData).filter(level => level.mastery_level >= 80).length;
-  const learningCount = Object.values(masteryData).filter(level => level.mastery_level > 0 && level.mastery_level < 80).length;
+  // 计算掌握进度（基于云端数据，>= 60 视为已掌握）
+  const masteredCount = Object.values(masteryData).filter(level => level.mastery_level >= 60).length;
+  const learningCount = Object.values(masteryData).filter(level => level.mastery_level > 0 && level.mastery_level < 60).length;
   const progressPercent = Math.round((masteredCount / unit.words.length) * 100);
 
   // 计算单元统计数据
@@ -152,7 +152,7 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = ({ unit, onSelectActiv
             </div>
             <div>
               <div className="text-xl font-bold">{masteredCount}</div>
-              <div className="text-xs text-indigo-100 uppercase tracking-wider">精通</div>
+              <div className="text-xs text-indigo-100 uppercase tracking-wider">已掌握</div>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-white/20 backdrop-blur px-4 py-3 rounded-2xl">

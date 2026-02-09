@@ -149,12 +149,12 @@ const App: React.FC = () => {
   };
 
   const handleAbout = () => {
-    alert(`VocabMaster Pro\n\n版本：1.0.0\n\n一款基于 Cloudflare Workers + D1 的英语词汇学习应用。\n\n特性：\n• 287个七年级词汇\n• 音标、多词性释义、例句\n• 4种 Quiz 模式\n• 云端同步学习进度`);
+    alert(`StrictTeach\n\n版本：1.0.0\n\n一款基于 Cloudflare Workers + D1 的英语词汇学习应用。\n\n特性：\n• 287个七年级词汇\n• 音标、多词性释义、例句\n• 4种 Quiz 模式\n• 云端同步学习进度`);
     setShowSettingsMenu(false);
   };
 
   const handleCloudStatus = async () => {
-    const apiUrl = (import.meta as any).env?.VITE_API_URL || 'https://vocabmaster-api.jk-veda.workers.dev';
+    const apiUrl = (import.meta as any).env?.VITE_API_URL || 'https://strictteach-api.YOUR-SUBDOMAIN.workers.dev';
     try {
       const response = await fetch(`${apiUrl}/api/health`);
       if (response.ok) {
@@ -173,7 +173,7 @@ const App: React.FC = () => {
   const getBreadcrumbTitle = () => {
     switch (navLevel) {
       case NavigationLevel.BOOK_LIST:
-        return 'VocabMaster Pro';
+        return 'StrictTeach';
       case NavigationLevel.UNIT_LIST:
         return selectedBook?.name || '章节列表';
       case NavigationLevel.ACTIVITY_SELECT:

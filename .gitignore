@@ -27,7 +27,7 @@ dist-ssr
 .claude/settings.local.json
 
 # Data export backups
-vocabmaster_backup_*.json
+strictteach_backup_*.json
 
 # Cloudflare Workers local state
 api/.wrangler/

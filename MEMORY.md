@@ -1,7 +1,7 @@
-# VocabMaster - 项目记忆文档
+# StrictTeach - 项目记忆文档
 
 ## 项目概述
-VocabMaster 是一个为初一学生设计的英语词汇学习应用，使用 React 19 + TypeScript + Vite 构建。
+StrictTeach 是一个为初一学生设计的英语词汇学习应用，使用 React 19 + TypeScript + Vite 构建。
 
 ## 当前状态 (2026-02-08)
 
@@ -205,7 +205,7 @@ chmod +x node_modules/.bin/*
 
 ### 后端API
 - 部署命令：`cd api && npm run deploy`
-- 当前URL：https://vocabmaster-api.jk-veda.workers.dev
+- 当前URL：https://strictteach-api.YOUR-SUBDOMAIN.workers.dev
 - 数据库ID：f90bed8d-f21e-4d05-842a-1744d0ef4e09
 
 ## 未来改进

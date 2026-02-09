@@ -1,5 +1,5 @@
--- VocabMaster D1 Database Schema
--- 创建命令: npx wrangler d1 execute vocabmaster-db --file=./schema.sql
+-- StrictTeach D1 Database Schema
+-- 创建命令: npx wrangler d1 execute strictteach-db --file=./schema.sql
 
 -- 答题记录表
 CREATE TABLE IF NOT EXISTS attempts (

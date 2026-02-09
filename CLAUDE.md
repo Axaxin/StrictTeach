@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-VocabMaster is an English vocabulary learning app built with React 19, TypeScript, and Vite. It features **pre-enriched vocabulary data** with phonetics, parts of speech, multiple Chinese definitions, and English example sentences with translations. The app includes vocabulary for 7 chapters (Starter through Unit 6) covering junior high school Year 7 curriculum.
+StrictTeach is an English vocabulary learning app built with React 19, TypeScript, and Vite. It features **pre-enriched vocabulary data** with phonetics, parts of speech, multiple Chinese definitions, and English example sentences with translations. The app includes vocabulary for 7 chapters (Starter through Unit 6) covering junior high school Year 7 curriculum.
 
 **Note**: The app uses **static cache files** (tracked in the repo) containing fully enriched word data. AI APIs are only used during prebuild to generate these caches, not at runtime.
 
@@ -77,7 +77,7 @@ git add public/data/cache/
 Create a `.env.local` file with your Cloudflare Workers API URL:
 
 ```bash
-VITE_API_URL=https://vocabmaster-api.YOUR-SUBDOMAIN.workers.dev
+VITE_API_URL=https://strictteach-api.YOUR-SUBDOMAIN.workers.dev
 ```
 
 ### For Cache Regeneration (Optional)
@@ -103,7 +103,7 @@ OPENAI_MODEL=gpt-4o-mini
 ### Application Structure
 
 ```
-vocabmaster_-english-learning-app/
+strictteach_-english-learning-app/
 ├── components/           # React UI components
 │   ├── BookList.tsx         # Book/semester selection screen
 │   ├── BookListItem.tsx     # Individual book card with progress
@@ -164,7 +164,7 @@ The app includes a **Cloudflare Workers + D1** backend for cross-device sync and
 
 **Architecture:**
 ```
-Frontend (VocabMaster App)
+Frontend (StrictTeach App)
     ↓ POST /api/attempts
 Cloudflare Workers (api/src/index.ts)
     ↓ SQL Queries
@@ -193,7 +193,7 @@ Cloudflare D1 Database (SQLite at edge)
 **Environment Setup:**
 ```bash
 # .env.local or .env
-VITE_API_URL=https://vocabmaster-api.YOUR-SUBDOMAIN.workers.dev
+VITE_API_URL=https://strictteach-api.YOUR-SUBDOMAIN.workers.dev
 ```
 
 ### Data Flow Priority
@@ -225,7 +225,7 @@ enrichWords() 调用流程：
 ### Navigation Hierarchy
 
 ```
-BOOK_LIST (VocabMaster Pro)
+BOOK_LIST (StrictTeach Pro)
     └─→ UNIT_LIST (七年级上册)
             └─→ ACTIVITY_SELECT (章节名称)
                     ├─→ LEARNING (单词总汇)
@@ -757,7 +757,7 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 ## Project Status Summary (2026)
 
 ### Current Features
-VocabMaster is a mature English vocabulary learning app with:
+StrictTeach is a mature English vocabulary learning app with:
 - **6 Quiz Modes**: EN_TO_CN_MCQ, CN_TO_EN_MCQ, CN_TO_EN_SPELLING, FILL_IN_BLANK_MCQ, FILL_IN_BLANK_SPELLING, MIXED
 - **3 Quiz Strategies**: RANDOM (balanced), BALANCED (prioritize less-practiced), FOCUS (prioritize low-mastery)
 - **Cloud-based mastery tracking**: All progress synced via Cloudflare Workers + D1
@@ -768,6 +768,8 @@ VocabMaster is a mature English vocabulary learning app with:
 1. **Fill-in-Blank Questions** - Contextual questions from reading passages, supports both MCQ and spelling variants
 2. **Refined Mastery Algorithm** - Simpler formula with progressive caps based on attempt count, higher skill ceiling (95% accuracy + fast speed for mastery)
 3. **UI Polish** - Dynamic blank display, auto-focus for spelling inputs, enhanced error reports with sentence context
+4. **Project Rebranding** - Renamed from VocabMaster to StrictTeach across all files, API, and documentation
+5. **Learning Progress Adjustment** - Progress bars now count words with mastery >= 60 (previously >= 80) as completed
 
 ### Tech Stack
 - **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS
@@ -908,7 +910,7 @@ wrangler login
 
 # 3. Create D1 database
 cd api
-wrangler d1 create vocabmaster-db
+wrangler d1 create strictteach-db
 
 # 4. Update wrangler.toml with the returned database_id
 # Example: database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
@@ -920,7 +922,7 @@ npm run d1:schema  # Runs with --remote flag
 npm run deploy
 
 # 7. Update .env.local with your Workers URL
-# VITE_API_URL=https://vocabmaster-api-xxx.workers.dev
+# VITE_API_URL=https://strictteach-api-xxx.workers.dev
 ```
 
 **Deploying updates:**

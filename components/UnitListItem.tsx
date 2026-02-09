@@ -30,9 +30,9 @@ const UnitListItem: React.FC<UnitListItemProps> = ({ unit, onClick }) => {
       });
   }, [unit.id]);
 
-  // 计算掌握进度（基于云端数据）
-  const masteredCount = Object.values(masteryData).filter(level => level >= 80).length;
-  const progressPercent = Math.round((masteredCount / unit.words.length) * 100);
+  // 计算学习进度（熟练度 >= 60 视为已完成）
+  const completedCount = Object.values(masteryData).filter(level => level >= 60).length;
+  const progressPercent = Math.round((completedCount / unit.words.length) * 100);
 
   return (
     <button
@@ -48,7 +48,7 @@ const UnitListItem: React.FC<UnitListItemProps> = ({ unit, onClick }) => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <BookOpen size={14} className="text-slate-400" />
-              <span className="text-xs text-slate-500">{masteredCount}/{unit.words.length} 精通</span>
+              <span className="text-xs text-slate-500">{completedCount}/{unit.words.length} 已掌握</span>
             </div>
             <div className="h-1.5 w-24 bg-slate-100 rounded-full overflow-hidden">
               <div

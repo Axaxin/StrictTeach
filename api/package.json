@@ -1,15 +1,15 @@
 {
-  "name": "vocabmaster-api",
+  "name": "strictteach-api",
   "version": "1.0.0",
-  "description": "VocabMaster Cloudflare Workers API",
+  "description": "StrictTeach Cloudflare Workers API",
   "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "d1:create": "wrangler d1 create vocabmaster-db",
-    "d1:schema": "wrangler d1 execute vocabmaster-db --file=./schema.sql --remote",
-    "d1:schema:local": "wrangler d1 execute vocabmaster-db --file=./schema.sql",
-    "d1:query": "wrangler d1 execute vocabmaster-db --command"
+    "d1:create": "wrangler d1 create strictteach-db",
+    "d1:schema": "wrangler d1 execute strictteach-db --file=./schema.sql --remote",
+    "d1:schema:local": "wrangler d1 execute strictteach-db --file=./schema.sql",
+    "d1:query": "wrangler d1 execute strictteach-db --command"
   },
   "dependencies": {
     "itty-router": "^4.0.20"

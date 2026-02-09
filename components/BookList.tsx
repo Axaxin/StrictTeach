@@ -13,7 +13,7 @@ const BookList: React.FC<BookListProps> = ({ books, onSelectBook }) => {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
-          VocabMaster <span className="text-indigo-600">Pro</span>
+          StrictTeach
         </h1>
         <p className="text-slate-500 max-w-xl mx-auto">
           选择教材开始学习
