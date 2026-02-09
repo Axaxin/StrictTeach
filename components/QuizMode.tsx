@@ -794,6 +794,26 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
                       </div>
                     </div>
 
+                    {/* 句子填空题：显示原句子和翻译 */}
+                    {(record.question.type === QuestionType.FILL_IN_BLANK_MCQ || record.question.type === QuestionType.FILL_IN_BLANK_SPELLING) && record.question.sentenceContext && (
+                      <div className="mt-3 pt-3 border-t border-slate-200">
+                        {/* 原句子 */}
+                        <div className="bg-indigo-50 rounded-lg p-3 mb-2">
+                          <p className="text-xs text-indigo-600 font-semibold mb-1">原句</p>
+                          <p className="text-sm text-slate-800 leading-relaxed">
+                            {record.question.sentenceContext.originalSentence}
+                          </p>
+                        </div>
+
+                        {/* 中文翻译 */}
+                        {record.question.sentenceContext.chineseTranslation && (
+                          <div className="bg-slate-50 rounded-lg p-2">
+                            <p className="text-xs text-slate-500">{record.question.sentenceContext.chineseTranslation}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {/* 底部信息栏：用时 + 熟练度 */}
                     <div className="flex items-center justify-between text-xs">
                       {/* 用时 */}
