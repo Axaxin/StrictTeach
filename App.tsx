@@ -20,6 +20,39 @@ import QuizMode from './components/QuizMode';
 import { Home as HomeIcon, Settings, ArrowLeft, Plus, Info, Cloud } from 'lucide-react';
 
 const App: React.FC = () => {
+  // 访问密码验证状态
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  // 从环境变量获取访问密码，默认为空（不启用密码保护）
+  const ACCESS_PASSWORD = (import.meta as any).env?.VITE_ACCESS_PASSWORD || '';
+  const AUTH_KEY = 'strictteach_auth';
+
+  // 检查是否已验证（如果未设置密码，则直接跳过验证）
+  useEffect(() => {
+    if (!ACCESS_PASSWORD) {
+      setIsAuthenticated(true);
+      return;
+    }
+    const auth = localStorage.getItem(AUTH_KEY);
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // 处理密码验证
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === ACCESS_PASSWORD) {
+      setIsAuthenticated(true);
+      localStorage.setItem(AUTH_KEY, 'true');
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+      setPasswordInput('');
+    }
+  };
+
   // 设置菜单状态
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const settingsMenuRef = useRef<HTMLDivElement>(null);
@@ -291,6 +324,58 @@ const App: React.FC = () => {
         return null;
     }
   };
+
+  // 密码验证界面
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+              <HomeIcon size={40} className="text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">StrictTeach</h1>
+            <p className="text-slate-500">请输入访问密码</p>
+          </div>
+
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <div>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setPasswordError(false);
+                }}
+                placeholder="访问密码"
+                className={`w-full px-4 py-3 rounded-xl border-2 text-center text-lg tracking-widest transition-all ${
+                  passwordError
+                    ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-400'
+                    : 'border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white'
+                }`}
+                autoFocus
+              />
+            </div>
+
+            {passwordError && (
+              <p className="text-red-500 text-sm text-center">密码错误，请重试</p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all shadow-lg"
+            >
+              进入应用
+            </button>
+          </form>
+
+          <p className="text-xs text-slate-400 text-center mt-6">
+            英语词汇学习应用
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-16 bg-slate-50">

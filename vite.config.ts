@@ -20,6 +20,8 @@ export default defineConfig(({ mode }) => {
         'process.env.VITE_OPENAI_MODEL': JSON.stringify(env.OPENAI_MODEL || env.VITE_OPENAI_MODEL || 'gpt-4o-mini'),
         // Cloudflare Workers API 配置
         'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'https://strictteach-api.YOUR-SUBDOMAIN.workers.dev'),
+        // 访问密码配置（留空则不启用密码保护）
+        'process.env.VITE_ACCESS_PASSWORD': JSON.stringify(env.VITE_ACCESS_PASSWORD || ''),
       },
       resolve: {
         alias: {

@@ -754,6 +754,27 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Prevention**: The app now avoids calling `cancel()` before `speak()` to prevent triggering this state
 - **Browser Status**: Safari, Edge, Arc (after restart) all work correctly
 
+#### 29. Access Password Protection (2026)
+- **功能**: 可选的访问密码保护，用于限制单用户使用
+- **环境变量**: `VITE_ACCESS_PASSWORD` - 在 `.env.local` 或 Cloudflare Pages 环境变量中设置
+- **行为**:
+  - 未设置密码时：直接进入应用，无需验证
+  - 设置密码后：显示密码验证界面，输入正确密码才能访问
+- **记住验证**: 验证成功后存储在 LocalStorage，下次无需重新输入
+- **UI 设计**: 渐变背景 + 居中白色卡片，简洁美观
+
+**配置示例**:
+```bash
+# .env.local 或 Cloudflare Pages 环境变量
+VITE_ACCESS_PASSWORD=your_password_here
+```
+
+**禁用密码保护**:
+```bash
+# 留空或不设置此变量即可
+VITE_ACCESS_PASSWORD=
+```
+
 ## Project Status Summary (2026)
 
 ### Current Features
@@ -770,6 +791,7 @@ StrictTeach is a mature English vocabulary learning app with:
 3. **UI Polish** - Dynamic blank display, auto-focus for spelling inputs, enhanced error reports with sentence context
 4. **Project Rebranding** - Renamed from VocabMaster to StrictTeach across all files, API, and documentation
 5. **Learning Progress Adjustment** - Progress bars now count words with mastery >= 60 (previously >= 80) as completed
+6. **Access Password Protection** - Optional password protection via `VITE_ACCESS_PASSWORD` environment variable for single-user access control
 
 ### Tech Stack
 - **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS
