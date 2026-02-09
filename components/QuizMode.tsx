@@ -94,6 +94,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
   const [masteryData, setMasteryData] = useState<Map<string, WordMastery>>(new Map());
   const [masteryDataLoaded, setMasteryDataLoaded] = useState(false); // 追踪masteryData是否已加载
   const [masteryRefreshKey, setMasteryRefreshKey] = useState(0); // 触发刷新熟练度数据
+  const [skipMasteryRefresh, setSkipMasteryRefresh] = useState(false); // 跳过刷新（数据刚更新过）
   const [isRecording, setIsRecording] = useState(false);
   const [recordError, setRecordError] = useState<string | null>(null);
 
@@ -167,14 +168,24 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     const qs: QuizQuestion[] = [];
     const quizCount = getQuizQuestionCount();
 
+    console.log(`[Question Gen] Starting generation with strategy: ${strategy}, quizKey: ${quizKey}, masteryRefreshKey: ${masteryRefreshKey}, masteryDataLoaded: ${masteryDataLoaded}`);
+    console.log(`[Question Gen] Mastery data has ${masteryData.size} entries`);
+
     // "再来"模式使用之前保存的单词，否则根据策略选择新单词
     let selectedWords: Word[];
     if (isRetryMode && currentQuizWords.length > 0) {
       selectedWords = currentQuizWords;
+      console.log(`[Question Gen] Using saved words (retry mode), count: ${selectedWords.length}`);
     } else {
       selectedWords = selectWordsByStrategy(words, masteryData, strategy, quizCount);
       // 保存选中的单词，供"再来"模式使用
       setCurrentQuizWords(selectedWords);
+      console.log(`[Question Gen] Generated ${selectedWords.length} words with strategy: ${strategy}`);
+      // Log selected words for debugging
+      selectedWords.forEach(w => {
+        const m = masteryData.get(w.id);
+        console.log(`  - ${w.term}: attempts=${m?.attempt_count ?? 0}, mastery=${m?.mastery_level ?? 0}`);
+      });
     }
 
     switch (quizMode) {
@@ -267,7 +278,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
         const spellingCount = Math.floor(selectedWords.length * 0.5);
         const mcqCount = selectedWords.length - fillBlankCount - spellingCount;
 
-        // 1. 填空题 (20%)
+        // 1. 填空题 (20%) - 随机分配为选择或拼写
         selectedWords.slice(0, fillBlankCount).forEach(word => {
           const sentences = findSentencesWithWord(word, passage);
           if (sentences.length > 0) {
@@ -275,27 +286,45 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
             const hint = getDefinition(word);
             const { question, answer } = createFillInBlankQuestion(sentence, word);
 
-            // 生成干扰项
-            const distractors = words
-              .filter(w => w.id !== word.id)
-              .sort(() => 0.5 - Math.random())
-              .slice(0, 3)
-              .map(w => w.term);
+            // 50% 概率生成选择题，50% 生成拼写题
+            const isMcq = Math.random() > 0.5;
 
-            const options = [answer, ...distractors].sort(() => 0.5 - Math.random());
+            if (isMcq) {
+              // 填空选择题
+              const distractors = words
+                .filter(w => w.id !== word.id)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3)
+                .map(w => w.term);
 
-            qs.push({
-              word,
-              type: QuestionType.FILL_IN_BLANK_MCQ,
-              question: question,  // 仅存储填空句子
-              options,
-              correctAnswer: answer,
-              sentenceContext: {
-                originalSentence: sentence.english,
-                hint,
-                chineseTranslation: sentence.chinese  // 添加中文翻译
-              }
-            });
+              const options = [answer, ...distractors].sort(() => 0.5 - Math.random());
+
+              qs.push({
+                word,
+                type: QuestionType.FILL_IN_BLANK_MCQ,
+                question: question,
+                options,
+                correctAnswer: answer,
+                sentenceContext: {
+                  originalSentence: sentence.english,
+                  hint,
+                  chineseTranslation: sentence.chinese
+                }
+              });
+            } else {
+              // 填空拼写题
+              qs.push({
+                word,
+                type: QuestionType.FILL_IN_BLANK_SPELLING,
+                question: question,
+                correctAnswer: answer,
+                sentenceContext: {
+                  originalSentence: sentence.english,
+                  hint,
+                  chineseTranslation: sentence.chinese
+                }
+              });
+            }
           }
         });
 
@@ -358,7 +387,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     qs.sort(() => 0.5 - Math.random());
 
     setQuestions(qs);
-  }, [words, quizMode, quizKey, strategy, isRetryMode, masteryDataLoaded]); // 添加 masteryDataLoaded 依赖，确保熟练度数据加载后重新生成题目
+  }, [words, quizMode, quizKey, strategy, isRetryMode, masteryRefreshKey, masteryDataLoaded]); // 等待熟练度数据加载完成后才生成题目
 
   // 当 quizKey 变化时清空自动播放追踪记录并刷新熟练度数据
   useEffect(() => {
@@ -373,11 +402,18 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
     pendingTimeoutRef.current.clear();
     // 设置预期单词ID为null，表示新一轮测验开始，需要等待题目更新
     expectedWordIdRef.current = null;
-    // 刷新熟练度数据（触发重新从API获取）
-    setMasteryDataLoaded(false);
-    setMasteryRefreshKey((prev: number) => prev + 1);
-    console.log(`[Auto-play] Cleared tracking for new quiz (quizKey: ${quizKey})`);
-  }, [quizKey]);
+
+    // 如果数据刚更新过（上传成功后），不需要刷新
+    if (skipMasteryRefresh) {
+      console.log(`[Mastery] Skipping refresh, data just updated (quizKey: ${quizKey})`);
+      setSkipMasteryRefresh(false);
+    } else {
+      // 刷新熟练度数据（触发重新从API获取）
+      setMasteryDataLoaded(false);
+      setMasteryRefreshKey((prev: number) => prev + 1);
+      console.log(`[Mastery] Refreshing mastery data (quizKey: ${quizKey})`);
+    }
+  }, [quizKey, skipMasteryRefresh]);
 
   // 初始化语音列表（Android 兼容性修复）
   useEffect(() => {
@@ -577,6 +613,9 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
               const map = new Map(masteryList.map(m => [m.word_id, m]));
               setMasteryData(map);
               console.log('✅ Mastery data updated');
+
+              // 标记下次 quizKey 变化时不需要刷新（数据刚更新过）
+              setSkipMasteryRefresh(true);
 
               // 触发全局刷新，通知其他组件（WordList、ActivitySelector）更新数据
               triggerMasteryRefresh();
@@ -801,7 +840,24 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
                         <div className="bg-indigo-50 rounded-lg p-3 mb-2">
                           <p className="text-xs text-indigo-600 font-semibold mb-1">原句</p>
                           <p className="text-sm text-slate-800 leading-relaxed">
-                            {record.question.sentenceContext.originalSentence}
+                            {(() => {
+                              // 高亮显示正确答案单词
+                              const sentence = record.question.sentenceContext.originalSentence;
+                              const answer = record.question.correctAnswer;
+                              const regex = new RegExp(`\\b${answer}\\b`, 'gi');
+                              const parts = sentence.split(regex);
+
+                              return parts.map((part, idx) => (
+                                <span key={idx}>
+                                  {part}
+                                  {idx < parts.length - 1 && (
+                                    <span className="inline-block px-1 py-0.5 bg-green-200 text-green-800 rounded font-bold">
+                                      {answer}
+                                    </span>
+                                  )}
+                                </span>
+                              ));
+                            })()}
                           </p>
                         </div>
 
@@ -1194,7 +1250,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ words, quizMode, onComplete }) => {
               disabled={isConfirmed}
               placeholder={currentQ.type === QuestionType.FILL_IN_BLANK_SPELLING ? "填入正确的英文单词..." : "Type the English word..."}
               className="w-full text-2xl font-bold text-center py-4 border-0 focus:ring-0 focus:outline-none"
-              autoFocus={currentQ.type === QuestionType.SPELLING}
+              autoFocus={currentQ.type === QuestionType.SPELLING || currentQ.type === QuestionType.FILL_IN_BLANK_SPELLING}
             />
           </div>
 

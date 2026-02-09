@@ -255,7 +255,7 @@ enum QuizMode {
   CN_TO_EN_SPELLING = 'CN_TO_EN_SPELLING', // 中对英拼写：12 questions (可配置 6-24)
   FILL_IN_BLANK_MCQ = 'FILL_IN_BLANK_MCQ', // 句子填空(选择)：12 questions (可配置 6-24)
   FILL_IN_BLANK_SPELLING = 'FILL_IN_BLANK_SPELLING', // 句子填空(拼写)：12 questions (可配置 6-24)
-  MIXED = 'MIXED'                       // 混合题型：包含以上各种题型
+  MIXED = 'MIXED'                       // 混合题型：20%填空+50%拼写+30%选择，填空题随机为选择或拼写
 }
 ```
 
@@ -471,9 +471,52 @@ interface QuizQuestion {
   sentenceContext?: {
     originalSentence: string;  // 原始完整句子
     hint: string;              // 中文释义提示
+    chineseTranslation?: string; // 中文翻译
   };
 }
 ```
+
+#### 27. 句子填空题型 UI 优化 (2026)
+- **填空动态显示**：填空题的"___"会根据用户输入动态更新内容
+  - 未确认时显示用户输入或"___"
+  - 确认后显示正确答案或用户答案
+- **移除奇怪的高亮**：去掉原有的青色/靛青色背景高亮，改用简洁的下划线设计
+- **移除冗余提示**：填空选择题不再显示额外的提示区域（中文翻译已足够）
+- **自动聚焦**：填空拼写题自动聚焦到输入框，提升用户体验
+- **错题报告优化**：
+  - 填空题错题显示原句
+  - 正确答案单词在原句中绿色高亮显示
+  - 帮助学生理解语境中的正确用法
+
+#### 28. 熟练度评分算法重设计 (2026)
+- **问题**：旧算法逻辑混乱（正确率分+效率分-错误惩罚），收敛太慢，门槛过低
+- **新算法**：`分数 = min(等级上限, 正确率 × 效率系数)`
+- **分段上限机制**（根据答题次数防止运气成分）：
+  | 次数 | 上限 | 说明 |
+  |------|------|------|
+  | 1-2次 | 59分 | 鼓励开始，只要答对就有分 |
+  | 3-4次 | 79分 | 需要一定的稳定性 |
+  | 5-9次 | 89分 | 需要较高的正确率 |
+  | 10+次 | 100分 | 可以达到精通 |
+- **效率系数**（有拼写题时）：
+  | 平均用时 | 系数 | 说明 |
+  |---------|------|------|
+  | ≤6秒 | 1.0 | 满分效率（精通水平） |
+  | 6-10秒 | 0.90 | 很好 |
+  | 10-15秒 | 0.75 | 良好 |
+  | 15-25秒 | 0.60 | 一般 |
+  | >25秒 | 0.50 | 较慢 |
+- **精通标准**（10+次答题）：
+  - 95%正确率 + ≤6秒 = 95分（精通）
+  - 100%正确率 + ≤10秒 = 90分（熟练）
+- **改进点**：
+  - ✅ 逻辑清晰：移除重复的错误惩罚
+  - ✅ 收敛更快：10次左右可达到精通（而非30+次）
+  - ✅ 进步明显：前几次能看到明显提升（59→79→89）
+  - ✅ 门槛合理：精通需要95%正确率+很快速度
+- **后端更新**：
+  - `FILL_IN_BLANK_MCQ` 归类为 MCQ 计算正确率
+  - `FILL_IN_BLANK_SPELLING` 归类为 Spelling 计算正确率（2x权重）
 
 ### 2025-2026 Major Updates
 
@@ -506,7 +549,7 @@ interface QuizQuestion {
 - **Confirmation Flow**: Select → Confirm → See Result → Next
 - Color-coded question type badges (blue/purple/emerald/indigo/violet)
 - Spelling questions with real-time validation
-- Mix mode: includes all question types, randomly shuffled
+- Mix mode: 20% fill-in-blank + 50% spelling + 30% MCQ, fill-in-blank randomly 50/50 MCQ vs spelling
 - Fill-in-blank questions use passage sentences from ContextualMode
 
 #### 6. Data Export/Import
@@ -711,6 +754,27 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Prevention**: The app now avoids calling `cancel()` before `speak()` to prevent triggering this state
 - **Browser Status**: Safari, Edge, Arc (after restart) all work correctly
 
+## Project Status Summary (2026)
+
+### Current Features
+VocabMaster is a mature English vocabulary learning app with:
+- **6 Quiz Modes**: EN_TO_CN_MCQ, CN_TO_EN_MCQ, CN_TO_EN_SPELLING, FILL_IN_BLANK_MCQ, FILL_IN_BLANK_SPELLING, MIXED
+- **3 Quiz Strategies**: RANDOM (balanced), BALANCED (prioritize less-practiced), FOCUS (prioritize low-mastery)
+- **Cloud-based mastery tracking**: All progress synced via Cloudflare Workers + D1
+- **7 Units** with 287 words total, each with contextual reading passages
+- **Rich word data**: Phonetic, multiple definitions (with parts of speech), example sentences with translations
+
+### Recent Major Improvements (Session 2026-02)
+1. **Fill-in-Blank Questions** - Contextual questions from reading passages, supports both MCQ and spelling variants
+2. **Refined Mastery Algorithm** - Simpler formula with progressive caps based on attempt count, higher skill ceiling (95% accuracy + fast speed for mastery)
+3. **UI Polish** - Dynamic blank display, auto-focus for spelling inputs, enhanced error reports with sentence context
+
+### Tech Stack
+- **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS
+- **Backend**: Cloudflare Workers + D1 (SQLite at edge)
+- **Icons**: lucide-react
+- **Speech**: Web Speech Synthesis API
+
 ## Component Reference
 
 ### BookList
@@ -781,6 +845,7 @@ This happens because macOS applies quarantine attributes to files in Downloads, 
 - **Features**: Confirmation flow, color-coded badges, score tracking
 - **Fill-in-blank questions**: Loads passage data, extracts sentences containing target words, generates contextual questions
 - **Pronunciation**: Auto-plays for EN_TO_CN/SPELLING questions + manual Volume2 button
+- **Auto-focus**: Spelling questions (SPELLING, FILL_IN_BLANK_SPELLING) automatically focus input field on question load
 - **Real-time timer**: Shows elapsed time per question (Timer icon, amber color, 0.1s precision)
 - **Report**: Shows only wrong questions with detailed info, celebration when all correct
 - **Retry Options** (3种):

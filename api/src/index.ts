@@ -122,102 +122,78 @@ function calculateMasteryLevel(attempts: any[]): number {
   if (!attempts || attempts.length === 0) return 0;
 
   const totalAttempts = attempts.length;
-  const totalCorrect = attempts.filter(a => a.is_correct).length;
-  const overallAccuracy = totalCorrect / totalAttempts;
 
   // 分类统计
   const mcqAttempts = attempts.filter(a =>
-    a.question_type === 'EN_TO_CN' || a.question_type === 'CN_TO_EN'
+    a.question_type === 'EN_TO_CN' ||
+    a.question_type === 'CN_TO_EN' ||
+    a.question_type === 'FILL_IN_BLANK_MCQ'
   );
   const spellingAttempts = attempts.filter(a =>
-    a.question_type === 'SPELLING' || a.question_type === 'CN_TO_EN_SPELLING'
+    a.question_type === 'SPELLING' ||
+    a.question_type === 'CN_TO_EN_SPELLING' ||
+    a.question_type === 'FILL_IN_BLANK_SPELLING'
   );
 
-  // ========== 正确率分 (70%) ==========
-  let accuracyScore = 0;
+  // ========== 计算加权正确率 ==========
+  let weightedAccuracy = 0;
 
   if (spellingAttempts.length > 0 && mcqAttempts.length > 0) {
     // 两种题型都有：拼写题权重2倍
     const mcqCorrect = mcqAttempts.filter(a => a.is_correct).length;
     const spellingCorrect = spellingAttempts.filter(a => a.is_correct).length;
 
-    const mcqRate = mcqCorrect / mcqAttempts.length;
-    const spellingRate = spellingCorrect / spellingAttempts.length;
-
-    // 加权正确率：拼写题权重2倍
     // 公式：(2×拼写题数 + 选择题数) / (2×拼写题总数 + 选择题总数)
-    const weightedAccuracy = (2 * spellingCorrect + mcqCorrect) / (2 * spellingAttempts.length + mcqAttempts.length);
-    accuracyScore = weightedAccuracy * 70;
+    weightedAccuracy = (2 * spellingCorrect + mcqCorrect) / (2 * spellingAttempts.length + mcqAttempts.length);
 
   } else if (spellingAttempts.length > 0) {
     // 只有拼写题
     const spellingCorrect = spellingAttempts.filter(a => a.is_correct).length;
-    accuracyScore = (spellingCorrect / spellingAttempts.length) * 70;
+    weightedAccuracy = spellingCorrect / spellingAttempts.length;
 
   } else {
     // 只有选择题
     const mcqCorrect = mcqAttempts.filter(a => a.is_correct).length;
-    accuracyScore = (mcqCorrect / mcqAttempts.length) * 70;
+    weightedAccuracy = mcqCorrect / mcqAttempts.length;
   }
 
-  // ========== 效率分 (30%) ==========
-  // 基于所有题目的平均用时（包括答错的）
+  // 正确率分 (0-100)
+  const accuracyScore = weightedAccuracy * 100;
+
+  // ========== 计算效率系数 ==========
   const avgTime = attempts.reduce((sum, a) => sum + a.time_spent, 0) / totalAttempts;
 
-  let efficiencyScore = 0;
+  let efficiencyFactor = 0;
 
   if (spellingAttempts.length > 0) {
-    // 有拼写题时，使用拼写题的标准
-    let efficiencyFactor = 0;
-    if (avgTime < 8000) efficiencyFactor = 1.0;      // < 8秒：非常熟练
-    else if (avgTime < 15000) efficiencyFactor = 0.85; // 8-15秒：熟练
-    else if (avgTime < 30000) efficiencyFactor = 0.65; // 15-30秒：一般
-    else if (avgTime < 50000) efficiencyFactor = 0.4;   // 30-50秒：较慢
-    else efficiencyFactor = 0.2;                       // > 50秒：很慢
+    // 有拼写题的标准（更严格）
+    if (avgTime <= 6000) efficiencyFactor = 1.0;       // ≤6秒：满分效率
+    else if (avgTime <= 10000) efficiencyFactor = 0.90; // 6-10秒：很好
+    else if (avgTime <= 15000) efficiencyFactor = 0.75; // 10-15秒：良好
+    else if (avgTime <= 25000) efficiencyFactor = 0.60; // 15-25秒：一般
+    else efficiencyFactor = 0.50;                        // >25秒：较慢
 
-    efficiencyScore = efficiencyFactor * 30;
   } else {
-    // 只有选择题时，标准放宽
-    let efficiencyFactor = 0;
-    if (avgTime < 3000) efficiencyFactor = 1.0;
-    else if (avgTime < 8000) efficiencyFactor = 0.9;
-    else if (avgTime < 15000) efficiencyFactor = 0.7;
-    else if (avgTime < 30000) efficiencyFactor = 0.4;
-    else efficiencyFactor = 0.2;
-
-    efficiencyScore = efficiencyFactor * 30;
+    // 只有选择题的标准（放宽）
+    if (avgTime <= 2000) efficiencyFactor = 1.0;       // ≤2秒：满分
+    else if (avgTime <= 4000) efficiencyFactor = 0.95;  // 2-4秒：很好
+    else if (avgTime <= 8000) efficiencyFactor = 0.80;  // 4-8秒：良好
+    else if (avgTime <= 15000) efficiencyFactor = 0.65; // 8-15秒：一般
+    else efficiencyFactor = 0.50;                        // >15秒：较慢
   }
 
-  // ========== 答错惩罚 ==========
-  // 如果错误率超过50%，额外扣分
-  const errorRate = 1 - overallAccuracy;
-  let errorPenalty = 0;
-
-  if (errorRate > 0.5) {
-    // 错误率50%-100%，扣0-20分
-    errorPenalty = (errorRate - 0.5) * 2 * 20;
-  }
+  // ========== 根据答题次数确定等级上限 ==========
+  let maxScore = 100;
+  if (totalAttempts <= 2) maxScore = 59;
+  else if (totalAttempts <= 4) maxScore = 79;
+  else if (totalAttempts <= 9) maxScore = 89;
 
   // ========== 最终计算 ==========
-  let finalScore = accuracyScore + efficiencyScore - errorPenalty;
+  // 分数 = 正确率分 × 效率系数，但不超过等级上限
+  const rawScore = accuracyScore * efficiencyFactor;
+  const finalScore = Math.round(Math.min(maxScore, Math.max(1, rawScore)));
 
-  // ========== 最少答题次数限制 ==========
-  // 避免一次答对就标记为精通
-  if (totalAttempts === 1) {
-    // 第一次答题最高只能得55分（勉强及格）
-    return Math.min(55, Math.max(5, Math.round(finalScore))); // 最低5分（练习过但不会）
-  } else if (totalAttempts === 2) {
-    // 第二次答题最高只能得75分（学习中）
-    return Math.min(75, Math.max(5, Math.round(finalScore))); // 最低5分
-  }
-
-  // 三次及以上才有机会获得满分
-  // 全对且快（适用于3次及以上答题）
-  if (overallAccuracy === 1 && avgTime < 10000 && spellingAttempts.length > 0) {
-    return 100;
-  }
-
-  return Math.min(100, Math.max(5, Math.round(finalScore))); // 最低5分，确保练习过的词不显示"新词"
+  return finalScore;
 }
 
 /**
